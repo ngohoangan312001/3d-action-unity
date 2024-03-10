@@ -13,7 +13,9 @@ namespace AN
         PlayerControls playerControls;
 
         [SerializeField] Vector2 movementInput;
-
+        public float verticalInput;
+        public float horizontalInput;
+        public float moveAmount;
 
         private void Awake()
         {
@@ -79,6 +81,46 @@ namespace AN
         {
             // if destroy this object, unsubcribe function from activeSceneChanged
             SceneManager.activeSceneChanged -= OnSceneChange;
+        }
+
+        private void Update()
+        {
+            HandleMovementInput();
+        }
+
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+
+            //Clamp01: if value > 1 return 1 , if value < 0 return 0, else return value 
+            moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+
+            // Move speed will only be 0, 0.5 or 1
+            if(moveAmount <= 0.5 && moveAmount > 0)
+            {
+                moveAmount = 0.5f;
+            }
+            else if(moveAmount > 0.5 && moveAmount <= 1)
+            {
+                moveAmount = 1;
+            }
+        }
+
+        //if not active on application, disable control
+        private void OnApplicationFocus(bool focus)
+        {
+            if (enabled)
+            {
+                if (focus)
+                {
+                    playerControls.Enable();
+                }
+                else
+                {
+                    playerControls.Disable();
+                }
+            }
         }
     }
 }

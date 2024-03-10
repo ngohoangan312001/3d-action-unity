@@ -990,6 +990,8 @@ GameObject:
   - component: {fileID: 594491920196883403}
   - component: {fileID: 2565537870038483975}
   - component: {fileID: 7773373930107701611}
+  - component: {fileID: 7541399592550718815}
+  - component: {fileID: 1850097564313942403}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1068,6 +1070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f2d5189a2c047a79ff3e0ac4c6e797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
 --- !u!114 &7773373930107701611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,6 +1083,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c89bb53ea9b4e5697e7469cd64a436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  verticalMovement: 0
+  horizontalMovement: 0
+  moveAmount: 0
+  walkingSpeed: 2
+  runningSpeed: 5
+--- !u!114 &7541399592550718815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782702501690864755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a69782476eb846a6ada635d5dfef65d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!143 &1850097564313942403
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782702501690864755}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.71
+  m_Radius: 0.22
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1789272960074739661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,7 +1608,7 @@ Transform:
   m_GameObject: {fileID: 2848898086878090011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -0.09000076}
+  m_LocalPosition: {x: 0.405, y: -0.145, z: -0.09000076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

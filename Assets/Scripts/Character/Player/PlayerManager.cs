@@ -18,6 +18,12 @@ namespace AN
         {
             base.Update();
 
+            //if not the owner of this game object, return 
+            if (!IsOwner)
+            {
+                return;
+            }
+
             playerLocomotionManager.HandleAllMovement();
         }
     }
