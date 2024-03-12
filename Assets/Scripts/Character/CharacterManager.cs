@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,9 @@ namespace AN
 {
     public class CharacterManager : NetworkBehaviour
     {
-        public CharacterController characterController;
-
-        CharacterNetworkManager characterNetworkManager;
+        [HideInInspector] public CharacterController characterController;
+        [HideInInspector] public Animator animator;
+        [HideInInspector] public CharacterNetworkManager characterNetworkManager;
 
         protected virtual void Awake()
         {
@@ -18,6 +19,8 @@ namespace AN
             characterController = GetComponent<CharacterController>();
 
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
+            
+            animator = GetComponent<Animator>();
         }
 
         protected virtual void Update()
@@ -61,6 +64,11 @@ namespace AN
                    characterNetworkManager.networkRotation.Value,
                    characterNetworkManager.networkRotationSmoothTime);
             }
+            
+        }
+
+        protected virtual void LateUpdate()
+        {
         }
     }
 }

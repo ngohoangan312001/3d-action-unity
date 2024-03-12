@@ -10,5 +10,10 @@ namespace AN
         {
 
         }
+        
+        protected virtual void Update()
+        {
+
+        }
     }
 }

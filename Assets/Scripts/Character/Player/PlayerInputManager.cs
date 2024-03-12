@@ -10,13 +10,26 @@ namespace AN
     {
         public static PlayerInputManager instance;
 
+        public PlayerManager player;
+        
         PlayerControls playerControls;
-
+        
+        [Header("MOVEMENT INPUT")]
         [SerializeField] Vector2 movementInput;
         public float verticalInput;
         public float horizontalInput;
         public float moveAmount;
-
+        
+        [Header("ACTION INPUT")]
+        [SerializeField] public bool rollInput = false;
+        public bool jumpInput;
+        public bool aimInput;
+        
+        [Header("CAMERA MOVEMENT INPUT")]
+        [SerializeField] Vector2 cameraInput;
+        public float cameraVerticalInput;
+        public float cameraHorizontalInput;
+        
         private void Awake()
         {
             if(instance == null)
@@ -44,9 +57,11 @@ namespace AN
             if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
             {
                 instance.enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
+                Cursor.lockState = CursorLockMode.None;
                 instance.enabled = false;
             }
         }
@@ -72,6 +87,11 @@ namespace AN
 
                 // += operator asign function to the event
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
+                playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerAction.Roll.performed += i => rollInput = true;
+                playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
+                playerControls.PlayerAction.Aim.performed += i => aimInput = true;
+                playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
             }
 
             playerControls.Enable();
@@ -85,10 +105,12 @@ namespace AN
 
         private void Update()
         {
-            HandleMovementInput();
+            HandlePlayerMovementInput();
+            HandleCameraMovementInput();
+            HandlePlayerActionInput();
         }
 
-        private void HandleMovementInput()
+        private void HandlePlayerMovementInput()
         {
             verticalInput = movementInput.y;
             horizontalInput = movementInput.x;
@@ -105,8 +127,21 @@ namespace AN
             {
                 moveAmount = 1;
             }
+            
+            //not lock-on
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0,moveAmount);
+        }
+        
+        private void HandlePlayerActionInput()
+        {
         }
 
+        private void HandleCameraMovementInput()
+        {
+            cameraVerticalInput = cameraInput.y;
+            cameraHorizontalInput = cameraInput.x;
+        }
+        
         //if not active on application, disable control
         private void OnApplicationFocus(bool focus)
         {

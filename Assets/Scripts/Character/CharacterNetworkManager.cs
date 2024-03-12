@@ -15,5 +15,11 @@ namespace AN
         public float networkPositionSmoothTime = 0.1f;
         public float networkRotationSmoothTime = 0.1f;
         
+        [Header("Animator")]
+        
+        public NetworkVariable<float> animaterHorizontalNetworkParameter = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> animaterVerticalNetworkParameter = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> networkMoveAmount = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     }
 }
