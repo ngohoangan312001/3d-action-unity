@@ -8,17 +8,20 @@ namespace AN
     {
         PlayerManager player;
 
+        [HideInInspector]
         public float verticalMovement;
         public float horizontalMovement;
         public float moveAmount;
 
+        [Header("Movement Setting")]
         [SerializeField] float walkingSpeed = 2;
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float rotationSpeed = 15;
-
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
 
+        [Header("Roll")] 
+        private Vector3 rollDirection;
         protected override void Awake()
         {
             base.Awake();
@@ -64,6 +67,9 @@ namespace AN
         
         public void HandleGroundedMovement()
         {
+            if (!player.canMove)
+                return;
+            
             // movement diraction base on camera's facing perspective and movement input
             moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;
             moveDirection += PlayerCamera.instance.transform.right * horizontalMovement;
@@ -89,6 +95,9 @@ namespace AN
 
         public void HandleRotation()
         {
+            if (!player.canRotate)
+                return;
+            
             targetRotationDirection = Vector3.zero;
 
             if (PlayerInputManager.instance.aimInput)
@@ -113,6 +122,31 @@ namespace AN
             
             transform.rotation = targetRotation;
         }
-        
+
+        public void AttemptToPerformDodge()
+        {
+            if(player.isPerformingAction)
+                return;
+            
+            if (moveAmount > 0)
+            {
+                rollDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
+                rollDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
+                rollDirection.y = 0;
+                rollDirection.Normalize();
+            
+                Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
+                player.transform.rotation = playerRotation;
+                
+                //Roll animation
+                player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward",true,true);
+            }
+            //if not moving => perform a backstep
+            else
+            {
+                //Backstep animation
+            }
+            
+        }
     }
 }

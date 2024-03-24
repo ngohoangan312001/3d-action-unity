@@ -20,15 +20,15 @@ namespace AN
         public float horizontalInput;
         public float moveAmount;
         
-        [Header("ACTION INPUT")]
-        [SerializeField] public bool rollInput = false;
-        public bool jumpInput;
-        public bool aimInput;
-        
         [Header("CAMERA MOVEMENT INPUT")]
         [SerializeField] Vector2 cameraInput;
         public float cameraVerticalInput;
         public float cameraHorizontalInput;
+        
+        [Header("ACTION INPUT")]
+        [SerializeField] bool rollInput = false;
+        public bool jumpInput;
+        public bool aimInput;
         
         private void Awake()
         {
@@ -105,11 +105,16 @@ namespace AN
 
         private void Update()
         {
+            HandleAllInput();
+        }
+
+        private void HandleAllInput()
+        {
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandlePlayerActionInput();
         }
-
+        
         private void HandlePlayerMovementInput()
         {
             verticalInput = movementInput.y;
@@ -134,12 +139,26 @@ namespace AN
         
         private void HandlePlayerActionInput()
         {
+            HandleRollMovementInput();
         }
 
         private void HandleCameraMovementInput()
         {
             cameraVerticalInput = cameraInput.y;
             cameraHorizontalInput = cameraInput.x;
+        }
+
+        private void HandleRollMovementInput()
+        {
+            if (rollInput)
+            {
+                rollInput = false;
+                
+                //TODO: return (do nothing) if menu or UI window is open
+                
+                //perform a roll
+                player.playerLocomotionManager.AttemptToPerformDodge();
+            }   
         }
         
         //if not active on application, disable control

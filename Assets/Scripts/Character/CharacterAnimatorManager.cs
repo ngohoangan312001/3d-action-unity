@@ -23,6 +23,26 @@ namespace AN
             character.animator.SetFloat("horizontal",horizontalValue, 0.1f, Time.deltaTime);
             character.animator.SetFloat("vertical",verticalValue, 0.1f, Time.deltaTime);
         }
+
+        public virtual void PlayTargetActionAnimation(
+            string targetAction, 
+            bool isPerformingAction, 
+            bool applyRootMotion = true, 
+            bool canRotate = false, 
+            bool canMove = false)
+        {
+            //apply motion from the animation
+            character.applyRootMotion = applyRootMotion;
+            
+            character.animator.CrossFade(targetAction, 0.2f);
+
+            //Stop character form attempting new action
+            //ex: turn flag to true when character get damaged and is performing damage animation
+            //so we can check this flag before attempting a new action
+            character.isPerformingAction = isPerformingAction;
+            character.canRotate = canRotate;
+            character.canMove = canMove;
+        }
     }
     
 }
