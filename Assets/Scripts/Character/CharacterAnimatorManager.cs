@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Unity.Netcode;
 namespace AN
 {
     public class CharacterAnimtorManager : MonoBehaviour
@@ -20,6 +20,10 @@ namespace AN
 
         public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue)
         {
+            if (character.characterNetworkManager.isSprinting.Value)
+            {
+                verticalValue = 2;
+            }
             character.animator.SetFloat("horizontal",horizontalValue, 0.1f, Time.deltaTime);
             character.animator.SetFloat("vertical",verticalValue, 0.1f, Time.deltaTime);
         }
@@ -42,7 +46,11 @@ namespace AN
             character.isPerformingAction = isPerformingAction;
             character.canRotate = canRotate;
             character.canMove = canMove;
+            
+            //tell server/host to play animation
+            character.characterNetworkManager.NotifyServerOfActionAnimationServerRPC(NetworkManager.Singleton.LocalClientId, targetAction, applyRootMotion);
         }
     }
+    
     
 }

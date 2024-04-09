@@ -180,7 +180,8 @@ MonoBehaviour:
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
   cameraZPosition: 0
-  aimCameraDistance: -0.5
+  aimCameraZDistance: -0.5
+  aimCameraXDistance: 0.5
   cameraObject: {fileID: 4796521951671935139}
-  player: {fileID: 0}
+  player: {fileID: 2565537870038483975, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
   cameraPivotTransform: {fileID: 2101676736253721880}

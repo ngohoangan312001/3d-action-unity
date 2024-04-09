@@ -14,8 +14,12 @@ namespace AN
         public float moveAmount;
 
         [Header("Movement Setting")]
-        [SerializeField] float walkingSpeed = 2;
+        [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
+        [SerializeField] float sprintingSpeed = 10;
+        [SerializeField] float rollingSpeed = 5;
+        [SerializeField] float rollTime = 0;
+        [SerializeField] float rollDuration = 1;
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
@@ -67,6 +71,7 @@ namespace AN
         
         public void HandleGroundedMovement()
         {
+            float moveSpeed = 0;
             if (!player.canMove)
                 return;
             
@@ -81,16 +86,27 @@ namespace AN
             moveDirection.Normalize();
             moveDirection.y = 0;
 
-            if(moveAmount > 0.5f)
+            if (player.PlayerNetworkManager.isSprinting.Value)
             {
-                // Running
-                player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+                moveSpeed = sprintingSpeed;
             }
-            else if (moveAmount <= 0.5f)
+            else
             {
-                //Walking
-                player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
+                if(moveAmount > 0.5f)
+                {
+                    // Running
+                    moveSpeed = runningSpeed;
+                }
+                else if (moveAmount <= 0.5f)
+                {
+                    //Walking
+                    moveSpeed = walkingSpeed;
+                }
             }
+            
+            player.characterController.Move(moveDirection * (moveSpeed * Time.deltaTime));
+            
+            
         }
 
         public void HandleRotation()
@@ -130,23 +146,47 @@ namespace AN
             
             if (moveAmount > 0)
             {
-                rollDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
-                rollDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
-                rollDirection.y = 0;
+                rollDirection = PlayerCamera.instance.transform.forward * verticalMovement;
+                rollDirection += PlayerCamera.instance.transform.right * horizontalMovement;
                 rollDirection.Normalize();
-            
+                rollDirection.y = 0;
+                
                 Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
                 player.transform.rotation = playerRotation;
                 
                 //Roll animation
                 player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward",true,true);
             }
+            
             //if not moving => perform a backstep
             else
             {
                 //Backstep animation
+                player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Backward",true,true);
             }
             
+        }
+
+        public void HandleSprinting()
+        {
+            if (player.isPerformingAction)
+            {
+                player.PlayerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+            
+        //Out of stamina = false
+
+        //Not moving = false
+        //Moving = true
+        if (moveAmount >= 0.5)
+            {
+                player.PlayerNetworkManager.isSprinting.Value = true;
+            }
+            else
+            {
+                player.PlayerNetworkManager.isSprinting.Value = false; 
+            }
         }
     }
 }
