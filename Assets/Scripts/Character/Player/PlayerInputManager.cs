@@ -131,16 +131,11 @@ namespace AN
             {
                 moveAmount = 0.5f;
             }
-            else if(moveAmount > 0.5 && moveAmount <= 1)
+            else if (moveAmount > 0.5 && moveAmount <= 1)
             {
                 moveAmount = 1;
             }
-            
-            if (sprintInput)
-            {
-                moveAmount = 2f;
-            }
-            
+
             //not lock-on
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0,moveAmount);
         }
@@ -148,6 +143,7 @@ namespace AN
         private void HandlePlayerActionInput()
         {
             HandleRollMovementInput();
+            HandleSprintMovementInput();
         }
 
         private void HandleCameraMovementInput()
@@ -167,6 +163,18 @@ namespace AN
                 //perform a roll
                 player.playerLocomotionManager.AttemptToPerformDodge();
             }   
+        }
+        
+        private void HandleSprintMovementInput()
+        {
+            if (sprintInput)
+            {
+                player.playerLocomotionManager.HandleSprinting();
+            }
+            else
+            {
+                player.PlayerNetworkManager.isSprinting.Value = false;
+            }
         }
         
         //if not active on application, disable control

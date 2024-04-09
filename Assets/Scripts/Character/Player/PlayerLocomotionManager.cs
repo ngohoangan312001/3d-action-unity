@@ -16,7 +16,7 @@ namespace AN
         [Header("Movement Setting")]
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
-        [SerializeField] float sprintingSpeed = 6;
+        [SerializeField] float sprintingSpeed = 10;
         [SerializeField] float rollingSpeed = 5;
         [SerializeField] float rollTime = 0;
         [SerializeField] float rollDuration = 1;
@@ -71,6 +71,7 @@ namespace AN
         
         public void HandleGroundedMovement()
         {
+            float moveSpeed = 0;
             if (!player.canMove)
                 return;
             
@@ -85,21 +86,27 @@ namespace AN
             moveDirection.Normalize();
             moveDirection.y = 0;
 
-            if(moveAmount > 0.5f)
+            if (player.PlayerNetworkManager.isSprinting.Value)
             {
-                if (moveAmount > 1)
+                moveSpeed = sprintingSpeed;
+            }
+            else
+            {
+                if(moveAmount > 0.5f)
                 {
-                    // Sprinting
-                    player.characterController.Move(moveDirection * (sprintingSpeed * Time.deltaTime));
+                    // Running
+                    moveSpeed = runningSpeed;
                 }
-                // Running
-                player.characterController.Move(moveDirection * (runningSpeed * Time.deltaTime));
+                else if (moveAmount <= 0.5f)
+                {
+                    //Walking
+                    moveSpeed = walkingSpeed;
+                }
             }
-            else if (moveAmount <= 0.5f)
-            {
-                //Walking
-                player.characterController.Move(moveDirection * (walkingSpeed * Time.deltaTime));
-            }
+            
+            player.characterController.Move(moveDirection * (moveSpeed * Time.deltaTime));
+            
+            
         }
 
         public void HandleRotation()
@@ -150,6 +157,7 @@ namespace AN
                 //Roll animation
                 player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward",true,true);
             }
+            
             //if not moving => perform a backstep
             else
             {
@@ -157,6 +165,28 @@ namespace AN
                 player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Backward",true,true);
             }
             
+        }
+
+        public void HandleSprinting()
+        {
+            if (player.isPerformingAction)
+            {
+                player.PlayerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+            
+        //Out of stamina = false
+
+        //Not moving = false
+        //Moving = true
+        if (moveAmount >= 0.5)
+            {
+                player.PlayerNetworkManager.isSprinting.Value = true;
+            }
+            else
+            {
+                player.PlayerNetworkManager.isSprinting.Value = false; 
+            }
         }
     }
 }

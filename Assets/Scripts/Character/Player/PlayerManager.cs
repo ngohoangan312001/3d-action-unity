@@ -8,12 +8,14 @@ namespace AN
     {
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
+        [HideInInspector] public PlayerNetworkManager PlayerNetworkManager;
         protected override void Awake()
         {
             base.Awake();
 
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            PlayerNetworkManager = GetComponent<PlayerNetworkManager>();
         }
 
         protected override void Update()
