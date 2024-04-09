@@ -14,8 +14,12 @@ namespace AN
         public float moveAmount;
 
         [Header("Movement Setting")]
-        [SerializeField] float walkingSpeed = 2;
+        [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
+        [SerializeField] float sprintingSpeed = 6;
+        [SerializeField] float rollingSpeed = 5;
+        [SerializeField] float rollTime = 0;
+        [SerializeField] float rollDuration = 1;
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
@@ -83,13 +87,18 @@ namespace AN
 
             if(moveAmount > 0.5f)
             {
+                if (moveAmount > 1)
+                {
+                    // Sprinting
+                    player.characterController.Move(moveDirection * (sprintingSpeed * Time.deltaTime));
+                }
                 // Running
-                player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+                player.characterController.Move(moveDirection * (runningSpeed * Time.deltaTime));
             }
             else if (moveAmount <= 0.5f)
             {
                 //Walking
-                player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
+                player.characterController.Move(moveDirection * (walkingSpeed * Time.deltaTime));
             }
         }
 
@@ -130,11 +139,11 @@ namespace AN
             
             if (moveAmount > 0)
             {
-                rollDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
-                rollDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
-                rollDirection.y = 0;
+                rollDirection = PlayerCamera.instance.transform.forward * verticalMovement;
+                rollDirection += PlayerCamera.instance.transform.right * horizontalMovement;
                 rollDirection.Normalize();
-            
+                rollDirection.y = 0;
+                
                 Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
                 player.transform.rotation = playerRotation;
                 
@@ -145,6 +154,7 @@ namespace AN
             else
             {
                 //Backstep animation
+                player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Backward",true,true);
             }
             
         }

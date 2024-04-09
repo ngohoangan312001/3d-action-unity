@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Unity.Netcode;
 namespace AN
 {
     public class CharacterAnimtorManager : MonoBehaviour
@@ -42,7 +42,11 @@ namespace AN
             character.isPerformingAction = isPerformingAction;
             character.canRotate = canRotate;
             character.canMove = canMove;
+            
+            //tell server/host to play animation
+            character.characterNetworkManager.NotifyServerOfActionAnimationServerRPC(NetworkManager.Singleton.LocalClientId, targetAction, applyRootMotion);
         }
     }
+    
     
 }

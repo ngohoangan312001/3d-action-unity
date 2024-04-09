@@ -7,8 +7,8 @@ public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager instance;
 
-    [Header("NETWORK JOIN")]
-    [SerializeField] bool startGameAsClient;
+    // [Header("NETWORK JOIN")]
+    // [SerializeField] bool startGameAsClient;
 
     private void Awake()
     {
@@ -27,18 +27,26 @@ public class PlayerUIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
+    public void StartGameAsClient()
     {
-        if (startGameAsClient)
-        {
-            startGameAsClient = false;
+        //Shut down because have started as host during the title screen
+        NetworkManager.Singleton.Shutdown();
 
-            //Shut down because have started as host during the title sreen
-            NetworkManager.Singleton.Shutdown();
-
-            //Then rerstart as client
-            NetworkManager.Singleton.StartClient();
-        }
+        //Then restart as client
+        NetworkManager.Singleton.StartClient();
     }
+    // private void Update()
+    // {
+    //     if (startGameAsClient)
+    //     {
+    //         startGameAsClient = false;
+    //
+    //         //Shut down because have started as host during the title screen
+    //         NetworkManager.Singleton.Shutdown();
+    //
+    //         //Then restart as client
+    //         NetworkManager.Singleton.StartClient();
+    //     }
+    // }
 
 }

@@ -55,12 +55,12 @@ public class PlayerCamera : MonoBehaviour
         {
             //Aim camera
             HandleAimAction();
+            //Collide with object
+            HandleCollisions();
             //Follow
             HandleFollowTarget();
             //Rotate around player
             HandleRotations();
-            //Collide with object
-            HandleCollisions();
             
         }
         
@@ -130,7 +130,7 @@ public class PlayerCamera : MonoBehaviour
         {
             targetCameraZPosition = -cameraZPosition;
         }
-        cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, targetCameraZPosition,0.1f);
+        cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, targetCameraZPosition,0.15f);
         
         // Camera Object will move on z-axis away or closer from it parrent because we use localPosition
         cameraObject.transform.localPosition = cameraObjectPosition;

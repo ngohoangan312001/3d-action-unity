@@ -27,8 +27,9 @@ namespace AN
         
         [Header("ACTION INPUT")]
         [SerializeField] bool rollInput = false;
-        public bool jumpInput;
-        public bool aimInput;
+        public bool jumpInput = false;
+        public bool sprintInput = false;
+        public bool aimInput = false;
         
         private void Awake()
         {
@@ -89,6 +90,8 @@ namespace AN
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerAction.Roll.performed += i => rollInput = true;
+                playerControls.PlayerAction.Sprint.performed += i => sprintInput = true;
+                playerControls.PlayerAction.Sprint.canceled += i => sprintInput = false;
                 playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
@@ -131,6 +134,11 @@ namespace AN
             else if(moveAmount > 0.5 && moveAmount <= 1)
             {
                 moveAmount = 1;
+            }
+            
+            if (sprintInput)
+            {
+                moveAmount = 2f;
             }
             
             //not lock-on
