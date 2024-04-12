@@ -1570,21 +1570,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3078261592743889294, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078261592743889294, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078261592743889294, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977907903218072171, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977907903218072171, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8066256579560012350, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
       propertyPath: m_Name
       value: Player UI Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8167516890138334344, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.75092
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167516890138334344, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -68.97789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167516890138334344, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.260159
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167516890138334344, guid: d7dc6d226de994278a45e2b580fc115c, type: 3}
       propertyPath: m_LocalRotation.w
