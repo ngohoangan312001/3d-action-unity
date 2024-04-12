@@ -1082,7 +1082,7 @@ MonoBehaviour:
   canMove: 1
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
-  PlayerNetworkManager: {fileID: 0}
+  playerNetworkManager: {fileID: 0}
 --- !u!114 &7773373930107701611
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -140,20 +140,20 @@ public class PlayerCamera : MonoBehaviour
     {
         if (player.isPerformingAction)
         {
-            player.PlayerNetworkManager.isAiming.Value = false;
+            player.playerNetworkManager.isAiming.Value = false;
             return;
         }
         
         if (PlayerInputManager.instance.aimInput)
         { 
-            player.PlayerNetworkManager.isAiming.Value = true;
+            player.playerNetworkManager.isAiming.Value = true;
             cameraObjectPosition.z = aimCameraZDistance;
             cameraObjectPosition.x = aimCameraXDistance;
             cameraObject.transform.localPosition = cameraObjectPosition;
         }
         else
         {
-            player.PlayerNetworkManager.isAiming.Value = false;
+            player.playerNetworkManager.isAiming.Value = false;
             cameraObjectPosition.x = 0;
         }
         

@@ -173,7 +173,7 @@ namespace AN
             }
             else
             {
-                player.PlayerNetworkManager.isSprinting.Value = false;
+                player.playerNetworkManager.isSprinting.Value = false;
             }
         }
         

@@ -86,7 +86,7 @@ namespace AN
             moveDirection.Normalize();
             moveDirection.y = 0;
 
-            if (player.PlayerNetworkManager.isSprinting.Value)
+            if (player.playerNetworkManager.isSprinting.Value)
             {
                 moveSpeed = sprintingSpeed;
             }
@@ -171,7 +171,7 @@ namespace AN
         {
             if (player.isPerformingAction)
             {
-                player.PlayerNetworkManager.isSprinting.Value = false;
+                player.playerNetworkManager.isSprinting.Value = false;
                 return;
             }
             
@@ -181,11 +181,11 @@ namespace AN
         //Moving = true
         if (moveAmount >= 0.5)
             {
-                player.PlayerNetworkManager.isSprinting.Value = true;
+                player.playerNetworkManager.isSprinting.Value = true;
             }
             else
             {
-                player.PlayerNetworkManager.isSprinting.Value = false; 
+                player.playerNetworkManager.isSprinting.Value = false; 
             }
         }
     }
