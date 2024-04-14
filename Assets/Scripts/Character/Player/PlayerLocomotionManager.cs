@@ -17,15 +17,14 @@ namespace AN
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 10;
-        [SerializeField] float rollingSpeed = 5;
-        [SerializeField] float rollTime = 0;
-        [SerializeField] float rollDuration = 1;
+        [SerializeField] int sprintingStaminaCost = 2;
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
 
         [Header("Roll")] 
         private Vector3 rollDirection;
+        [SerializeField] int rollStaminaCost = 5;
         protected override void Awake()
         {
             base.Awake();
@@ -144,6 +143,10 @@ namespace AN
             if(player.isPerformingAction)
                 return;
             
+            //Out of stamina = do nothing
+            if (player.playerNetworkManager.currentStamina.Value <= 0)
+                return;
+            
             if (moveAmount > 0)
             {
                 rollDirection = PlayerCamera.instance.transform.forward * verticalMovement;
@@ -165,6 +168,8 @@ namespace AN
                 player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Backward",true,true);
             }
             
+            player.playerNetworkManager.currentStamina.Value -= rollStaminaCost;
+            
         }
 
         public void HandleSprinting()
@@ -175,17 +180,27 @@ namespace AN
                 return;
             }
             
-        //Out of stamina = false
-
-        //Not moving = false
-        //Moving = true
-        if (moveAmount >= 0.5)
+            //Out of stamina = do nothing
+            if (player.playerNetworkManager.currentStamina.Value <= 0)
+            {
+                player.playerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+            
+            //Not moving = false
+            //Moving = true
+            if (moveAmount >= 0.5)
             {
                 player.playerNetworkManager.isSprinting.Value = true;
             }
             else
             {
                 player.playerNetworkManager.isSprinting.Value = false; 
+            }
+
+            if (player.playerNetworkManager.isSprinting.Value)
+            {
+                player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
             }
         }
     }

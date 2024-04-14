@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AN;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,9 +8,7 @@ public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager instance;
 
-    // [Header("NETWORK JOIN")]
-    // [SerializeField] bool startGameAsClient;
-
+    [HideInInspector] public PlayerUIHudManager playerUIHudManager;
     private void Awake()
     {
         if (instance == null)
@@ -20,6 +19,8 @@ public class PlayerUIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
     }
 
     private void Start()
@@ -35,18 +36,5 @@ public class PlayerUIManager : MonoBehaviour
         //Then restart as client
         NetworkManager.Singleton.StartClient();
     }
-    // private void Update()
-    // {
-    //     if (startGameAsClient)
-    //     {
-    //         startGameAsClient = false;
-    //
-    //         //Shut down because have started as host during the title screen
-    //         NetworkManager.Singleton.Shutdown();
-    //
-    //         //Then restart as client
-    //         NetworkManager.Singleton.StartClient();
-    //     }
-    // }
 
 }
