@@ -73,6 +73,26 @@ namespace AN
             
             PlayerCamera.instance.HandleAllCameraActions();
         }
+
+        //reference to current character data
+        //that mean anything happen to character data in this 'SaveGameDataToCurrentCharacterData' or 'LoadGameDataFromCurrentCharacterData'
+        //Will change the value of the currentCharacterData
+        //but in this case, use reference to make sure that the currentCharacterData
+        //is not any currentCharacterData but the current have been pass down this function
+        public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
+            currentCharacterData.xPosition = transform.position.x;
+            currentCharacterData.yPosition = transform.position.y;
+            currentCharacterData.zPosition = transform.position.z;
+        }
+
+        public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
+            Vector3 characterLoadedPosition = new Vector3(currentCharacterData.xPosition,currentCharacterData.yPosition,currentCharacterData.zPosition);
+            transform.position = characterLoadedPosition;
+        }
     }
 
 }
