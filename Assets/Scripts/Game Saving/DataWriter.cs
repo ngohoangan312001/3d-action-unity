@@ -12,6 +12,7 @@ namespace AN
         private string saveDataDirectoryPath = Application.persistentDataPath;
         public string saveFileName = "";
         
+        
         /**
          * check if character slot already exists
          */

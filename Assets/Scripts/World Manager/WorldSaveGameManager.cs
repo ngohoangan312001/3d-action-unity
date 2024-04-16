@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,7 @@ namespace AN
     {
         public static WorldSaveGameManager instance;
 
-        [SerializeField] PlayerManager player;
+        public PlayerManager player;
 
         [Header("Save/Load")] 
         [SerializeField] private bool saveGame;
@@ -24,8 +25,7 @@ namespace AN
 
         public CharacterSaveData currentCharacterData;
 
-        [Header("Save Data Writer")] 
-        private DataWriter dataWriter;
+        [Header("Save Data Writer")] private DataWriter dataWriter;
         
         [Header("Character Slots")] 
         public CharacterSaveData characterSlot01;
@@ -49,6 +49,8 @@ namespace AN
             {
                 Destroy(gameObject);
             }
+
+            dataWriter = new DataWriter();
         }
 
         private void Start()
@@ -75,58 +77,55 @@ namespace AN
         public string GetCharacterFileNameBaseOnCharacterSlot(CharacterSlot characterSlot)
         {
             string fileName = "";
-            switch (characterSlot)
+
+            foreach (CharacterSlot slot in (CharacterSlot[])Enum.GetValues(typeof(CharacterSlot)))
             {
-                case CharacterSlot.CharacterSlot_01:
-                    fileName = CharacterSlot.CharacterSlot_01.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_02:
-                    fileName = CharacterSlot.CharacterSlot_02.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_03:
-                    fileName = CharacterSlot.CharacterSlot_03.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_04:
-                    fileName = CharacterSlot.CharacterSlot_04.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_05:
-                    fileName = CharacterSlot.CharacterSlot_05.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_06:
-                    fileName = CharacterSlot.CharacterSlot_06.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_07:
-                    fileName = CharacterSlot.CharacterSlot_07.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_08:
-                    fileName = CharacterSlot.CharacterSlot_08.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_09:
-                    fileName = CharacterSlot.CharacterSlot_09.ToString();
-                    break;
-                case CharacterSlot.CharacterSlot_10:
-                    fileName = CharacterSlot.CharacterSlot_10.ToString();
-                    break;
-                default:
-                    break;
+                if (characterSlot != slot) continue;
+                
+                fileName = slot.ToString();
+                break;
             }
 
             return fileName;
         }
 
-        public void CreateNewGame()
+        public void AttemptToCreateNewGame()
         {
-            //Create new file base on character slot
-            GetCharacterFileNameBaseOnCharacterSlot(currentCharacterSlot);
+            bool haveEmptySlot = false;
 
-            currentCharacterData = new CharacterSaveData();
+            foreach (CharacterSlot slot in (CharacterSlot[]) Enum.GetValues(typeof(CharacterSlot)))
+            {
+                haveEmptySlot = CheckAndCreateNewGameFileOnEmptySlot(slot);
+                if (haveEmptySlot) break;
+            }
+            
+            if (!haveEmptySlot)
+            {
+                TitleScreenManager.instance.OpenNoEmptySlotPopUp();
+            }
+            
+        }
+
+        private bool CheckAndCreateNewGameFileOnEmptySlot(CharacterSlot characterSlot)
+        {
+            //Check if able to create new file (have empty slot)
+            dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(characterSlot);
+            if (!dataWriter.CheckFileExists())
+            {
+                //If slot is not taken => using this to create new game data
+                currentCharacterSlot = characterSlot;
+                currentCharacterData = new CharacterSaveData();
+                StartCoroutine(LoadWorldSence());
+                return true;
+            }
+
+            return false;
         }
         
         //Load all character data on device
         private void LoadAllCharacterProfiles()
         {
-            dataWriter = new DataWriter();
-
+            
             dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(CharacterSlot.CharacterSlot_01);
             characterSlot01 = dataWriter.LoadSaveFile();
 
@@ -160,20 +159,19 @@ namespace AN
         
         public void LoadGame()
         {
-            dataWriter = new DataWriter(); 
-            
             //load file base on character slot
             dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(currentCharacterSlot);
             
             currentCharacterData = dataWriter.LoadSaveFile();
-
+            
+            //Pass player data to current player
+            player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
+            
             StartCoroutine(LoadWorldSence());
         }
 
         public void SaveGame()
         {
-            dataWriter = new DataWriter();
-            
             //Save file base on character slot
             dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(currentCharacterSlot);
             
@@ -188,6 +186,8 @@ namespace AN
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
 
+            player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
+            
             yield return null;
         }
 

@@ -13,7 +13,7 @@ namespace AN
     [System.Serializable]
     public class CharacterSaveData
     {
-        public string characterName;
+        public string characterName = "UNKNOW";
         
         [Header("Time Played")] 
         public float secondsPlayed;

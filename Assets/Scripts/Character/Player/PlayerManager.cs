@@ -46,7 +46,7 @@ namespace AN
             {
                 PlayerCamera.instance.player = this;
                 PlayerInputManager.instance.player = this;
-                
+                WorldSaveGameManager.instance.player = this;
                 // sử dụng += để đăng ký phương thức SetNewStamninaValue với OnValueChanged của NetworkVariable,
                 // hai giá trị cũ và mới sẽ luôn được truyền vào phương thức đó khi sự kiện xảy ra.
                 // do OnValueChanged là một sự kiện được thiết kế để thông báo về sự thay đổi của giá trị,
