@@ -136,7 +136,7 @@
                     "name": "Movement",
                     "type": "PassThrough",
                     "id": "33f1f5c5-36d2-493c-b8fb-8c527f73164e",
-                    "expectedControlType": "Delta",
+                    "expectedControlType": "Analog",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -221,7 +221,7 @@
                     "id": "6d086cd0-f8f3-4d5b-8bd8-b57fbebbff32",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -239,7 +239,7 @@
                     "id": "3091d135-b82d-4c70-85f9-ce96dd5db847",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -248,7 +248,7 @@
                     "id": "e3d4a45c-4f1a-4101-9937-b7e67b98a2d4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -278,7 +278,7 @@
                 {
                     "name": "",
                     "id": "d462d297-18ba-433a-969e-7544a2a4e94d",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -338,6 +338,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "c562af60-96a9-4fe7-a325-3aab1862d9f4",
+            "actions": [
+                {
+                    "name": "Delete",
+                    "type": "Button",
+                    "id": "9bfd0c2c-cb2d-44df-84bc-1e8db55cf363",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b99e8d4f-5a1a-4e8e-802b-03f35d8bdb19",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2714357c-25b3-4992-b98e-bcaaa1fbd27e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -20,10 +20,16 @@ namespace AN
 
         public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue)
         {
+            if (!character.canMove)
+            {
+                return;
+            }
+            
             if (character.characterNetworkManager.isSprinting.Value)
             {
                 verticalValue = 2;
             }
+            
             character.animator.SetFloat("horizontal",horizontalValue, 0.1f, Time.deltaTime);
             character.animator.SetFloat("vertical",verticalValue, 0.1f, Time.deltaTime);
         }

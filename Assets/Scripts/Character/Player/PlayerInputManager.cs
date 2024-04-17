@@ -66,7 +66,7 @@ namespace AN
                 instance.enabled = false;
             }
         }
-
+        
         //OnEnable() được gọi trong các trường hợp sau:
 
         //Khi đối tượng được kích hoạt(enabled): Khi bật(hoặc kích hoạt) một đối tượng trong Unity(vd: bật một GameObject),
@@ -110,12 +110,35 @@ namespace AN
         {
             HandleAllInput();
         }
+        
+        //if not active on application, disable control
+        private void OnApplicationFocus(bool focus)
+        {
+            if (enabled)
+            {
+                if (focus)
+                {
+                    playerControls.Enable();
+                }
+                else
+                {
+                    playerControls.Disable();
+                }
+            }
+        }
 
         private void HandleAllInput()
         {
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandlePlayerActionInput();
+        }
+        
+        private void HandlePlayerActionInput()
+        {
+            HandleRollMovementInput();
+            HandleSprintMovementInput();
+            HandleJumpMovementInput();
         }
         
         private void HandlePlayerMovementInput()
@@ -137,13 +160,7 @@ namespace AN
             }
 
             //not lock-on
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0,moveAmount);
-        }
-        
-        private void HandlePlayerActionInput()
-        {
-            HandleRollMovementInput();
-            HandleSprintMovementInput();
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0 ,moveAmount);
         }
 
         private void HandleCameraMovementInput()
@@ -173,23 +190,24 @@ namespace AN
             }
             else
             {
-                player.PlayerNetworkManager.isSprinting.Value = false;
+                player.playerNetworkManager.isSprinting.Value = false;
             }
         }
         
-        //if not active on application, disable control
-        private void OnApplicationFocus(bool focus)
+        private void HandleJumpMovementInput()
         {
-            if (enabled)
+            if (jumpInput)
             {
-                if (focus)
-                {
-                    playerControls.Enable();
-                }
-                else
-                {
-                    playerControls.Disable();
-                }
+                jumpInput = false;
+                
+                //TODO: return (do nothing) if menu or UI window is open
+                
+                //perform a jump
+                player.playerLocomotionManager.HandleJumping();
+            }
+            else
+            {
+                player.playerNetworkManager.isJumping.Value = false;
             }
         }
     }
