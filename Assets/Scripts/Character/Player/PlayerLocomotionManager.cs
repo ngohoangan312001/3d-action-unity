@@ -17,7 +17,8 @@ namespace AN
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 10;
-        [SerializeField] int sprintingStaminaCost = 2;
+        [SerializeField] int sprintStaminaCost = 2;
+        [SerializeField] int jumpStaminaCost = 3;
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
@@ -37,13 +38,13 @@ namespace AN
             if (player.IsOwner)
             {
                 player.characterNetworkManager.animaterVerticalNetworkParameter.Value = verticalMovement;
-                player.characterNetworkManager.animaterVerticalNetworkParameter.Value = horizontalMovement;
+                player.characterNetworkManager.animaterHorizontalNetworkParameter.Value = horizontalMovement;
                 player.characterNetworkManager.networkMoveAmount.Value = moveAmount;
             }
             else
             {
                 verticalMovement = player.characterNetworkManager.animaterVerticalNetworkParameter.Value;
-                horizontalMovement = player.characterNetworkManager.animaterVerticalNetworkParameter.Value;
+                horizontalMovement = player.characterNetworkManager.animaterHorizontalNetworkParameter.Value;
                 moveAmount = player.characterNetworkManager.networkMoveAmount.Value;
                 
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
@@ -115,12 +116,14 @@ namespace AN
             
             targetRotationDirection = Vector3.zero;
 
+            float cameraTranformForward = verticalMovement;
+            
             if (PlayerInputManager.instance.aimInput)
             {
-                verticalMovement = 1;
+                cameraTranformForward = Mathf.Abs(verticalMovement);
             }
             
-            targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
+            targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * cameraTranformForward;
             targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
             
 
@@ -200,8 +203,40 @@ namespace AN
 
             if (player.playerNetworkManager.isSprinting.Value)
             {
-                player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
+                player.playerNetworkManager.currentStamina.Value -= sprintStaminaCost * Time.deltaTime;
             }
+        }
+
+        public void HandleJumping()
+        {
+            if(player.isPerformingAction)
+                return;
+            
+            //Out of stamina = do nothing
+            if (player.playerNetworkManager.currentStamina.Value <= 0)
+                return;
+
+            if (player.isJumping)
+                return;
+            
+            if (player.isGrounded)
+                return;
+            
+            player.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump", false);
+
+            player.isJumping = true;
+            
+            player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+        }
+
+        public void ApplyJumpVelocity()
+        {
+            
+        }
+
+        public void HandleJumpMovement()
+        {
+            
         }
     }
 }

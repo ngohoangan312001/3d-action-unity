@@ -14,6 +14,8 @@ namespace AN
     public class CharacterSaveData
     {
         public string characterName = "UNKNOW";
+
+        [Header("Scene Index")] public int sceneIndex = 1;
         
         [Header("Time Played")] 
         public float secondsPlayed;

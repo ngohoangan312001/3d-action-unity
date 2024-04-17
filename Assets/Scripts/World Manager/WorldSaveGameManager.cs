@@ -195,8 +195,12 @@ namespace AN
         
         public IEnumerator LoadWorldSence()
         {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+            //Only 1 world scene
+            //AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
 
+            //To use different scene for level
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
+            
             player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
             
             yield return null;

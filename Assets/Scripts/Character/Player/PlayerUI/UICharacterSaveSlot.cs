@@ -17,6 +17,7 @@ namespace AN
         [Header("Character Info")] 
         public TextMeshProUGUI characterName;
         public TextMeshProUGUI timePlayed;
+        public TextMeshProUGUI world;
 
         private void Awake()
         {
@@ -82,9 +83,10 @@ namespace AN
 
             if (dataWriter.CheckFileExists())
             {
-                slotNumber.text = characterSlot.ToString();
+                slotNumber.text = "" + CharacterSlot.CharacterSlot_01;
                 characterName.text = characterSaveData.characterName;
-                timePlayed.text = ""+characterSaveData.secondsPlayed;
+                timePlayed.text = "" + characterSaveData.secondsPlayed;
+                world.text = "" + characterSaveData.sceneIndex;
             }
             else
             {
