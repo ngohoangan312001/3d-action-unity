@@ -10,7 +10,9 @@ namespace AN
     {
         private DataWriter dataWriter;
 
-        [Header("Game Slot")] public CharacterSlot characterSlot;
+        [Header("Game Slot")] 
+        public CharacterSlot characterSlot;
+        public TextMeshProUGUI slotNumber;
 
         [Header("Character Info")] 
         public TextMeshProUGUI characterName;
@@ -80,6 +82,7 @@ namespace AN
 
             if (dataWriter.CheckFileExists())
             {
+                slotNumber.text = characterSlot.ToString();
                 characterName.text = characterSaveData.characterName;
                 timePlayed.text = ""+characterSaveData.secondsPlayed;
             }
@@ -93,6 +96,11 @@ namespace AN
         {
             WorldSaveGameManager.instance.currentCharacterSlot = characterSlot;
             WorldSaveGameManager.instance.LoadGame();
+        }
+
+        public void SelectCurrentSlot()
+        {
+            TitleScreenManager.instance.SelectCharacterSlot(characterSlot);
         }
     }
 }

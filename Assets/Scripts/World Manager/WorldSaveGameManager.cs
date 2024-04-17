@@ -80,7 +80,7 @@ namespace AN
 
             foreach (CharacterSlot slot in (CharacterSlot[])Enum.GetValues(typeof(CharacterSlot)))
             {
-                if (characterSlot != slot) continue;
+                if (characterSlot == CharacterSlot.NO_SLOT || characterSlot != slot) continue;
                 
                 fileName = slot.ToString();
                 break;
@@ -95,7 +95,10 @@ namespace AN
 
             foreach (CharacterSlot slot in (CharacterSlot[]) Enum.GetValues(typeof(CharacterSlot)))
             {
+                if(slot == CharacterSlot.NO_SLOT) continue;
+                
                 haveEmptySlot = CheckAndCreateNewGameFileOnEmptySlot(slot);
+               
                 if (haveEmptySlot) break;
             }
             
@@ -110,7 +113,7 @@ namespace AN
         {
             //Check if able to create new file (have empty slot)
             dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(characterSlot);
-            if (!dataWriter.CheckFileExists())
+            if (!dataWriter.CheckFileExists() )
             {
                 //If slot is not taken => using this to create new game data
                 currentCharacterSlot = characterSlot;
@@ -180,6 +183,14 @@ namespace AN
             //Write player info to json file and save on local machine
             dataWriter.CreateNewSaveFile(currentCharacterData);
 
+        }
+
+        public void DeleteGame(CharacterSlot characterSlot)
+        {
+            //load file base on character slot
+            dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(characterSlot);
+            
+            dataWriter.DeleteSaveFile();
         }
         
         public IEnumerator LoadWorldSence()

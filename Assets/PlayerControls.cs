@@ -364,6 +364,45 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""c562af60-96a9-4fe7-a325-3aab1862d9f4"",
+            ""actions"": [
+                {
+                    ""name"": ""Delete"",
+                    ""type"": ""Button"",
+                    ""id"": ""9bfd0c2c-cb2d-44df-84bc-1e8db55cf363"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b99e8d4f-5a1a-4e8e-802b-03f35d8bdb19"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Delete"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2714357c-25b3-4992-b98e-bcaaa1fbd27e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Delete"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -380,6 +419,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_Jump = m_PlayerAction.FindAction("Jump", throwIfNotFound: true);
         m_PlayerAction_Aim = m_PlayerAction.FindAction("Aim", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Delete = m_UI.FindAction("Delete", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -599,6 +641,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActionActions @PlayerAction => new PlayerActionActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_Delete;
+    public struct UIActions
+    {
+        private @PlayerControls m_Wrapper;
+        public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Delete => m_Wrapper.m_UI_Delete;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @Delete.started += instance.OnDelete;
+            @Delete.performed += instance.OnDelete;
+            @Delete.canceled += instance.OnDelete;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @Delete.started -= instance.OnDelete;
+            @Delete.performed -= instance.OnDelete;
+            @Delete.canceled -= instance.OnDelete;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -613,5 +701,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnDelete(InputAction.CallbackContext context);
     }
 }
