@@ -33,7 +33,7 @@ namespace AN
 
         protected virtual void Update()
         {
-
+            animator.SetBool("isGrounded", isGrounded);
             // if character being controlled by owner, then assign posiotion to it network position to make it move on other client
             if (IsOwner)
             {

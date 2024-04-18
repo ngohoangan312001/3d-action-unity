@@ -1012,7 +1012,7 @@ Transform:
   m_GameObject: {fileID: 1782702501690864755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.159, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1078,12 +1078,15 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   isPerformingAction: 0
+  isJumping: 0
+  isGrounded: 0
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerNetworkManager: {fileID: 0}
+  playerStatManager: {fileID: 0}
 --- !u!114 &7773373930107701611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1096,16 +1099,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c89bb53ea9b4e5697e7469cd64a436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yVelocity: {x: 0, y: 0, z: 0}
+  groundedYVelocity: -40
+  startFallingYVelocity: -5
+  gravityForce: -5
+  groundCheckPhereRadius: 0.1
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
   walkingSpeed: 1
   runningSpeed: 5
   sprintingSpeed: 10
-  rollingSpeed: 5
-  rollTime: 0
-  rollDuration: 1
+  sprintStaminaCost: 2
+  jumpStaminaCost: 3
   rotationSpeed: 15
+  rollStaminaCost: 5
 --- !u!114 &7541399592550718815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,6 +1146,85 @@ MonoBehaviour:
     m_InternalValue: 0
   isAiming:
     m_InternalValue: 0
+  isJumping:
+    m_InternalValue: 0
+  endurance:
+    m_InternalValue: 10
+  currentStamina:
+    m_InternalValue: 0
+  maxStamina:
+    m_InternalValue: 0
+  vitality:
+    m_InternalValue: 1
+  characterName:
+    m_InternalValue:
+      utf8LengthInBytes: 9
+      bytes:
+        offset0000:
+          byte0000: 67
+          byte0001: 104
+          byte0002: 97
+          byte0003: 114
+          byte0004: 97
+          byte0005: 99
+          byte0006: 116
+          byte0007: 101
+          byte0008: 114
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0016:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0032:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0048: 0
+        byte0049: 0
+        byte0050: 0
+        byte0051: 0
+        byte0052: 0
+        byte0053: 0
+        byte0054: 0
+        byte0055: 0
+        byte0056: 0
+        byte0057: 0
+        byte0058: 0
+        byte0059: 0
+        byte0060: 0
+        byte0061: 0
 --- !u!143 &1850097564313942403
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1293,6 +1383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3cff992e3094489be65471397b1516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staminaRegenerationTimer: 0
+  staminaTickTimer: 0
+  staminaRegenerationDelay: 2
+  staminaRegenerationAmount: 2
 --- !u!1 &1789272960074739661
 GameObject:
   m_ObjectHideFlags: 0
