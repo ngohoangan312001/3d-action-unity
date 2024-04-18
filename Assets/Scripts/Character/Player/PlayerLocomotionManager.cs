@@ -17,12 +17,17 @@ namespace AN
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 10;
-        [SerializeField] int sprintStaminaCost = 2;
-        [SerializeField] int jumpStaminaCost = 3;
+        [SerializeField] private int sprintStaminaCost = 2;
+        
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;
         private Vector3 targetRotationDirection;
 
+        [Header("Jump")]
+        private Vector3 jumpDirection;
+        [SerializeField] int jumpStaminaCost = 3;
+        [SerializeField] int jumpHeight = 3;
+        
         [Header("Roll")] 
         private Vector3 rollDirection;
         [SerializeField] int rollStaminaCost = 5;
@@ -219,19 +224,19 @@ namespace AN
             if (player.isJumping)
                 return;
             
-            if (player.isGrounded)
+            if (!player.isGrounded)
                 return;
             
-            player.playerAnimatorManager.PlayTargetActionAnimation("Main_Jump", false);
+            player.playerAnimatorManager.PlayTargetActionAnimation("Jump_Start", false);
 
             player.isJumping = true;
             
             player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
         }
 
-        public void ApplyJumpVelocity()
+        public void ApplyJumpingVelocity()
         {
-            
+            yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
         }
 
         public void HandleJumpMovement()
