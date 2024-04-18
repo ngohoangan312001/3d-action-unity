@@ -1100,10 +1100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yVelocity: {x: 0, y: 0, z: 0}
-  groundedYVelocity: -40
+  groundedYVelocity: -20
   startFallingYVelocity: -5
-  gravityForce: -5
-  groundCheckPhereRadius: 0.1
+  gravityForce: -40
+  groundCheckPhereRadius: 0.3
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -1112,10 +1112,13 @@ MonoBehaviour:
   moveAmount: 0
   walkingSpeed: 1
   runningSpeed: 5
-  sprintingSpeed: 10
+  sprintingSpeed: 8
   sprintStaminaCost: 2
-  jumpStaminaCost: 3
   rotationSpeed: 15
+  jumpStaminaCost: 3
+  jumpHeight: 2
+  jumpForwardSpeed: 5
+  freeFallSpeed: 2
   rollStaminaCost: 5
 --- !u!114 &7541399592550718815
 MonoBehaviour:

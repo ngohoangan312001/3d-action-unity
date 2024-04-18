@@ -16,7 +16,7 @@ namespace AN
         [Header("Movement Setting")]
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
-        [SerializeField] float sprintingSpeed = 10;
+        [SerializeField] float sprintingSpeed = 8;
         [SerializeField] private int sprintStaminaCost = 2;
         
         [SerializeField] float rotationSpeed = 15;
@@ -26,7 +26,9 @@ namespace AN
         [Header("Jump")]
         private Vector3 jumpDirection;
         [SerializeField] int jumpStaminaCost = 3;
-        [SerializeField] int jumpHeight = 3;
+        [SerializeField] int jumpHeight = 2;
+        [SerializeField] int jumpForwardSpeed = 5;
+        [SerializeField] int freeFallSpeed = 2;
         
         [Header("Roll")] 
         private Vector3 rollDirection;
@@ -65,6 +67,8 @@ namespace AN
             HandleGroundedMovement();
             HandleRotation();
             //Aerial
+            HandleJumpMovement();
+            HandleFreeFallMovement();
         }
 
         private void GetMovementValues()
@@ -232,6 +236,29 @@ namespace AN
             player.isJumping = true;
             
             player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+
+            jumpDirection = PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
+            jumpDirection += PlayerCamera.instance.transform.right * PlayerInputManager.instance.horizontalInput;
+            jumpDirection.y = 0;
+
+            if (jumpDirection != Vector3.zero)
+            {
+                //Sprinting jump full disstance
+                if (player.playerNetworkManager.isSprinting.Value)
+                {
+                    jumpDirection *= 1;
+                } 
+                //Run = 1/2 distance
+                else if (PlayerInputManager.instance.moveAmount > 0.5)
+                {
+                    jumpDirection *= 0.5f;
+                } 
+                //Walk = 1/4 distance
+                else if (PlayerInputManager.instance.moveAmount <= 0.5)
+                {
+                    jumpDirection *= 0.25f;
+                }
+            }
         }
 
         public void ApplyJumpingVelocity()
@@ -241,7 +268,23 @@ namespace AN
 
         public void HandleJumpMovement()
         {
-            
+            if (player.isJumping)
+            {
+                player.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
+            }
+        }
+        
+        public void HandleFreeFallMovement()
+        {
+            if (!player.isGrounded)
+            {
+                Vector3 freeFallDirection =
+                    PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
+                freeFallDirection += PlayerCamera.instance.transform.right * PlayerInputManager.instance.horizontalInput;
+                freeFallDirection.y = 0;
+
+                player.characterController.Move(freeFallDirection * freeFallSpeed * Time.deltaTime);
+            }
         }
     }
 }
