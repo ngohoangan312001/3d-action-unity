@@ -33,7 +33,7 @@ namespace AN
         [Header("Roll")] 
         private Vector3 rollDirection;
         [SerializeField] int rollStaminaCost = 5;
-        protected override void Awake()
+        protected override void Awake()    
         {
             base.Awake();
             player = GetComponent<PlayerManager>();
