@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace AN;
+
 public class InstanceCharacterEffect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("effect ID")] public int instanceEffectID;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    protected virtual void ProcessEffect(CharacterManager characterManager);
 }
