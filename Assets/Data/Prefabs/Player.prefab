@@ -996,6 +996,7 @@ GameObject:
   - component: {fileID: 7815389335186210135}
   - component: {fileID: -4466905726739030746}
   - component: {fileID: 1913772921066053460}
+  - component: {fileID: 2411546502027319128}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1151,14 +1152,24 @@ MonoBehaviour:
     m_InternalValue: 0
   isJumping:
     m_InternalValue: 0
+  vitality:
+    m_InternalValue: 10
+  intellect:
+    m_InternalValue: 10
   endurance:
     m_InternalValue: 10
+  currentHealth:
+    m_InternalValue: 0
+  maxHealth:
+    m_InternalValue: 0
+  currentEnergy:
+    m_InternalValue: 0
+  maxEnergy:
+    m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
   maxStamina:
     m_InternalValue: 0
-  vitality:
-    m_InternalValue: 1
   characterName:
     m_InternalValue:
       utf8LengthInBytes: 9
@@ -1390,6 +1401,20 @@ MonoBehaviour:
   staminaTickTimer: 0
   staminaRegenerationDelay: 2
   staminaRegenerationAmount: 2
+--- !u!114 &2411546502027319128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782702501690864755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d8747adbc833d4eaf5498100844d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectTest: {fileID: 11400000, guid: 4207426475f673947a7a9e9be7ccb7d4, type: 2}
+  processEffect: 0
 --- !u!1 &1789272960074739661
 GameObject:
   m_ObjectHideFlags: 0

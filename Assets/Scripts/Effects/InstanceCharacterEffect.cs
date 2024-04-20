@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AN;
-
-public class InstanceCharacterEffect : MonoBehaviour
+namespace AN
 {
-    [Header("effect ID")] public int instanceEffectID;
+    public class InstanceCharacterEffect : ScriptableObject
+    {
+        [Header("effect ID")] public int instanceEffectID;
 
-    protected virtual void ProcessEffect(CharacterManager characterManager);
+        public virtual void ProcessEffect(CharacterManager character)
+        {
+            
+        }
+    }
 }
+

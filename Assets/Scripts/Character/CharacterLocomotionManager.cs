@@ -67,10 +67,5 @@ namespace AN
             //Alway apply gravity to character
             character.characterController.Move(yVelocity * Time.deltaTime);
         }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawSphere(character.transform.position, groundCheckPhereRadius);
-        }
     }
 }

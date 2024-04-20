@@ -6,20 +6,27 @@ namespace AN
 {
     public class CharacterEffectManager : MonoBehaviour
     {
-        //Instance Effect (take damage, heal,...)
-        public void ProcessInstanceEffect()
+        private CharacterManager character;
+
+        private void Awake()
         {
-            
+            character = GetComponent<CharacterManager>();
+        }
+
+        //Instance Effect (take damage, heal,...)
+        public virtual void ProcessInstanceEffect(InstanceCharacterEffect instanceCharacterEffect)
+        {
+            instanceCharacterEffect.ProcessEffect(character);
         }
         
         //Timed Effect (debuff, buff,...)
-        public void ProcessTimedEffect()
+        public virtual void ProcessTimedEffect()
         {
             
         }
         
         //Static Effect (equipment stats,... => non expired)
-        public void ProcessStaticEffect()
+        public virtual void ProcessStaticEffect()
         {
             
         }

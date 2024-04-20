@@ -118,7 +118,7 @@ namespace AN
                 //If slot is not taken => using this to create new game data
                 currentCharacterSlot = characterSlot;
                 currentCharacterData = new CharacterSaveData();
-                StartCoroutine(LoadWorldSence());
+                NewGame();
                 return true;
             }
 
@@ -158,6 +158,13 @@ namespace AN
             
             dataWriter.saveFileName = GetCharacterFileNameBaseOnCharacterSlot(CharacterSlot.CharacterSlot_10);
             characterSlot10 = dataWriter.LoadSaveFile();
+        }
+
+        private void NewGame()
+        {
+            //Save game immediately after create new character
+            SaveGame();
+            StartCoroutine(LoadWorldSence());
         }
         
         public void LoadGame()

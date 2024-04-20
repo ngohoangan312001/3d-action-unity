@@ -20,8 +20,32 @@ namespace AN
         {
             character = GetComponent<CharacterManager>();
         }
+        //Health
+        public int CalculateHealthBaseOnStat(int vitality)
+        {
+            float health = 0;
 
-        public int CalculateStaminaBaseOnEnduranceLevel(int endurance)
+            health = vitality * 10;
+
+            return Mathf.RoundToInt(health);
+        }
+
+        protected virtual void Start()
+        {
+        }
+
+        //Mana
+        public int CalculateEnergyBaseOnStat(int intellect)
+        {
+            float energy = 0;
+
+            energy = intellect * 3;
+
+            return Mathf.RoundToInt(energy);
+        }
+        
+        //Stamina
+        public int CalculateStaminaBaseOnStat(int endurance)
         {
             float stamina = 0;
 
