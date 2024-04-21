@@ -5931,6 +5931,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3783760971072232795, guid: a391b4c88ed9141de8954ce34b3841a2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00048828125
+      objectReference: {fileID: 0}
     - target: {fileID: 3915504535450795184, guid: a391b4c88ed9141de8954ce34b3841a2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6089,7 +6093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7146894937154925587, guid: a391b4c88ed9141de8954ce34b3841a2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 4.799988
+      value: 4.800049
       objectReference: {fileID: 0}
     - target: {fileID: 8182580116051576991, guid: a391b4c88ed9141de8954ce34b3841a2, type: 3}
       propertyPath: m_Layer
@@ -6391,6 +6395,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6542422452102097394, guid: 847d3c87dedd59b46835597aaef6ab97, type: 3}
+      propertyPath: takeDamageEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: c5d419872b2fc544da2b391a28e54ff5, type: 2}
+    - target: {fileID: 6542422452102097394, guid: 847d3c87dedd59b46835597aaef6ab97, type: 3}
+      propertyPath: instanceCharacterEffects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542422452102097394, guid: 847d3c87dedd59b46835597aaef6ab97, type: 3}
+      propertyPath: instanceCharacterEffects.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c5d419872b2fc544da2b391a28e54ff5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6448,6 +6464,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8115647399355952663, guid: d21c1eac05d4042a38398c7382b68517, type: 3}
+      propertyPath: NetworkConfig.PlayerPrefab
+      value: 
+      objectReference: {fileID: 1782702501690864755, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

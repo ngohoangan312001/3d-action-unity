@@ -10,6 +10,10 @@ namespace AN
         [HideInInspector] public CharacterController characterController;
         [HideInInspector] public Animator animator;
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
+        [HideInInspector] public CharacterEffectManager characterEffectManager;
+        
+        [Header("Status")]
+        public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [Header("Flag")] 
         public bool isPerformingAction = false;
@@ -29,6 +33,8 @@ namespace AN
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
             
             animator = GetComponent<Animator>();
+
+            characterEffectManager = GetComponent<CharacterEffectManager>();
         }
 
         protected virtual void Update()

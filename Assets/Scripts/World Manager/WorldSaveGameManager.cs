@@ -163,6 +163,10 @@ namespace AN
         private void NewGame()
         {
             //Save game immediately after create new character
+            player.playerNetworkManager.vitality.Value = 10;
+            player.playerNetworkManager.intellect.Value = 10;
+            player.playerNetworkManager.endurance.Value = 10;
+            
             SaveGame();
             StartCoroutine(LoadWorldSence());
         }

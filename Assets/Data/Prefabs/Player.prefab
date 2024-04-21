@@ -990,13 +990,13 @@ GameObject:
   - component: {fileID: 594491920196883403}
   - component: {fileID: 2565537870038483975}
   - component: {fileID: 7773373930107701611}
-  - component: {fileID: 7541399592550718815}
   - component: {fileID: 1850097564313942403}
   - component: {fileID: -7854378451030118048}
   - component: {fileID: 7815389335186210135}
   - component: {fileID: -4466905726739030746}
   - component: {fileID: 1913772921066053460}
   - component: {fileID: 2411546502027319128}
+  - component: {fileID: 1445108596776633519}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1078,6 +1078,9 @@ MonoBehaviour:
   characterController: {fileID: 0}
   animator: {fileID: 0}
   characterNetworkManager: {fileID: 0}
+  characterEffectManager: {fileID: 0}
+  isDead:
+    m_InternalValue: 0
   isPerformingAction: 0
   isJumping: 0
   isGrounded: 0
@@ -1121,124 +1124,6 @@ MonoBehaviour:
   jumpForwardSpeed: 5
   freeFallSpeed: 2
   rollStaminaCost: 5
---- !u!114 &7541399592550718815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782702501690864755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a69782476eb846a6ada635d5dfef65d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkPosition:
-    m_InternalValue: {x: 0, y: 0, z: 0}
-  networkRotation:
-    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
-  networkPositionVelocity: {x: 0, y: 0, z: 0}
-  networkPositionSmoothTime: 0.1
-  networkRotationSmoothTime: 0.1
-  animaterHorizontalNetworkParameter:
-    m_InternalValue: 0
-  animaterVerticalNetworkParameter:
-    m_InternalValue: 0
-  networkMoveAmount:
-    m_InternalValue: 0
-  isSprinting:
-    m_InternalValue: 0
-  isAiming:
-    m_InternalValue: 0
-  isJumping:
-    m_InternalValue: 0
-  vitality:
-    m_InternalValue: 10
-  intellect:
-    m_InternalValue: 10
-  endurance:
-    m_InternalValue: 10
-  currentHealth:
-    m_InternalValue: 0
-  maxHealth:
-    m_InternalValue: 0
-  currentEnergy:
-    m_InternalValue: 0
-  maxEnergy:
-    m_InternalValue: 0
-  currentStamina:
-    m_InternalValue: 0
-  maxStamina:
-    m_InternalValue: 0
-  characterName:
-    m_InternalValue:
-      utf8LengthInBytes: 9
-      bytes:
-        offset0000:
-          byte0000: 67
-          byte0001: 104
-          byte0002: 97
-          byte0003: 114
-          byte0004: 97
-          byte0005: 99
-          byte0006: 116
-          byte0007: 101
-          byte0008: 114
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        offset0016:
-          byte0000: 0
-          byte0001: 0
-          byte0002: 0
-          byte0003: 0
-          byte0004: 0
-          byte0005: 0
-          byte0006: 0
-          byte0007: 0
-          byte0008: 0
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        offset0032:
-          byte0000: 0
-          byte0001: 0
-          byte0002: 0
-          byte0003: 0
-          byte0004: 0
-          byte0005: 0
-          byte0006: 0
-          byte0007: 0
-          byte0008: 0
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        byte0048: 0
-        byte0049: 0
-        byte0050: 0
-        byte0051: 0
-        byte0052: 0
-        byte0053: 0
-        byte0054: 0
-        byte0055: 0
-        byte0056: 0
-        byte0057: 0
-        byte0058: 0
-        byte0059: 0
-        byte0060: 0
-        byte0061: 0
 --- !u!143 &1850097564313942403
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1415,6 +1300,124 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _effectTest: {fileID: 11400000, guid: 4207426475f673947a7a9e9be7ccb7d4, type: 2}
   processEffect: 0
+--- !u!114 &1445108596776633519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782702501690864755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a69782476eb846a6ada635d5dfef65d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkPosition:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  networkRotation:
+    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
+  networkPositionVelocity: {x: 0, y: 0, z: 0}
+  networkPositionSmoothTime: 0.1
+  networkRotationSmoothTime: 0.1
+  animaterHorizontalNetworkParameter:
+    m_InternalValue: 0
+  animaterVerticalNetworkParameter:
+    m_InternalValue: 0
+  networkMoveAmount:
+    m_InternalValue: 0
+  isSprinting:
+    m_InternalValue: 0
+  isAiming:
+    m_InternalValue: 0
+  isJumping:
+    m_InternalValue: 0
+  vitality:
+    m_InternalValue: 0
+  intellect:
+    m_InternalValue: 0
+  endurance:
+    m_InternalValue: 0
+  currentHealth:
+    m_InternalValue: 0
+  maxHealth:
+    m_InternalValue: 0
+  currentEnergy:
+    m_InternalValue: 0
+  maxEnergy:
+    m_InternalValue: 0
+  currentStamina:
+    m_InternalValue: 0
+  maxStamina:
+    m_InternalValue: 0
+  characterName:
+    m_InternalValue:
+      utf8LengthInBytes: 9
+      bytes:
+        offset0000:
+          byte0000: 67
+          byte0001: 104
+          byte0002: 97
+          byte0003: 114
+          byte0004: 97
+          byte0005: 99
+          byte0006: 116
+          byte0007: 101
+          byte0008: 114
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0016:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0032:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0048: 0
+        byte0049: 0
+        byte0050: 0
+        byte0051: 0
+        byte0052: 0
+        byte0053: 0
+        byte0054: 0
+        byte0055: 0
+        byte0056: 0
+        byte0057: 0
+        byte0058: 0
+        byte0059: 0
+        byte0060: 0
+        byte0061: 0
 --- !u!1 &1789272960074739661
 GameObject:
   m_ObjectHideFlags: 0

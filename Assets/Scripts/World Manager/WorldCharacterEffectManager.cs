@@ -10,6 +10,9 @@ namespace MyNamespace
     {
         public static WorldCharacterEffectManager instance;
 
+        [Header("Damage")] 
+        public TakeDamageEffect takeDamageEffect;
+        
         [SerializeField] private List<InstanceCharacterEffect> instanceCharacterEffects;
         private void Awake()
         {
