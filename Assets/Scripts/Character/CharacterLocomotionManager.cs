@@ -36,7 +36,8 @@ namespace AN
         protected void HandleGroundCheck()
         {
             character.isGrounded = Physics.CheckSphere(character.transform.position, groundCheckPhereRadius, groundLayerMask);
-
+            character.isJumping = !character.isGrounded;
+            
             if (character.isGrounded)
             {
                 //Not Attemp to jump or move forward

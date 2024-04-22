@@ -95,8 +95,8 @@ namespace AN
                 characterNetworkManager.currentHealth.Value = 0;
                 isDead.Value = true;
                 
-                //Todo: Reset any flag need to be reset
-
+                //Reset any flag need to be reset
+                
                 //Todo: if not grounded play aerial death animation
                 
                 if (!manuallySelectDeathAnimation)

@@ -235,6 +235,7 @@ namespace AN
 
             player.isJumping = true;
             
+            player.playerNetworkManager.isJumping.Value = player.isJumping;
             player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
 
             jumpDirection = PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
