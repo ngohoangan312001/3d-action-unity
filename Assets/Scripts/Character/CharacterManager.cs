@@ -11,6 +11,7 @@ namespace AN
         [HideInInspector] public Animator animator;
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
         [HideInInspector] public CharacterEffectManager characterEffectManager;
+        [HideInInspector] public CharacterAnimtorManager characterAnimtorManager;
         
         [Header("Status")]
         public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -35,6 +36,8 @@ namespace AN
             animator = GetComponent<Animator>();
 
             characterEffectManager = GetComponent<CharacterEffectManager>();
+
+            characterAnimtorManager = GetComponent<CharacterAnimtorManager>();
         }
 
         protected virtual void Update()
@@ -83,6 +86,37 @@ namespace AN
 
         protected virtual void LateUpdate()
         {
+        }
+
+        public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            if (IsOwner)
+            {
+                characterNetworkManager.currentHealth.Value = 0;
+                isDead.Value = true;
+                
+                //Todo: Reset any flag need to be reset
+
+                //Todo: if not grounded play aerial death animation
+                
+                if (!manuallySelectDeathAnimation)
+                {
+                    characterAnimtorManager.PlayTargetActionAnimation("Death",true);
+                }
+            }
+            
+            //Todo: play death SFX
+            
+            yield return new WaitForSeconds(5);
+            
+            //Todo: receive item if A.I die
+            
+            //Todo: Disable character
+        }
+
+        public virtual void ReviveCharacter()
+        {
+            
         }
     }
 }

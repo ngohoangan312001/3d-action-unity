@@ -7,6 +7,9 @@ namespace AN
 {
     public class PlayerManager : CharacterManager
     {
+        [Header("Debug Menu")] [SerializeField]
+        private bool respawnCharacter = false;
+        
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
@@ -36,6 +39,8 @@ namespace AN
             
             //Stamina Regen
             playerStatManager.RegenerateStamina();
+            
+            DebugMenu();
         }
 
         public override void OnNetworkSpawn()
@@ -66,6 +71,19 @@ namespace AN
                 playerNetworkManager.intellect.OnValueChanged += playerNetworkManager.SetNewMaxEnergyValue;
                 playerNetworkManager.endurance.OnValueChanged += playerNetworkManager.SetNewMaxStaminaValue;
             }
+            
+            playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
+        }
+
+        public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            if (IsOwner)
+            {
+                PlayerUIManager.instance.playerUIPopUpManager.OpenDeathPopUp();
+            }
+            
+            return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+
         }
 
         protected override void LateUpdate()
@@ -128,6 +146,31 @@ namespace AN
             playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
             PlayerUIManager.instance.playerUIHudManager.SetMaxStamninaValue(playerNetworkManager.maxStamina.Value);
         }
-    }
 
+        public override void ReviveCharacter()
+        {
+            base.ReviveCharacter();
+            
+            if (IsOwner)
+            {
+                isDead.Value = false;
+                playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
+                playerNetworkManager.currentEnergy.Value = playerNetworkManager.maxEnergy.Value;
+                playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
+                
+                //Play rebirth animation
+                playerAnimatorManager.PlayTargetActionAnimation("Revive",false);
+            }
+        }
+
+        // Will need to be delete later
+        private void DebugMenu()
+        {
+            if (respawnCharacter)
+            {
+                respawnCharacter = false;
+                ReviveCharacter();
+            }
+        }
+    }
 }

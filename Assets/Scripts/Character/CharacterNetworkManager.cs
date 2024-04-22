@@ -44,6 +44,19 @@ namespace AN
             character = GetComponent<CharacterManager>();
         }
 
+        public void CheckHP(float oldValue, float newValue)
+        {
+            if (currentHealth.Value <= 0)
+            {
+                StartCoroutine(character.ProcessDeathEvent());
+            }
+
+            if (currentHealth.Value > maxHealth.Value)
+            {
+                currentHealth.Value = maxHealth.Value;
+            }
+        }
+        
         //Code that is run on the Server (Host) , called by a Client.
         [ServerRpc]
         public void NotifyServerOfActionAnimationServerRPC(ulong clientId, string animationId, bool applyRootMotion)
