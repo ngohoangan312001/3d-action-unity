@@ -14,8 +14,6 @@ public class ResetIsJumping : StateMachineBehaviour
             character = animator.GetComponent<CharacterManager>();
         }
         character.isJumping = false;
-        character.canMove = true;
-        character.canRotate = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

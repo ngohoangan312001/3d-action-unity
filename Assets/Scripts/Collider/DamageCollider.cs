@@ -50,6 +50,8 @@ namespace AN
             PassDamageToDamageEffect(damageEffect);
             
             damageTarget.characterEffectManager.ProcessInstanceEffect(damageEffect);
+            
+            characterDamaged = new List<CharacterManager>();
         }
 
         private void PassDamageToDamageEffect(TakeDamageEffect damageEffect)
