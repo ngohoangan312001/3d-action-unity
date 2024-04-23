@@ -204,6 +204,10 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+  currentRightHandWeaponId:
+    m_InternalValue: 0
+  currentLeftHandWeaponId:
+    m_InternalValue: 0
 --- !u!114 &2565537870038483975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +234,7 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   respawnCharacter: 0
+  switchRightWeapon: 0
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerNetworkManager: {fileID: 0}
@@ -262,7 +267,7 @@ MonoBehaviour:
   walkingSpeed: 1
   runningSpeed: 5
   sprintingSpeed: 8
-  sprintStaminaCost: 2
+  sprintStaminaCost: 0
   rotationSpeed: 15
   jumpStaminaCost: 3
   jumpHeight: 2
@@ -319,8 +324,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7bff73a001c87d41b3f33dca065b3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRightHandWeapon: {fileID: 11400000, guid: 427765e7d7cde6f47a9b32d9f376e22f, type: 2}
-  currentLeftHandWeapon: {fileID: 11400000, guid: 427765e7d7cde6f47a9b32d9f376e22f, type: 2}
+  currentRightHandWeapon: {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  currentLeftHandWeapon: {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  weaponInRightHandSlots:
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  rightHandWeaponIndex: 0
+  weaponInLeftHandSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  leftHandWeaponIndex: 0
 --- !u!114 &6569788174709961408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
+  rightWeaponManager: {fileID: 0}
+  leftWeaponManager: {fileID: 0}
   rightHandWeaponModel: {fileID: 0}
   leftHandWeaponModel: {fileID: 0}
 --- !u!114 &1913772921066053460

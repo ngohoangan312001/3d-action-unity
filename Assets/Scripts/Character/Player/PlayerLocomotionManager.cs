@@ -17,7 +17,7 @@ namespace AN
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 8;
-        [SerializeField] private int sprintStaminaCost = 2;
+        [SerializeField] private int sprintStaminaCost = 0;
         
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;

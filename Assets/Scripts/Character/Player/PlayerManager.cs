@@ -7,8 +7,9 @@ namespace AN
 {
     public class PlayerManager : CharacterManager
     {
-        [Header("Debug Menu")] [SerializeField]
-        private bool respawnCharacter = false;
+        [Header("Debug Menu")] 
+        [SerializeField] private bool respawnCharacter = false;
+        [SerializeField] private bool switchRightWeapon = false;
         
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
@@ -77,6 +78,10 @@ namespace AN
             }
             
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
+            
+            //Load Weapon in weapon id change
+            playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
+            playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         }
 
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
@@ -174,6 +179,11 @@ namespace AN
             {
                 respawnCharacter = false;
                 ReviveCharacter();
+            }
+            if (switchRightWeapon)
+            {
+                switchRightWeapon = false;
+                playerEquipmentManager.SwitchRightHandWeapon();
             }
         }
     }

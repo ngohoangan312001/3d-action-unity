@@ -8,6 +8,8 @@ namespace AN
 {
     public class DamageCollider : MonoBehaviour
     {
+        [Header("Collider")] protected Collider damageCollider;
+        
         [Header("Damage")] 
         public float physicalDamage = 0; // Standard, Slash, Pierce, Crush
         public float magicDamage = 0;
@@ -50,8 +52,6 @@ namespace AN
             PassDamageToDamageEffect(damageEffect);
             
             damageTarget.characterEffectManager.ProcessInstanceEffect(damageEffect);
-            
-            characterDamaged = new List<CharacterManager>();
         }
 
         private void PassDamageToDamageEffect(TakeDamageEffect damageEffect)
@@ -63,6 +63,17 @@ namespace AN
             damageEffect.geoDamage = geoDamage;
             damageEffect.luminaDamage = luminaDamage;
             damageEffect.eclipeDamage = eclipeDamage;
+        }
+
+        public virtual void EnableDamageCollider()
+        {
+            damageCollider.enabled = true;
+        }
+        
+        public virtual void DisableDamageCollider()
+        {
+            damageCollider.enabled = false;
+            characterDamaged.Clear(); //Reset character that have been hit when reset collider, so it can be hit again
         }
     }
 }
