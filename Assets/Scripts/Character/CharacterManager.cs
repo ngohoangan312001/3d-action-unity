@@ -28,7 +28,7 @@ namespace AN
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
-
+            
             characterController = GetComponent<CharacterController>();
 
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
@@ -38,6 +38,11 @@ namespace AN
             characterEffectManager = GetComponent<CharacterEffectManager>();
 
             characterAnimtorManager = GetComponent<CharacterAnimtorManager>();
+        }
+
+        protected virtual void Start()
+        {
+            IgnoreMyOwnColliders();
         }
 
         protected virtual void Update()
@@ -117,6 +122,28 @@ namespace AN
         public virtual void ReviveCharacter()
         {
             
+        }
+
+        protected virtual void IgnoreMyOwnColliders()
+        {
+            Collider characterControlCollider = GetComponent<Collider>();
+            Collider[] damageableCollider = GetComponentsInChildren<Collider>();
+
+            //List of all collider in character
+            List<Collider> ignoreColliders = new List<Collider>();
+            
+            //Add all collider in character game object to list
+            ignoreColliders.AddRange(damageableCollider);
+            //Add character controller collider to list
+            ignoreColliders.Add(characterControlCollider);
+
+            foreach (var a in ignoreColliders)
+            {
+                foreach (var otherCollider in ignoreColliders)
+                {
+                    Physics.IgnoreCollision(a, otherCollider, true);
+                }
+            }
         }
     }
 }

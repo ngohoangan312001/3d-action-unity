@@ -116,8 +116,8 @@ namespace AN
             }
 
             //If index is not outnound check next weapon
-            //foreach (WeaponItem weapon in player.playerInventoryManager.weaponInRightHandSlots)
-            //{
+            foreach (WeaponItem weapon in player.playerInventoryManager.weaponInRightHandSlots)
+            {
                 //check if next weapon slot is not unarmed weapon => get that weapon
                 if (player.playerInventoryManager
                         .weaponInRightHandSlots[player.playerInventoryManager.rightHandWeaponIndex].itemId !=
@@ -131,7 +131,7 @@ namespace AN
 
                     return;
                 }
-            //}
+            }
 
             //If next weapon is unarmed (selectedWeapon == null) and next weapon index is not the last slot
             //==> Call this function again
