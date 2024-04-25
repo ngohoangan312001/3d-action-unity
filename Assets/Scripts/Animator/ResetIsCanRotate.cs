@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AN;
 using UnityEngine;
 
-public class ResetIsJumping : StateMachineBehaviour
+public class ResetCanRotate : StateMachineBehaviour
 {
     private CharacterManager character;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -13,11 +13,6 @@ public class ResetIsJumping : StateMachineBehaviour
         {
             character = animator.GetComponent<CharacterManager>();
         }
-        if (character.IsOwner)
-        {
-            character.characterNetworkManager.isJumping.Value = false;
-        }
-        character.canMove = true;
         character.canRotate = true;
     }
 

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3155860074067195882
 Transform:
   m_ObjectHideFlags: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   geoDamage: 0
   luminaDamage: 0
   eclipeDamage: 0
-  characterManager: {fileID: 0}
+  characterCausingDamage: {fileID: 0}
 --- !u!1 &1892507340490729486
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d3ea83f36ea114d9dc1b6a779e6634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeWeaponDamageCollider: {fileID: 0}
 --- !u!1 &2656150109842801278
 GameObject:
   m_ObjectHideFlags: 0

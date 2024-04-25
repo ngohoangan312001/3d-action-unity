@@ -878,7 +878,6 @@ MonoBehaviour:
   isDead:
     m_InternalValue: 0
   isPerformingAction: 0
-  isJumping: 0
   isGrounded: 0
   applyRootMotion: 0
   canRotate: 1
@@ -921,7 +920,7 @@ MonoBehaviour:
   rotationSpeed: 15
   jumpStaminaCost: 3
   jumpHeight: 2
-  jumpForwardSpeed: 5
+  jumpForwardSpeed: 8
   freeFallSpeed: 2
   rollStaminaCost: 5
 --- !u!114 &-7854378451030118048

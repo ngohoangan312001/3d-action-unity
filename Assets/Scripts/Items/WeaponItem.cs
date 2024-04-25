@@ -43,10 +43,12 @@ namespace AN
         public int heavyAttackStaminaCost = 0;
 
         // Item Base Action
-        
+        [Header("Actions")] 
+        public WeaponItemAction oh_Attack_Action;//One Hand Attack Action
+
         // Weapon Skill
-        
+
         // Blocking sound fx
-        
+
     }
 }

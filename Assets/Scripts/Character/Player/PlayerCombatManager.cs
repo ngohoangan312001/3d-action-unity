@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace AN
+{
+    public class PlayerCombatManager : CharacterCombatManager
+    {
+        private PlayerManager player;
+        public WeaponItem currentWeaponBeingUsed;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            player = GetComponent<PlayerManager>();
+        }
+
+        public void PerformWeaponBaseAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction)
+        {
+            //Perform weapon action
+            weaponAction.AttempToPerformAction(player,weaponPerformingAction);
+            
+            //Notify the server to play animation
+        }
+    }
+}

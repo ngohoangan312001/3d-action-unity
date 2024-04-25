@@ -17,6 +17,7 @@ namespace AN
         [HideInInspector] public PlayerStatManager playerStatManager;
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
+        [HideInInspector] public PlayerCombatManager playerCombatManager;
         protected override void Awake()
         {
             base.Awake();
@@ -27,6 +28,7 @@ namespace AN
             playerStatManager = GetComponent<PlayerStatManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
         }
 
         protected override void Update()
@@ -82,6 +84,13 @@ namespace AN
             //Load Weapon in weapon id change
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+            playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged += playerNetworkManager.OnCurrentUsingWeaponIDChange;
+            
+            //If is owner of this character and not the host => joining a server ===> reload character
+            if (IsOwner && !IsServer)
+            {
+                LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
+            }
         }
 
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)

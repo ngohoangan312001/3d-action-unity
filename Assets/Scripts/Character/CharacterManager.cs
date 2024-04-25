@@ -18,8 +18,6 @@ namespace AN
 
         [Header("Flag")] 
         public bool isPerformingAction = false;
-
-        public bool isJumping = false;
         public bool isGrounded = false;
         public bool applyRootMotion = false;
         public bool canRotate = true;
@@ -48,6 +46,7 @@ namespace AN
         protected virtual void Update()
         {
             animator.SetBool("isGrounded", isGrounded);
+            animator.SetBool("isAiming", characterNetworkManager.isAiming.Value);
             // if character being controlled by owner, then assign posiotion to it network position to make it move on other client
             if (IsOwner)
             {

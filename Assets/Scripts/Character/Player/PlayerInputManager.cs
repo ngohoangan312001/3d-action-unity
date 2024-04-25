@@ -50,7 +50,12 @@ namespace AN
             // subcribe OnSceneChange function to activeSceneChanged so => When scene change run OnSceneChange function
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            instance.enabled = false;    
+            instance.enabled = false;
+
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
         }
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
@@ -59,12 +64,22 @@ namespace AN
             {
                 instance.enabled = true;
                 Cursor.lockState = CursorLockMode.Locked;
+                if (playerControls != null)
+                {
+                    playerControls.Enable();
+                }
             }
             else
             {
                 Cursor.lockState = CursorLockMode.None;
                 instance.enabled = false;
+                if (playerControls != null)
+                {
+                    playerControls.Disable();
+                }
             }
+            
+            
         }
         
         //OnEnable() được gọi trong các trường hợp sau:
@@ -159,8 +174,17 @@ namespace AN
                 moveAmount = 1;
             }
 
-            //not lock-on
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0 ,moveAmount);
+            if (player.playerNetworkManager.isAiming.Value)
+            {
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput ,verticalInput);
+            }
+            else
+            {
+                //not lock-on
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0 ,moveAmount);
+            }
+            
+            
         }
 
         private void HandleCameraMovementInput()
@@ -204,10 +228,6 @@ namespace AN
                 
                 //perform a jump
                 player.playerLocomotionManager.HandleJumping();
-            }
-            else
-            {
-                player.playerNetworkManager.isJumping.Value = false;
             }
         }
     }

@@ -53,8 +53,15 @@ namespace AN
                 verticalMovement = player.characterNetworkManager.animaterVerticalNetworkParameter.Value;
                 horizontalMovement = player.characterNetworkManager.animaterHorizontalNetworkParameter.Value;
                 moveAmount = player.characterNetworkManager.networkMoveAmount.Value;
-                
-                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+
+                if (player.playerNetworkManager.isAiming.Value)
+                {
+                    player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalMovement, verticalMovement);
+                }
+                else
+                {
+                    player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                }
                 
             }
         }
@@ -192,6 +199,12 @@ namespace AN
                 return;
             }
             
+            if (player.playerNetworkManager.isAiming.Value)
+            {
+                player.playerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+            
             //Out of stamina = do nothing
             if (player.playerNetworkManager.currentStamina.Value <= 0)
             {
@@ -225,7 +238,7 @@ namespace AN
             if (player.playerNetworkManager.currentStamina.Value <= 0)
                 return;
 
-            if (player.isJumping)
+            if (player.playerNetworkManager.isJumping.Value)
                 return;
             
             if (!player.isGrounded)
@@ -233,9 +246,8 @@ namespace AN
             
             player.playerAnimatorManager.PlayTargetActionAnimation("Jump_Start", false);
 
-            player.isJumping = true;
+            player.playerNetworkManager.isJumping.Value = true;
             
-            player.playerNetworkManager.isJumping.Value = player.isJumping;
             player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
 
             jumpDirection = PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
@@ -264,12 +276,12 @@ namespace AN
 
         public void ApplyJumpingVelocity()
         {
-            yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
+                yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
         }
 
         public void HandleJumpMovement()
         {
-            if (player.isJumping)
+            if (player.playerNetworkManager.isJumping.Value)
             {
                 player.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
             }

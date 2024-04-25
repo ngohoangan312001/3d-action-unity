@@ -36,7 +36,7 @@ namespace AN
         protected void HandleGroundCheck()
         {
             character.isGrounded = Physics.CheckSphere(character.transform.position, groundCheckPhereRadius, groundLayerMask);
-            character.isJumping = !character.isGrounded;
+            character.characterNetworkManager.isJumping.Value = !character.isGrounded;
             
             if (character.isGrounded)
             {
@@ -53,7 +53,7 @@ namespace AN
                 //Character not on ground and not jumping => falling
                 //and if character is falling and fallingVelocityHasBeenSet 
                 //==> set update fall velocity and fall speed to start fall speed
-                if (!character.isJumping && !fallingVelocityHasBeenSet)
+                if (!character.characterNetworkManager.isJumping.Value && !fallingVelocityHasBeenSet)
                 {
                     fallingVelocityHasBeenSet = true;
                     yVelocity.y = startFallingYVelocity;
@@ -67,6 +67,11 @@ namespace AN
             
             //Alway apply gravity to character
             character.characterController.Move(yVelocity * Time.deltaTime);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawSphere(character.transform.position,groundCheckPhereRadius);
         }
     }
 }
