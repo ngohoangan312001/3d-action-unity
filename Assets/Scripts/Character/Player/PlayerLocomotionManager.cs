@@ -27,7 +27,7 @@ namespace AN
         private Vector3 jumpDirection;
         [SerializeField] int jumpStaminaCost = 3;
         [SerializeField] int jumpHeight = 2;
-        [SerializeField] int jumpForwardSpeed = 5;
+        [SerializeField] int jumpForwardSpeed = 8;
         [SerializeField] int freeFallSpeed = 2;
         
         [Header("Roll")] 

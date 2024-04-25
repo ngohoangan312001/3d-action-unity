@@ -10,7 +10,7 @@ public class PlayerInventoryManager : CharacterInventoryManager
 
     [Header("Quick Slot")]
     public WeaponItem[] weaponInRightHandSlots = new WeaponItem[3];
-    public int rightHandWeaponIndex = 0;
+    public int rightHandWeaponIndex = -1;
     public WeaponItem[] weaponInLeftHandSlots = new WeaponItem[3];
-    public int leftHandWeaponIndex = 0;
+    public int leftHandWeaponIndex = -1;
 }
