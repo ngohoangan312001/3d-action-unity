@@ -27,9 +27,10 @@ namespace AN
         
         [Header("ACTION INPUT")]
         [SerializeField] bool rollInput = false;
-        public bool jumpInput = false;
-        public bool sprintInput = false;
+        [SerializeField] bool jumpInput = false;
+        [SerializeField] bool sprintInput = false;
         public bool aimInput = false;
+        [SerializeField] bool attackInput = false;
         
         private void Awake()
         {
@@ -110,6 +111,7 @@ namespace AN
                 playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
+                playerControls.PlayerAction.Attack.performed += i => attackInput = true;
             }
 
             playerControls.Enable();
@@ -154,6 +156,7 @@ namespace AN
             HandleRollMovementInput();
             HandleSprintMovementInput();
             HandleJumpMovementInput();
+            HandleAttackInput();
         }
         
         private void HandlePlayerMovementInput()
@@ -228,6 +231,22 @@ namespace AN
                 
                 //perform a jump
                 player.playerLocomotionManager.HandleJumping();
+            }
+        }
+        
+        private void HandleAttackInput()
+        {
+            if (attackInput)
+            {
+                attackInput = false;
+                
+                //TODO: return (do nothing) if menu or UI window is open
+                
+                player.playerNetworkManager.SetCharacterActionHand(true);
+                
+                //TODO: use 2 hand action when character equip 2 hand weapon
+                
+                player.playerCombatManager.PerformWeaponBaseAction(player.playerInventoryManager.currentRightHandWeapon.oh_Attack_Action,player.playerInventoryManager.currentRightHandWeapon);
             }
         }
     }

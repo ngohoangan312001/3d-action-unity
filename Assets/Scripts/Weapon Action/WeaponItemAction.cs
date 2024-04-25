@@ -5,7 +5,7 @@ using UnityEngine;
 namespace AN
 {
     [CreateAssetMenu(menuName = "Character Actions/Weapon Actions/Test Actions")]
-    public class WeaponItemAction : MonoBehaviour
+    public class WeaponItemAction : ScriptableObject
     {
         public int actionId;
 

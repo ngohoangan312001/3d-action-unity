@@ -9,7 +9,6 @@ namespace AN
     {
         protected virtual void Awake()
         {
-            throw new NotImplementedException();
         }
     }
 }

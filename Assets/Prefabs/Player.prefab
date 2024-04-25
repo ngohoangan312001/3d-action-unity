@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 1913772921066053460}
   - component: {fileID: 2411546502027319128}
   - component: {fileID: -4466905726739030746}
+  - component: {fileID: 8248474777394860443}
   - component: {fileID: 7815389335186210135}
   - component: {fileID: 4663043304634137332}
   - component: {fileID: 2853424966427354753}
@@ -854,9 +855,15 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+  currentWeaponBeingUsedId:
+    m_InternalValue: 0
   currentRightHandWeaponId:
     m_InternalValue: 0
   currentLeftHandWeaponId:
+    m_InternalValue: 0
+  isUsingRightHand:
+    m_InternalValue: 0
+  isUsingLeftHand:
     m_InternalValue: 0
 --- !u!114 &2565537870038483975
 MonoBehaviour:
@@ -890,6 +897,7 @@ MonoBehaviour:
   playerStatManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
+  playerCombatManager: {fileID: 0}
 --- !u!114 &7773373930107701611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,6 +1027,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc44e4f5b014461bb5b5e68d9a25d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8248474777394860443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782702501690864755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ec072b5e3b94792bb9dbe8c4140e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeaponBeingUsed: {fileID: 0}
 --- !u!82 &7815389335186210135
 AudioSource:
   m_ObjectHideFlags: 0

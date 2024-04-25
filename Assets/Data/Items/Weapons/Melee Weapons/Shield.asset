@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 
   itemIcon: {fileID: 0}
   itemDescription: 
-  itemId: 0
+  itemId: 2
   weaponModel: {fileID: 4405654300897030330, guid: c711a545a9f19d04d82feb78ac3aaad1, type: 3}
   levelREQ: 0
   guardAbsorption: 100
@@ -31,3 +31,4 @@ MonoBehaviour:
   runAttackStaminaCost: 0
   lightAttackStaminaCost: 0
   heavyAttackStaminaCost: 0
+  oh_Attack_Action: {fileID: 11400000, guid: 88144f0f17382d545bd0b8fb52126d11, type: 2}

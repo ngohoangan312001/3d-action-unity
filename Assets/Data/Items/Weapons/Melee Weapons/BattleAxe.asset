@@ -20,7 +20,7 @@ MonoBehaviour:
 
     May your adventures
     be as bold as the Bravewood Blade.'
-  itemId: 0
+  itemId: 1
   weaponModel: {fileID: 4405654300897030330, guid: 02fcdfd24c4479c4aae0d9a895e1c405, type: 3}
   levelREQ: 0
   guardAbsorption: 5
@@ -36,3 +36,4 @@ MonoBehaviour:
   runAttackStaminaCost: 0
   lightAttackStaminaCost: 0
   heavyAttackStaminaCost: 0
+  oh_Attack_Action: {fileID: 11400000, guid: 88144f0f17382d545bd0b8fb52126d11, type: 2}
