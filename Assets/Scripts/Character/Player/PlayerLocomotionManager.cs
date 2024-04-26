@@ -16,8 +16,8 @@ namespace AN
         [Header("Movement Setting")]
         [SerializeField] float walkingSpeed = 1;
         [SerializeField] float runningSpeed = 5;
-        [SerializeField] float sprintingSpeed = 10;
-        [SerializeField] private int sprintStaminaCost = 2;
+        [SerializeField] float sprintingSpeed = 8;
+        [SerializeField] private int sprintStaminaCost = 0;
         
         [SerializeField] float rotationSpeed = 15;
         private Vector3 moveDirection;
@@ -26,12 +26,14 @@ namespace AN
         [Header("Jump")]
         private Vector3 jumpDirection;
         [SerializeField] int jumpStaminaCost = 3;
-        [SerializeField] int jumpHeight = 3;
+        [SerializeField] int jumpHeight = 2;
+        [SerializeField] int jumpForwardSpeed = 8;
+        [SerializeField] int freeFallSpeed = 2;
         
         [Header("Roll")] 
         private Vector3 rollDirection;
         [SerializeField] int rollStaminaCost = 5;
-        protected override void Awake()
+        protected override void Awake()    
         {
             base.Awake();
             player = GetComponent<PlayerManager>();
@@ -51,8 +53,15 @@ namespace AN
                 verticalMovement = player.characterNetworkManager.animaterVerticalNetworkParameter.Value;
                 horizontalMovement = player.characterNetworkManager.animaterHorizontalNetworkParameter.Value;
                 moveAmount = player.characterNetworkManager.networkMoveAmount.Value;
-                
-                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+
+                if (player.playerNetworkManager.isAiming.Value)
+                {
+                    player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalMovement, verticalMovement);
+                }
+                else
+                {
+                    player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                }
                 
             }
         }
@@ -65,6 +74,8 @@ namespace AN
             HandleGroundedMovement();
             HandleRotation();
             //Aerial
+            HandleJumpMovement();
+            HandleFreeFallMovement();
         }
 
         private void GetMovementValues()
@@ -188,6 +199,12 @@ namespace AN
                 return;
             }
             
+            if (player.playerNetworkManager.isAiming.Value)
+            {
+                player.playerNetworkManager.isSprinting.Value = false;
+                return;
+            }
+            
             //Out of stamina = do nothing
             if (player.playerNetworkManager.currentStamina.Value <= 0)
             {
@@ -221,7 +238,7 @@ namespace AN
             if (player.playerNetworkManager.currentStamina.Value <= 0)
                 return;
 
-            if (player.isJumping)
+            if (player.playerNetworkManager.isJumping.Value)
                 return;
             
             if (!player.isGrounded)
@@ -229,19 +246,58 @@ namespace AN
             
             player.playerAnimatorManager.PlayTargetActionAnimation("Jump_Start", false);
 
-            player.isJumping = true;
+            player.playerNetworkManager.isJumping.Value = true;
             
             player.playerNetworkManager.currentStamina.Value -= jumpStaminaCost;
+
+            jumpDirection = PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
+            jumpDirection += PlayerCamera.instance.transform.right * PlayerInputManager.instance.horizontalInput;
+            jumpDirection.y = 0;
+
+            if (jumpDirection != Vector3.zero)
+            {
+                //Sprinting jump full disstance
+                if (player.playerNetworkManager.isSprinting.Value)
+                {
+                    jumpDirection *= 1;
+                } 
+                //Run = 1/2 distance
+                else if (PlayerInputManager.instance.moveAmount > 0.5)
+                {
+                    jumpDirection *= 0.5f;
+                } 
+                //Walk = 1/4 distance
+                else if (PlayerInputManager.instance.moveAmount <= 0.5)
+                {
+                    jumpDirection *= 0.25f;
+                }
+            }
         }
 
         public void ApplyJumpingVelocity()
         {
-            yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
+                yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
         }
 
         public void HandleJumpMovement()
         {
-            
+            if (player.playerNetworkManager.isJumping.Value)
+            {
+                player.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
+            }
+        }
+        
+        public void HandleFreeFallMovement()
+        {
+            if (!player.isGrounded)
+            {
+                Vector3 freeFallDirection =
+                    PlayerCamera.instance.transform.forward * PlayerInputManager.instance.verticalInput;
+                freeFallDirection += PlayerCamera.instance.transform.right * PlayerInputManager.instance.horizontalInput;
+                freeFallDirection.y = 0;
+
+                player.characterController.Move(freeFallDirection * freeFallSpeed * Time.deltaTime);
+            }
         }
     }
 }

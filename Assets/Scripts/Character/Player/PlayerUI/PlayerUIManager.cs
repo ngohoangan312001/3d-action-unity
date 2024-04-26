@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AN;
@@ -9,6 +10,9 @@ public class PlayerUIManager : MonoBehaviour
     public static PlayerUIManager instance;
 
     [HideInInspector] public PlayerUIHudManager playerUIHudManager;
+    [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
+
+    [SerializeField] private bool joinNetwork;
     private void Awake()
     {
         if (instance == null)
@@ -21,11 +25,22 @@ public class PlayerUIManager : MonoBehaviour
         }
 
         playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
+        
+        playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
     }
 
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        if (joinNetwork)
+        {
+            joinNetwork = false;
+            StartGameAsClient();
+        }
     }
 
     public void StartGameAsClient()

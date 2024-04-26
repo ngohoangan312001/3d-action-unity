@@ -24,5 +24,16 @@ namespace AN
         public float xPosition;
         public float yPosition;
         public float zPosition;
+        
+        [Header("Stats")]
+        public int vitality;
+        public int intellect;
+        public int endurance;
+        
+        [Header("Resources")]
+        public float currentHealth;
+        public float currentEnergy;
+        public float currentStamina;
+        
     }
 }

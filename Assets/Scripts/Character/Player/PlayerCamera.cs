@@ -54,7 +54,7 @@ public class PlayerCamera : MonoBehaviour
         if (player != null)
         {
             //Aim camera
-            HandleAimAction();
+            HandleAimActionCamera();
             //Collide with object
             HandleCollisions();
             //Follow
@@ -136,7 +136,7 @@ public class PlayerCamera : MonoBehaviour
         cameraObject.transform.localPosition = cameraObjectPosition;
     }
 
-    private void HandleAimAction()
+    private void HandleAimActionCamera()
     {
         if (player.isPerformingAction)
         {
@@ -150,6 +150,7 @@ public class PlayerCamera : MonoBehaviour
             cameraObjectPosition.z = aimCameraZDistance;
             cameraObjectPosition.x = aimCameraXDistance;
             cameraObject.transform.localPosition = cameraObjectPosition;
+            player.playerAnimatorManager.PlayTargetActionAnimation("Start_Aiming",false,false,true,true);
         }
         else
         {

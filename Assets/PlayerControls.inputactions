@@ -230,7 +230,7 @@
                     "id": "962f4472-4a2a-46be-9e5a-294ae8fe941e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -246,6 +246,15 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "e3d4a45c-4f1a-4101-9937-b7e67b98a2d4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "2bf9cc76-ecc9-4a0a-9c1a-e7e1c624d8d8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -338,6 +347,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b596d4b0-e7a8-40dd-9120-da3e141d880d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

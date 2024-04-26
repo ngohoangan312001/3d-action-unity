@@ -27,9 +27,10 @@ namespace AN
         
         [Header("ACTION INPUT")]
         [SerializeField] bool rollInput = false;
-        public bool jumpInput = false;
-        public bool sprintInput = false;
+        [SerializeField] bool jumpInput = false;
+        [SerializeField] bool sprintInput = false;
         public bool aimInput = false;
+        [SerializeField] bool attackInput = false;
         
         private void Awake()
         {
@@ -50,7 +51,12 @@ namespace AN
             // subcribe OnSceneChange function to activeSceneChanged so => When scene change run OnSceneChange function
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            instance.enabled = false;    
+            instance.enabled = false;
+
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
         }
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
@@ -59,12 +65,22 @@ namespace AN
             {
                 instance.enabled = true;
                 Cursor.lockState = CursorLockMode.Locked;
+                if (playerControls != null)
+                {
+                    playerControls.Enable();
+                }
             }
             else
             {
                 Cursor.lockState = CursorLockMode.None;
                 instance.enabled = false;
+                if (playerControls != null)
+                {
+                    playerControls.Disable();
+                }
             }
+            
+            
         }
         
         //OnEnable() được gọi trong các trường hợp sau:
@@ -95,6 +111,7 @@ namespace AN
                 playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
+                playerControls.PlayerAction.Attack.performed += i => attackInput = true;
             }
 
             playerControls.Enable();
@@ -139,6 +156,7 @@ namespace AN
             HandleRollMovementInput();
             HandleSprintMovementInput();
             HandleJumpMovementInput();
+            HandleAttackInput();
         }
         
         private void HandlePlayerMovementInput()
@@ -159,8 +177,17 @@ namespace AN
                 moveAmount = 1;
             }
 
-            //not lock-on
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0 ,moveAmount);
+            if (player.playerNetworkManager.isAiming.Value)
+            {
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput ,verticalInput);
+            }
+            else
+            {
+                //not lock-on
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0 ,moveAmount);
+            }
+            
+            
         }
 
         private void HandleCameraMovementInput()
@@ -205,9 +232,21 @@ namespace AN
                 //perform a jump
                 player.playerLocomotionManager.HandleJumping();
             }
-            else
+        }
+        
+        private void HandleAttackInput()
+        {
+            if (attackInput)
             {
-                player.playerNetworkManager.isJumping.Value = false;
+                attackInput = false;
+                
+                //TODO: return (do nothing) if menu or UI window is open
+                
+                player.playerNetworkManager.SetCharacterActionHand(true);
+                
+                //TODO: use 2 hand action when character equip 2 hand weapon
+                
+                player.playerCombatManager.PerformWeaponBaseAction(player.playerInventoryManager.currentRightHandWeapon.oh_Attack_Action,player.playerInventoryManager.currentRightHandWeapon);
             }
         }
     }

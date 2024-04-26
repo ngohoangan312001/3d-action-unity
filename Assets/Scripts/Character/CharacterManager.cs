@@ -10,11 +10,14 @@ namespace AN
         [HideInInspector] public CharacterController characterController;
         [HideInInspector] public Animator animator;
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
+        [HideInInspector] public CharacterEffectManager characterEffectManager;
+        [HideInInspector] public CharacterAnimtorManager characterAnimtorManager;
+        
+        [Header("Status")]
+        public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [Header("Flag")] 
         public bool isPerformingAction = false;
-
-        public bool isJumping = false;
         public bool isGrounded = false;
         public bool applyRootMotion = false;
         public bool canRotate = true;
@@ -23,17 +26,27 @@ namespace AN
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
-
+            
             characterController = GetComponent<CharacterController>();
 
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
             
             animator = GetComponent<Animator>();
+
+            characterEffectManager = GetComponent<CharacterEffectManager>();
+
+            characterAnimtorManager = GetComponent<CharacterAnimtorManager>();
+        }
+
+        protected virtual void Start()
+        {
+            IgnoreMyOwnColliders();
         }
 
         protected virtual void Update()
         {
             animator.SetBool("isGrounded", isGrounded);
+            animator.SetBool("isAiming", characterNetworkManager.isAiming.Value);
             // if character being controlled by owner, then assign posiotion to it network position to make it move on other client
             if (IsOwner)
             {
@@ -77,6 +90,59 @@ namespace AN
 
         protected virtual void LateUpdate()
         {
+        }
+
+        public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            if (IsOwner)
+            {
+                characterNetworkManager.currentHealth.Value = 0;
+                isDead.Value = true;
+                
+                //Reset any flag need to be reset
+                
+                //Todo: if not grounded play aerial death animation
+                
+                if (!manuallySelectDeathAnimation)
+                {
+                    characterAnimtorManager.PlayTargetActionAnimation("Death",true);
+                }
+            }
+            
+            //Todo: play death SFX
+            
+            yield return new WaitForSeconds(5);
+            
+            //Todo: receive item if A.I die
+            
+            //Todo: Disable character
+        }
+
+        public virtual void ReviveCharacter()
+        {
+            
+        }
+
+        protected virtual void IgnoreMyOwnColliders()
+        {
+            Collider characterControlCollider = GetComponent<Collider>();
+            Collider[] damageableCollider = GetComponentsInChildren<Collider>();
+
+            //List of all collider in character
+            List<Collider> ignoreColliders = new List<Collider>();
+            
+            //Add all collider in character game object to list
+            ignoreColliders.AddRange(damageableCollider);
+            //Add character controller collider to list
+            ignoreColliders.Add(characterControlCollider);
+
+            foreach (var a in ignoreColliders)
+            {
+                foreach (var otherCollider in ignoreColliders)
+                {
+                    Physics.IgnoreCollision(a, otherCollider, true);
+                }
+            }
         }
     }
 }
