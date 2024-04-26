@@ -39,7 +39,7 @@ namespace AN
         {
             float energy = 0;
 
-            energy = intellect * 3;
+            energy = intellect * 6;
 
             return Mathf.RoundToInt(energy);
         }
