@@ -57,6 +57,10 @@ namespace AN
             }
         }
         
+        //--------------------
+        //ACTION ANIMATION RPC
+        //--------------------
+        
         //Code that is run on the Server (Host) , called by a Client.
         [ServerRpc]
         public void NotifyServerOfActionAnimationServerRPC(ulong clientId, string animationId, bool applyRootMotion)
@@ -82,6 +86,40 @@ namespace AN
         }
 
         private void PerformActionAnimationFormServer( string animationId, bool applyRootMotion)
+        {
+            character.applyRootMotion = applyRootMotion;
+            character.animator.CrossFade(animationId, 0.2f);
+        }
+        
+        //---------------------------
+        //ATTACK ACTION ANIMATION RPC
+        //---------------------------
+        
+        //Code that is run on the Server (Host) , called by a Client.
+        [ServerRpc]
+        public void NotifyServerOfAttackActionAnimationServerRPC(ulong clientId, string animationId, bool applyRootMotion)
+        {
+            // This character is the host -> send it id and animation to all client for another client to see it animation
+            // IsServer: This property returns true if the object is active on an active server. This is only true if the object has been spawned
+            if (IsServer)
+            {
+                PlayAttackActionAnimationForAllClientClientRPC(clientId, animationId, applyRootMotion);
+            }
+        }
+        
+        //Code that is run on the Client, called by a Server (Host).
+        //When the server is noticed that there is an action animation being performed
+        //It will call this procedure, in this case: this character.animation == the once character who noticed the server will be call
+        [ClientRpc]
+        private void PlayAttackActionAnimationForAllClientClientRPC(ulong clientId, string animationId, bool applyRootMotion)
+        {
+            if (clientId != NetworkManager.Singleton.LocalClientId)
+            {
+                PerformAttackActionAnimationFormServer(animationId, applyRootMotion);
+            }
+        }
+
+        private void PerformAttackActionAnimationFormServer( string animationId, bool applyRootMotion)
         {
             character.applyRootMotion = applyRootMotion;
             character.animator.CrossFade(animationId, 0.2f);

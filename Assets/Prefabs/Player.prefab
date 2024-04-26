@@ -265,7 +265,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   startFallingYVelocity: -5
   gravityForce: -40
-  groundCheckPhereRadius: 0.1
+  groundCheckPhereRadius: 0.3
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -506,8 +506,8 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.71
-  m_Radius: 0.2
+  m_Height: 1.8
+  m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

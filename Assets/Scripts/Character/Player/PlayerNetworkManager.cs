@@ -76,5 +76,38 @@ namespace AN
             WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
             player.playerCombatManager.currentWeaponBeingUsed = newWeapon;
         }
+
+        //Weapon Action
+        [ServerRpc]
+        public void NotifyServerOfWeaponActionServerRPC(ulong clientId, int actionId, int weaponId)
+        {
+            if (IsServer)
+            {
+                NotifyClientOfWeaponActionClientRPC(clientId, actionId, weaponId);
+            }
+        }
+        
+        [ClientRpc]
+        private void NotifyClientOfWeaponActionClientRPC(ulong clientId, int actionId, int weaponId)
+        {
+            if (clientId != NetworkManager.Singleton.LocalClientId)
+            {
+                PerformWeaponBaseAction(actionId, weaponId);
+            }
+        }
+
+        private void PerformWeaponBaseAction(int actionId, int weaponId)
+        {
+            WeaponItemAction weaponAction = WorldActionManager.instance.GetWeaponItemAction(actionId);
+
+            if (weaponAction != null)
+            {
+                weaponAction.AttempToPerformAction(player, WorldItemDatabase.instance.GetWeaponByID(weaponId));
+            }
+            else
+            {
+                Debug.LogError("Weapon not found, can not perform action");
+            }
+        }
     }
 }

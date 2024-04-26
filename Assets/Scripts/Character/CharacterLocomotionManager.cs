@@ -20,7 +20,7 @@ namespace AN
         protected bool fallingVelocityHasBeenSet = false;
         protected float inAirTime = 0;
         [SerializeField] protected float gravityForce = -40;
-        [SerializeField] protected float groundCheckPhereRadius = 0.1f;
+        [SerializeField] protected float groundCheckPhereRadius = 0.3f;
         [SerializeField] protected LayerMask groundLayerMask = 0;
         
         protected virtual void Awake()

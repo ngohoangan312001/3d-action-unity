@@ -36,4 +36,4 @@ MonoBehaviour:
   runAttackStaminaCost: 0
   lightAttackStaminaCost: 0
   heavyAttackStaminaCost: 0
-  oh_Attack_Action: {fileID: 11400000, guid: 88144f0f17382d545bd0b8fb52126d11, type: 2}
+  oh_Attack_Action: {fileID: 11400000, guid: dfbb15040e1f242d693912dc4d1f489e, type: 2}
