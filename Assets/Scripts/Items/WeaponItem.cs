@@ -58,5 +58,15 @@ namespace AN
 
         // Blocking sound fx
 
+        
+        public void HideWeaponModel()
+        {
+            weaponModel.SetActive(false);
+        }
+        
+        public void ShowWeaponModel()
+        {
+            weaponModel.SetActive(true);
+        }
     }
 }

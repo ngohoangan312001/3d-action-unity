@@ -14,6 +14,9 @@ namespace AN
         [SerializeField] private WeaponManager rightWeaponManager;
         [SerializeField] private WeaponManager leftWeaponManager;
         
+        [SerializeField] private string swapRightWeaponAnimation = "Swap_Right_Weapon";
+        [SerializeField] private string swapRightWeaponFromUUnarmedAnimation = "Swap_Right_Weapon_From_Unarmed";
+        
         public GameObject rightHandWeaponModel;
         public GameObject leftHandWeaponModel;
         
@@ -51,8 +54,6 @@ namespace AN
         public void SwitchRightHandWeapon()
         {
             if (!player.IsOwner) return;
-            
-            player.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon",false, true, true, true);
             
             //Weapon Swapping:
             //Check if there is another weapon beside main weapon, if do, rotate bewtween weapon
@@ -102,6 +103,9 @@ namespace AN
                     player.playerInventoryManager.rightHandWeaponIndex = -1;
                     selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
                     player.playerNetworkManager.currentRightHandWeaponId.Value = selectedWeapon.itemId;
+                    
+                    //Animation
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponFromUUnarmedAnimation,false, true, true, true);
                 }
                 //If there is more than 1 weapon
                 else
@@ -110,6 +114,10 @@ namespace AN
                     player.playerInventoryManager.rightHandWeaponIndex = firstWeaponIndex;
                     //Set network right hand weapon index to first weapon
                     player.playerNetworkManager.currentRightHandWeaponId.Value = firstWeapon.itemId;
+                    
+                    //Animation
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponAnimation,false, true, true, true);
+
                 }
 
                 return;
@@ -128,6 +136,8 @@ namespace AN
                     
                     //Assign weapon id to network to switch weapon on all connected client 
                     player.playerNetworkManager.currentRightHandWeaponId.Value = selectedWeapon.itemId;
+                    //Animation
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponAnimation,false, true, true, true);
 
                     return;
                 }

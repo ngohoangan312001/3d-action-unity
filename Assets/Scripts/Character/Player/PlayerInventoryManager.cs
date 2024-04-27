@@ -13,4 +13,14 @@ public class PlayerInventoryManager : CharacterInventoryManager
     public int rightHandWeaponIndex = -1;
     public WeaponItem[] weaponInLeftHandSlots = new WeaponItem[3];
     public int leftHandWeaponIndex = -1;
+
+    public void HideRightHandWeapon()
+    {
+        currentRightHandWeapon.HideWeaponModel();
+    }
+    
+    public void ShowRightHandWeapon()
+    {
+        currentRightHandWeapon.ShowWeaponModel();
+    }
 }
