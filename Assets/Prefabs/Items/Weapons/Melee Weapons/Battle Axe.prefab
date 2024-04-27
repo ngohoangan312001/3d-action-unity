@@ -106,6 +106,10 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   characterCausingDamage: {fileID: 0}
+  lightAttackModifier: 0
+  heavyAttackModifier: 0
+  runningLightAttackModifier: 0
+  runningHeavyAttackModifier: 0
 --- !u!1 &4405654300897030330
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,6 +119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2813983423445930456}
+  - component: {fileID: 1446532461014950076}
   m_Layer: 0
   m_Name: Battle Axe
   m_TagString: Untagged
@@ -138,6 +143,19 @@ Transform:
   - {fileID: 7137732591427999633}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1446532461014950076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405654300897030330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d3ea83f36ea114d9dc1b6a779e6634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeWeaponDamageCollider: {fileID: 4404163937412157671}
 --- !u!1 &8787884922664565365
 GameObject:
   m_ObjectHideFlags: 0

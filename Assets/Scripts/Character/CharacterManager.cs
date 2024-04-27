@@ -12,6 +12,7 @@ namespace AN
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
         [HideInInspector] public CharacterEffectManager characterEffectManager;
         [HideInInspector] public CharacterAnimtorManager characterAnimtorManager;
+        [HideInInspector] public CharacterCombatManager characterCombatManager;
         
         [Header("Status")]
         public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -26,6 +27,8 @@ namespace AN
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
+            
+            characterCombatManager = GetComponent<CharacterCombatManager>();
             
             characterController = GetComponent<CharacterController>();
 

@@ -57,14 +57,19 @@ namespace AN
             character.characterNetworkManager.NotifyServerOfActionAnimationServerRPC(NetworkManager.Singleton.LocalClientId, targetAction, applyRootMotion);
         }
         
-        public virtual void PlayTargetAttackActionAnimation(string targetAction, 
+        public virtual void PlayTargetAttackActionAnimation(
+            AttackType attackType,
+            string targetAction, 
             bool isPerformingAction, 
             bool applyRootMotion = true, 
             bool canRotate = false, 
             bool canMove = false)
         {
             //TODO: Check last attack performed ==> for combos
-            //TODO: Check current attack type
+            
+            //Check current attack type
+            character.characterCombatManager.currentAttackType = attackType;
+            
             //TODO: Update animation set to current weapon animation
             //TODO: Check if weapon can be parried
             //TODO: Update isAttacking flag to network

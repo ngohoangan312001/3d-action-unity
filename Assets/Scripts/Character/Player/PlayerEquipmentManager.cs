@@ -181,5 +181,32 @@ namespace AN
                 leftWeaponManager.SetWeaponDamage(player,  player.playerInventoryManager.currentLeftHandWeapon);
             }
         }
+        
+        //DAMAGE COLLIDER
+        public void OpenDamageCollider()
+        {
+            if (player.playerNetworkManager.isUsingRightHand.Value)
+            {
+                rightWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+            }
+            else if (player.playerNetworkManager.isUsingLeftHand.Value)
+            {
+                leftWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+            }
+            
+            //Play Sound FX
+        }
+        
+        public void CloseDamageCollider()
+        {
+            if (player.playerNetworkManager.isUsingRightHand.Value)
+            {
+                rightWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
+            }
+            else if (player.playerNetworkManager.isUsingLeftHand.Value)
+            {
+                leftWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
+            }
+        }
     }
 }

@@ -120,11 +120,11 @@ MonoBehaviour:
   isJumping:
     m_InternalValue: 0
   vitality:
-    m_InternalValue: 0
+    m_InternalValue: 10
   intellect:
-    m_InternalValue: 0
+    m_InternalValue: 10
   endurance:
-    m_InternalValue: 0
+    m_InternalValue: 10
   currentHealth:
     m_InternalValue: 0
   maxHealth:
@@ -233,6 +233,7 @@ MonoBehaviour:
   characterNetworkManager: {fileID: 0}
   characterEffectManager: {fileID: 0}
   characterAnimtorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
   isDead:
     m_InternalValue: 0
   isPerformingAction: 0
@@ -390,6 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ec072b5e3b94792bb9dbe8c4140e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAttackType: 0
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!82 &7815389335186210135
 AudioSource:

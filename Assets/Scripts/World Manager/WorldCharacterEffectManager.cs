@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using AN;
 using UnityEngine;
 
-namespace MyNamespace
+namespace AN
 {
     public class WorldCharacterEffectManager : MonoBehaviour
     {

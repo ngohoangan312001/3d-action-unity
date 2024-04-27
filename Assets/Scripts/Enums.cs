@@ -33,4 +33,11 @@ namespace AN
         Back
     }
 
+    public enum AttackType
+    {
+        LightAttack,
+        HeavyAttack,
+        RunningLightAttack,
+        RunningHeavyAttack
+    }
 }

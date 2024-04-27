@@ -27,5 +27,40 @@ namespace AN
             //Notify the server to play animation
             player.playerNetworkManager.NotifyServerOfWeaponActionServerRPC(NetworkManager.Singleton.LocalClientId,weaponAction.actionId,weaponPerformingAction.itemId);
         }
+
+        public void DrainStaminaBaseOnAttack()
+        {
+            if (!player.IsOwner)
+                return;
+
+            if (currentWeaponBeingUsed == null) 
+                return;
+            
+            float staminaDeducted = 0;
+
+            switch (currentAttackType)
+            {
+                case AttackType.LightAttack:
+                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                                      currentWeaponBeingUsed.lightAttackStaminaCostMultiplier;
+                    break;
+                case AttackType.HeavyAttack:
+                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                                      currentWeaponBeingUsed.heavyAttackStaminaCostMultiplier;
+                    break;
+                case AttackType.RunningLightAttack:
+                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                                      currentWeaponBeingUsed.runningLightAttackStaminaCostMultiplier;
+                    break;
+                case AttackType.RunningHeavyAttack:
+                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                                      currentWeaponBeingUsed.runningHeavyAttackStaminaCostMultiplier;
+                    break;
+                default:
+                    break;
+            }
+
+            player.playerNetworkManager.currentStamina.Value -= Mathf.RoundToInt(staminaDeducted);
+        }
     }
 }

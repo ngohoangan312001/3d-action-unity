@@ -24,7 +24,7 @@ MonoBehaviour:
   weaponModel: {fileID: 1892507340490729486, guid: 3a91dbaab79232b4bb3eb013371fe903, type: 3}
   levelREQ: 0
   guardAbsorption: 5
-  physicalDamage: 10
+  physicalDamage: 50
   magicDamage: 0
   pyroDamage: 0
   hydroDamage: 0
@@ -32,8 +32,13 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 2
+  lightAttackModifier: 1.2
+  heavyAttackModifier: 2
+  runningLightAttackModifier: 1.2
+  runningHeavyAttackModifier: 2
   baseStaminaCost: 5
-  runAttackStaminaCost: 0
-  lightAttackStaminaCost: 0
-  heavyAttackStaminaCost: 0
+  runningLightAttackStaminaCostMultiplier: 1
+  runningHeavyAttackStaminaCostMultiplier: 1.5
+  lightAttackStaminaCostMultiplier: 0.8
+  heavyAttackStaminaCostMultiplier: 2
   oh_Attack_Action: {fileID: 11400000, guid: dfbb15040e1f242d693912dc4d1f489e, type: 2}

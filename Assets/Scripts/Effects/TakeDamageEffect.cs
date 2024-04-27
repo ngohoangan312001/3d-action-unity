@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AN
 {
@@ -18,7 +19,7 @@ namespace AN
         public float hydroDamage = 0; // Ice
         public float geoDamage = 0; 
         public float luminaDamage = 0; 
-        public float eclipeDamage = 0;
+        public float eclipseDamage = 0;
 
         [Header("Final Damage")] 
         private int finalDamageDealt = 0;
@@ -40,7 +41,7 @@ namespace AN
 
         [Header("Direction Damage taken from")]
         public float angleHitFrom; //Determine what damage animation to play (move backward, left, right,...)
-        public float contactPoint; //Determine where the blood FX instantiate
+        public Vector3 contactPoint; //Determine where the blood FX instantiate
         
         public override void ProcessEffect(CharacterManager character)
         {
@@ -53,7 +54,6 @@ namespace AN
             CalculateDamage(character);
 
             //Todo: Check for "Invulnerablity"
-            //Todo: Calculate Damage
             //Todo: Check direction damage came from
             //Todo: Play damage animation
             //Todo: Check for buildup 
@@ -78,7 +78,7 @@ namespace AN
             
             //Add all damage types together and apply final damage
             finalDamageDealt = Mathf.RoundToInt(physicalDamage + magicDamage + pyroDamage + hydroDamage + geoDamage +
-                                                luminaDamage + eclipeDamage);
+                                                luminaDamage + eclipseDamage);
             
             //Attack will deal at least 1 damage
             if (finalDamageDealt <= 0)

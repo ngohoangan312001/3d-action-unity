@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using MyNamespace;
 using UnityEngine;
 
 namespace AN
 {
     public class DamageCollider : MonoBehaviour
     {
-        [Header("Collider")] protected Collider damageCollider;
+        [Header("Collider")] 
+        [SerializeField] protected Collider damageCollider;
         
         [Header("Damage")] 
         public float physicalDamage = 0; // Standard, Slash, Pierce, Crush
@@ -18,13 +18,19 @@ namespace AN
         public float geoDamage = 0;
         public float luminaDamage = 0;
         public float eclipeDamage = 0;
+        public float poiseDamage = 0;
 
         [Header("Contact Point")] 
         protected Vector3 contactPoint;
         
         [Header("Characters Damaged")] 
         protected List<CharacterManager> characterDamaged = new List<CharacterManager>();
-        private void OnTriggerEnter(Collider other)
+
+        protected virtual void Awake()
+        {
+        }
+
+        protected virtual void OnTriggerEnter(Collider other)
         {
             CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
 
@@ -44,6 +50,8 @@ namespace AN
 
         protected virtual void DamageTarget(CharacterManager damageTarget)
         {
+            //return if the target have been damaged by this
+            //so the target will not be damaged more than once in a single attack
             if (characterDamaged.Contains(damageTarget)) return;
             
             characterDamaged.Add(damageTarget);
@@ -54,7 +62,7 @@ namespace AN
             damageTarget.characterEffectManager.ProcessInstanceEffect(damageEffect);
         }
 
-        private void PassDamageToDamageEffect(TakeDamageEffect damageEffect)
+        protected void PassDamageToDamageEffect(TakeDamageEffect damageEffect)
         {
             damageEffect.physicalDamage = physicalDamage;
             damageEffect.magicDamage = magicDamage;
@@ -62,7 +70,9 @@ namespace AN
             damageEffect.hydroDamage = hydroDamage;
             damageEffect.geoDamage = geoDamage;
             damageEffect.luminaDamage = luminaDamage;
-            damageEffect.eclipeDamage = eclipeDamage;
+            damageEffect.eclipseDamage = eclipeDamage;
+            
+            damageEffect.poiseDamage = poiseDamage;
         }
 
         public virtual void EnableDamageCollider()

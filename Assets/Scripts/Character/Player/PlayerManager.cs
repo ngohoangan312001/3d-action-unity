@@ -56,6 +56,12 @@ namespace AN
 
             if (IsOwner)
             {
+                //If is owner of this character and not the host => joining a server ===> reload character
+                if (!IsServer)
+                {
+                    LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
+                }
+                
                 PlayerCamera.instance.player = this;
                 PlayerInputManager.instance.player = this;
                 WorldSaveGameManager.instance.player = this;
@@ -85,12 +91,6 @@ namespace AN
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
             playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged += playerNetworkManager.OnCurrentUsingWeaponIDChange;
-            
-            //If is owner of this character and not the host => joining a server ===> reload character
-            if (IsOwner && !IsServer)
-            {
-                LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
-            }
         }
 
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)

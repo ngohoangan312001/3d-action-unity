@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AN
 {
@@ -29,18 +30,25 @@ namespace AN
         public int poiseDamage = 10;
         
         //WEAPON MODIFIERS
+        [Header("Attack Modifier")]
+        public float lightAttackModifier = 1.2f;
+        public float heavyAttackModifier = 2f;
+        public float runningLightAttackModifier = 1.2f;
+        public float runningHeavyAttackModifier = 2f;
+        
         //Light Attack
         //Heavy Attack
         //Critical Damage Modifier
 
-        [Header("Stamina Cost")] 
+        [Header("Stamina Cost Modifier")] 
         public int baseStaminaCost = 20;
         //Running Attack Stamina Cost Modifier
-        public int runAttackStaminaCost = 0;
+        public float runningLightAttackStaminaCostMultiplier = 1;
+        public float runningHeavyAttackStaminaCostMultiplier = 1.5f;
         //Light Attack Stamina Cost Modifier
-        public int lightAttackStaminaCost = 0;
+        public float lightAttackStaminaCostMultiplier = 0.8f;
         //Heavy Attack Stamina Cost Modifier
-        public int heavyAttackStaminaCost = 0;
+        public float heavyAttackStaminaCostMultiplier = 2;
 
         // Item Base Action
         [Header("Actions")] 

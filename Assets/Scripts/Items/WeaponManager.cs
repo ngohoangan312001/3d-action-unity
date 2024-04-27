@@ -7,7 +7,7 @@ namespace AN
 {
     public class WeaponManager : MonoBehaviour
     {
-        [SerializeField] private MeleeWeaponDamageCollider meleeWeaponDamageCollider;
+        public MeleeWeaponDamageCollider meleeWeaponDamageCollider;
 
         private void Awake()
         {
@@ -24,6 +24,13 @@ namespace AN
             meleeWeaponDamageCollider.geoDamage = weapon.geoDamage;
             meleeWeaponDamageCollider.luminaDamage = weapon.luminaDamage;
             meleeWeaponDamageCollider.eclipeDamage = weapon.eclipeDamage;
+            
+            meleeWeaponDamageCollider.poiseDamage = weapon.poiseDamage;
+            
+            meleeWeaponDamageCollider.lightAttackModifier = weapon.lightAttackModifier;
+            meleeWeaponDamageCollider.heavyAttackModifier = weapon.heavyAttackModifier;
+            meleeWeaponDamageCollider.runningLightAttackModifier = weapon.runningLightAttackModifier;
+            meleeWeaponDamageCollider.runningHeavyAttackModifier = weapon.runningHeavyAttackModifier;
         }
     }
 }
