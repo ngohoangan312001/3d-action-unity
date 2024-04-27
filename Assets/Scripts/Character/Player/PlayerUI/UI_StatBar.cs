@@ -32,8 +32,9 @@ namespace AN
         public virtual void SetStat(float newValue)
         {
             slider.value = newValue;
+            
             if(currentValueText != null && maxValueText != null) 
-                currentValueText.text = newValue.ToString();
+                currentValueText.text = slider.value.ToString();
         }
         
         public virtual void SetMaxStat(int maxValue)
@@ -42,8 +43,8 @@ namespace AN
 
             if (currentValueText != null && maxValueText != null)
             {
-                maxValueText.text = maxValue.ToString();
-                currentValueText.text = maxValue.ToString();
+                maxValueText.text = slider.maxValue.ToString();
+                currentValueText.text = slider.maxValue.ToString();
             }
             
             //Max value change, set current value to max
