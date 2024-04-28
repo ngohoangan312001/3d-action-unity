@@ -10,6 +10,9 @@ namespace AN
     {
         public static WorldCharacterEffectManager instance;
 
+        [Header("Default VFX")]
+        public GameObject bloodSplatterVFX;
+        
         [Header("Damage")] 
         public TakeDamageEffect takeDamageEffect;
         

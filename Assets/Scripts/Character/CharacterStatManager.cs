@@ -59,7 +59,7 @@ namespace AN
             if (!character.IsOwner)
                 return;
 
-            if (character.characterNetworkManager.isSprinting.Value)
+            if (character.characterLocomotionManager.needStaminaToSprint && character.characterNetworkManager.isSprinting.Value)
                 return;
 
             if (character.isPerformingAction)

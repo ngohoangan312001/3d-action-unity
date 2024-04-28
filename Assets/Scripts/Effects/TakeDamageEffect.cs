@@ -58,7 +58,10 @@ namespace AN
             //Todo: Play damage animation
             //Todo: Check for buildup 
             //Todo: Play damage SFX
-            //Todo: Play damage Visual FX (VFX)
+            
+            //Play damage Visual FX (VFX)
+            PlayDamageVFX(character);
+
             //Todo: If character is A.I, check for new target if character causing damage is present
 
         }
@@ -89,6 +92,20 @@ namespace AN
             character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
             
             //Todo: Calculate poise damage
+        }
+
+        private void PlayDamageVFX(CharacterManager character)
+        {
+            //Play VFX with damage type
+            
+            character.characterEffectManager.PlayBloodSplatterVFX(contactPoint);
+        }
+        
+        private void PlayDamageSFX(CharacterManager character)
+        {
+            //Play VFX with damage type
+            
+            character.characterEffectManager.PlayBloodSplatterVFX(contactPoint);
         }
     }
 }

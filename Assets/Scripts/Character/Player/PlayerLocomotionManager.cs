@@ -129,16 +129,18 @@ namespace AN
                 return;
             
             targetRotationDirection = Vector3.zero;
-
-            float cameraTranformForward = verticalMovement;
             
             if (PlayerInputManager.instance.aimInput)
             {
-                cameraTranformForward = Mathf.Abs(verticalMovement);
+                targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward;
+                targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right;
+            }
+            else
+            {
+                targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
+                targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
             }
             
-            targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * cameraTranformForward;
-            targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
             
 
             targetRotationDirection.Normalize();
@@ -221,7 +223,7 @@ namespace AN
                 player.playerNetworkManager.isSprinting.Value = false; 
             }
 
-            if (player.playerNetworkManager.isSprinting.Value)
+            if (needStaminaToSprint && player.playerNetworkManager.isSprinting.Value)
             {
                 player.playerNetworkManager.currentStamina.Value -= sprintStaminaCost * Time.deltaTime;
             }

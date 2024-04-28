@@ -73,6 +73,8 @@ namespace AN
             damageEffect.eclipseDamage = eclipeDamage;
             
             damageEffect.poiseDamage = poiseDamage;
+            
+            damageEffect.contactPoint = contactPoint;
         }
 
         public virtual void EnableDamageCollider()

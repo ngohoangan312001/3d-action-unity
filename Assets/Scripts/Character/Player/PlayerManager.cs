@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Unity.Netcode;
+using Unity.VisualScripting;
 
 namespace AN
 {
@@ -10,7 +12,10 @@ namespace AN
         [Header("Debug Menu")] 
         [SerializeField] private bool respawnCharacter = false;
         [SerializeField] private bool switchRightWeapon = false;
+        [SerializeField] private bool switchCameraMode = false;
         
+        [Header("Camera Mode")] 
+        [HideInInspector] public bool isThirdPersonCamera = true;
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
@@ -53,9 +58,11 @@ namespace AN
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallBack;
+            
             if (IsOwner)
             {
+                
                 //If is owner of this character and not the host => joining a server ===> reload character
                 if (!IsServer)
                 {
@@ -93,6 +100,26 @@ namespace AN
             playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged += playerNetworkManager.OnCurrentUsingWeaponIDChange;
         }
 
+        private void OnClientConnectedCallBack(ulong clientId)
+        {
+            //Keep a list of player active in game
+            WorldGameSessionManager.instance.AddPlayerToActivePlayerList(this);
+            
+            //Host and Server dont need to load players to sync them
+            //Only ner tho sync player gear when join the game late
+            if (!IsServer && IsOwner)
+            {
+                
+                foreach (var player in WorldGameSessionManager.instance.players)
+                {
+                    if (player != this)
+                    {
+                        player.LoadOtherPlayerCharacterWhenJoiningServer();
+                    }
+                }
+            }
+        }
+        
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
             if (IsOwner)
@@ -165,6 +192,14 @@ namespace AN
             PlayerUIManager.instance.playerUIHudManager.SetMaxStamninaValue(playerNetworkManager.maxStamina.Value);
         }
 
+        //Load All other character when joining the server
+        public void LoadOtherPlayerCharacterWhenJoiningServer()
+        {
+            //Sync Weapon
+            playerNetworkManager.OnCurrentRightHandWeaponIDChange(0,playerNetworkManager.currentRightHandWeaponId.Value);
+            playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0,playerNetworkManager.currentLeftHandWeaponId.Value);
+        }
+        
         public override void ReviveCharacter()
         {
             base.ReviveCharacter();
@@ -193,6 +228,11 @@ namespace AN
             {
                 switchRightWeapon = false;
                 playerEquipmentManager.SwitchRightHandWeapon();
+            }
+            if (switchCameraMode)
+            {
+                switchRightWeapon = false;
+                PlayerCamera.instance.SwitchCameraMode();
             }
         }
     }

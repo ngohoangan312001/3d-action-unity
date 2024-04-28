@@ -13,6 +13,7 @@ namespace AN
         [HideInInspector] public CharacterEffectManager characterEffectManager;
         [HideInInspector] public CharacterAnimtorManager characterAnimtorManager;
         [HideInInspector] public CharacterCombatManager characterCombatManager;
+        [HideInInspector] public CharacterLocomotionManager characterLocomotionManager;
         
         [Header("Status")]
         public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -39,6 +40,8 @@ namespace AN
             characterEffectManager = GetComponent<CharacterEffectManager>();
 
             characterAnimtorManager = GetComponent<CharacterAnimtorManager>();
+            
+            characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
         }
 
         protected virtual void Start()

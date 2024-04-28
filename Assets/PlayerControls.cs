@@ -162,6 +162,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchCameraMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""88fbd919-0251-4bb2-b9be-057ac02a6ff6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -228,6 +237,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4d974da-f009-406f-85a3-996883b512f5"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCameraMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -433,6 +453,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Player Camera
         m_PlayerCamera = asset.FindActionMap("Player Camera", throwIfNotFound: true);
         m_PlayerCamera_Movement = m_PlayerCamera.FindAction("Movement", throwIfNotFound: true);
+        m_PlayerCamera_SwitchCameraMode = m_PlayerCamera.FindAction("SwitchCameraMode", throwIfNotFound: true);
         // Player Action
         m_PlayerAction = asset.FindActionMap("Player Action", throwIfNotFound: true);
         m_PlayerAction_Roll = m_PlayerAction.FindAction("Roll", throwIfNotFound: true);
@@ -551,11 +572,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerCamera;
     private List<IPlayerCameraActions> m_PlayerCameraActionsCallbackInterfaces = new List<IPlayerCameraActions>();
     private readonly InputAction m_PlayerCamera_Movement;
+    private readonly InputAction m_PlayerCamera_SwitchCameraMode;
     public struct PlayerCameraActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerCameraActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerCamera_Movement;
+        public InputAction @SwitchCameraMode => m_Wrapper.m_PlayerCamera_SwitchCameraMode;
         public InputActionMap Get() { return m_Wrapper.m_PlayerCamera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -568,6 +591,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @SwitchCameraMode.started += instance.OnSwitchCameraMode;
+            @SwitchCameraMode.performed += instance.OnSwitchCameraMode;
+            @SwitchCameraMode.canceled += instance.OnSwitchCameraMode;
         }
 
         private void UnregisterCallbacks(IPlayerCameraActions instance)
@@ -575,6 +601,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @SwitchCameraMode.started -= instance.OnSwitchCameraMode;
+            @SwitchCameraMode.performed -= instance.OnSwitchCameraMode;
+            @SwitchCameraMode.canceled -= instance.OnSwitchCameraMode;
         }
 
         public void RemoveCallbacks(IPlayerCameraActions instance)
@@ -723,6 +752,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerCameraActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnSwitchCameraMode(InputAction.CallbackContext context);
     }
     public interface IPlayerActionActions
     {

@@ -6,6 +6,10 @@ using UnityEngine.Serialization;
 
 public class PlayerCamera : MonoBehaviour
 {
+    public static PlayerCamera instance;
+    public Camera cameraObject;
+    public PlayerManager player;
+    
     [Header("Camera Settings")] 
     private float cameraSmoothSpeed = 1;
     [SerializeField] float leftAndRightRotationSpeed = 220;
@@ -21,14 +25,10 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float leftAndRightLookAngle;
     [SerializeField] private float upAndDownLookAngle;
     [SerializeField] private float cameraZPosition; //Value for camera collision
-    [SerializeField] private float aimCameraZDistance = -0.5f;
-    [SerializeField] private float aimCameraXDistance = 0.5f;
+    [SerializeField] private float aimCameraZDistance = 0;
+    [SerializeField] private float aimCameraXDistance = 0;
     private float targetCameraZPosition; //Value for camera collision
     private Vector3 aimVelocity;
-    
-    public static PlayerCamera instance;
-    public Camera cameraObject;
-    public PlayerManager player;
 
     [SerializeField] Transform cameraPivotTransform;
     private void Awake()
@@ -106,6 +106,8 @@ public class PlayerCamera : MonoBehaviour
 
     private void HandleCollisions()
     {
+        if (!player.isThirdPersonCamera) return;
+        
         targetCameraZPosition = cameraZPosition;
         
         //Raycast là gì ==> raycast là một tia được gửi từ một vị trí trong không gian 3D hoặc 2D và di chuyển theo một hướng cụ thể.
@@ -143,6 +145,11 @@ public class PlayerCamera : MonoBehaviour
             player.playerNetworkManager.isAiming.Value = false;
             return;
         }
+
+        if (!player.isThirdPersonCamera)
+        {
+            return;
+        }
         
         if (PlayerInputManager.instance.aimInput)
         { 
@@ -158,5 +165,21 @@ public class PlayerCamera : MonoBehaviour
             cameraObjectPosition.x = 0;
         }
         
+    }
+
+    public void SwitchCameraMode()
+    {
+        player.isThirdPersonCamera = !player.isThirdPersonCamera;
+
+        if (player.isThirdPersonCamera)
+        {
+            cameraObjectPosition.x = 0;
+        }
+        else
+        {
+            cameraObjectPosition.z = 0;
+            cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
+            cameraObject.transform.localPosition = cameraObjectPosition;
+        }
     }
 }

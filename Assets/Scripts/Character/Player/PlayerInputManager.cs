@@ -31,6 +31,8 @@ namespace AN
         [SerializeField] bool sprintInput = false;
         public bool aimInput = false;
         [SerializeField] bool attackInput = false;
+        [SerializeField] bool switchCameramode = false;
+        
         
         private void Awake()
         {
@@ -112,6 +114,7 @@ namespace AN
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
                 playerControls.PlayerAction.Attack.performed += i => attackInput = true;
+                playerControls.PlayerCamera.SwitchCameraMode.performed += i => switchCameramode = true;
             }
 
             playerControls.Enable();
@@ -200,6 +203,12 @@ namespace AN
         {
             cameraVerticalInput = cameraInput.y;
             cameraHorizontalInput = cameraInput.x;
+
+            if (switchCameramode)
+            {
+                switchCameramode = false;
+                PlayerCamera.instance.SwitchCameraMode();
+            }
         }
 
         private void HandleRollMovementInput()
