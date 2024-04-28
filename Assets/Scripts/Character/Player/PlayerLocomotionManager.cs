@@ -121,8 +121,6 @@ namespace AN
             }
             
             player.characterController.Move(moveDirection * (moveSpeed * Time.deltaTime));
-            
-            
         }
 
         public void HandleRotation()

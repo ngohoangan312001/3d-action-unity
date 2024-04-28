@@ -43,7 +43,7 @@ ModelImporter:
       takeName: human_male_bowshot_01
       internalID: 0
       firstFrame: 2
-      lastFrame: 31
+      lastFrame: 14.8
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -71,7 +71,7 @@ ModelImporter:
       name: BowShot
       takeName: human_male_bowshot_01
       internalID: 0
-      firstFrame: 2
+      firstFrame: 14.9
       lastFrame: 31
       wrapMode: 0
       orientationOffsetY: 0

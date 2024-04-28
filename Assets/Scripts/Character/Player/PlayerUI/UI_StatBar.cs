@@ -16,6 +16,7 @@ namespace AN
         [Header("Bar Option")] 
         [SerializeField] protected bool scaleBarLengthWithStatus = true;
         [SerializeField] protected float widthScaleMultiplier = 1;
+        [SerializeField] protected float minWidthScale = 200;
         [SerializeField] protected float maxWidthScale = 800;
 
         [Header("Bar Option")]
@@ -52,8 +53,21 @@ namespace AN
 
             if (scaleBarLengthWithStatus)
             {
-                float maxWidth = maxWidthScale > maxValue * widthScaleMultiplier ? (maxValue * widthScaleMultiplier) : maxWidthScale;
-                rectTransform.sizeDelta = new Vector2(maxWidth, rectTransform.sizeDelta.y);
+                float newWidth = 
+                (
+                    maxWidthScale < (maxValue * widthScaleMultiplier) 
+                    ? 
+                    maxWidthScale 
+                    : 
+                    (
+                        minWidthScale > (maxValue * widthScaleMultiplier) 
+                        ? 
+                        minWidthScale
+                        : 
+                        (maxValue * widthScaleMultiplier)
+                    )
+                );
+                rectTransform.sizeDelta = new Vector2(newWidth, rectTransform.sizeDelta.y);
                 
                 //Reset position of the bar base on layout group setting
                 PlayerUIManager.instance.playerUIHudManager.RefreshHUD();
