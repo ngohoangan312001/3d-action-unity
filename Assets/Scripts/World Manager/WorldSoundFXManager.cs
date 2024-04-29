@@ -9,6 +9,9 @@ namespace AN
     {
         public static WorldSoundFXManager instance;
 
+        [Header("Damage Sounds")]
+        public AudioClip[] physicalDamageSFX;
+        
         [Header("Action Sounds")]
         public AudioClip rollSFX;
         public AudioClip moveSFX;

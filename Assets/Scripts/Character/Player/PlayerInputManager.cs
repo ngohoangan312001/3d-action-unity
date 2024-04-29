@@ -171,12 +171,9 @@ namespace AN
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
 
 
-            if (player.playerNetworkManager.isSprinting.Value)
-            {
-                moveAmount = 2;
-            }
+            
             // Move speed will only be 0, 0.5 or 1
-            else if(moveAmount <= 0.5 && moveAmount > 0)
+            if(moveAmount <= 0.5 && moveAmount > 0)
             {
                 moveAmount = 0.5f;
             }
@@ -185,6 +182,11 @@ namespace AN
                 moveAmount = 1;
             }
 
+            if (moveAmount > 0 && player.playerNetworkManager.isSprinting.Value)
+            {
+                moveAmount = 2;
+            }
+            
             if (player.playerNetworkManager.isAiming.Value)
             {
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput ,verticalInput);

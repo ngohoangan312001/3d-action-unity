@@ -8,19 +8,23 @@ namespace AN
     [CreateAssetMenu(menuName = "Character Effects/Instance Effects/Take Damage")]
     public class TakeDamageEffect : InstanceCharacterEffect
     {
-        [Header("Character Casusing Damage")] 
+        [Header("Character Causing Damage")] 
         //Damage cause by another character, the Character will be store here
         public CharacterManager characterCausingDamage;
 
-        [Header("Damage")] 
-        public float physicalDamage = 0; // Standard, Slash, Pierce, Crush
+        [Header("Damage")]
+        public float physicalDamage = 0; //Standard, Slash, Pierce, Crush
         public float magicDamage = 0;
-        public float pyroDamage = 0; // Electro
-        public float hydroDamage = 0; // Ice
-        public float geoDamage = 0; 
-        public float luminaDamage = 0; 
+        public float pyroDamage = 0; //Electro
+        public float hydroDamage = 0; //Ice
+        public float geoDamage = 0;
+        public float luminaDamage = 0;
         public float eclipseDamage = 0;
 
+        [Header("Direction Damage taken from")]
+        public float angleHitFrom; //Determine what damage animation to play (move backward, left, right,...)
+        public Vector3 contactPoint; //Determine where the blood FX instantiate
+        
         [Header("Final Damage")] 
         private int finalDamageDealt = 0;
         
@@ -38,10 +42,6 @@ namespace AN
         [Header("Sound FX")] 
         public bool willPlayDamageSFX = true;
         public AudioClip elementalDamageSFX; //Used on top of regular sfx if there is elemental damage present
-
-        [Header("Direction Damage taken from")]
-        public float angleHitFrom; //Determine what damage animation to play (move backward, left, right,...)
-        public Vector3 contactPoint; //Determine where the blood FX instantiate
         
         public override void ProcessEffect(CharacterManager character)
         {
@@ -57,8 +57,8 @@ namespace AN
             //Todo: Check direction damage came from
             //Todo: Play damage animation
             //Todo: Check for buildup 
-            //Todo: Play damage SFX
-            
+            //Play damage SFX
+            PlayDamageSFX(character);
             //Play damage Visual FX (VFX)
             PlayDamageVFX(character);
 
@@ -104,8 +104,10 @@ namespace AN
         private void PlayDamageSFX(CharacterManager character)
         {
             //Play VFX with damage type
+
+            AudioClip physicalDamageSFX = ArrayUtil.ChooseRandomFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
             
-            character.characterEffectManager.PlayBloodSplatterVFX(contactPoint);
+            character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
         }
     }
 }

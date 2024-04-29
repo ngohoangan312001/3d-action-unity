@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace AN
 {
-    public class ArrayUtil
+    public static class ArrayUtil
     {
-        public static List<T> RemoveNullSlot<T>(List<T> inputList)
+        /**
+         * Remove null entries from a List 
+         */
+        public static List<T> RemoveNullSlotInList<T>(List<T> inputList)
         {
             for (int i = inputList.Count - 1; i < -1; i--)
             {
@@ -18,5 +22,16 @@ namespace AN
 
             return inputList;
         }
+        
+        /**
+         * Choose a random element from a Array
+         */
+        public static T ChooseRandomFromArray<T>(T[] inputArray)
+        {
+            int index = Random.Range(0, inputArray.Length);
+            return inputArray[index];
+        }
+        
     }
+
 }

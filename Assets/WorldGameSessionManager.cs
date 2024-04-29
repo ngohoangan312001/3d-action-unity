@@ -34,7 +34,7 @@ namespace AN
             
             //Check list for null slot from the end of entries then remove
             //To make sure there won't be any case that we delete player but it remain on the list with null value.
-            players = ArrayUtil.RemoveNullSlot(players);
+            players = ArrayUtil.RemoveNullSlotInList(players);
         }
         
         public void RemovePlayerToActivePlayerList(PlayerManager player)
@@ -45,7 +45,7 @@ namespace AN
                 players.Remove(player);
             }
             
-            players = ArrayUtil.RemoveNullSlot(players);
+            players = ArrayUtil.RemoveNullSlotInList(players);
         }
     }
 }

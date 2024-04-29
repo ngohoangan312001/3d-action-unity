@@ -14,6 +14,7 @@ namespace AN
         [HideInInspector] public CharacterAnimtorManager characterAnimtorManager;
         [HideInInspector] public CharacterCombatManager characterCombatManager;
         [HideInInspector] public CharacterLocomotionManager characterLocomotionManager;
+        [HideInInspector] public CharacterSoundFXManager characterSoundFXManager;
         
         [Header("Status")]
         public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -28,20 +29,14 @@ namespace AN
         protected virtual void Awake()
         {
             DontDestroyOnLoad(this);
-            
             characterCombatManager = GetComponent<CharacterCombatManager>();
-            
             characterController = GetComponent<CharacterController>();
-
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
-            
             animator = GetComponent<Animator>();
-
             characterEffectManager = GetComponent<CharacterEffectManager>();
-
             characterAnimtorManager = GetComponent<CharacterAnimtorManager>();
-            
             characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
+            characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
         }
 
         protected virtual void Start()
