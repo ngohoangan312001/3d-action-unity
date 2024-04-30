@@ -78,12 +78,12 @@ namespace AN
         
         private void getCharacterInfoInSlot( CharacterSaveData characterSaveData)
         {
-            dataWriter.saveFileName =
+            dataWriter.saveFileName =   
                 WorldSaveGameManager.instance.GetCharacterFileNameBaseOnCharacterSlot(characterSlot);
 
             if (dataWriter.CheckFileExists())
             {
-                slotNumber.text = "" + CharacterSlot.CharacterSlot_01;
+                slotNumber.text = (Array.IndexOf(Enum.GetValues(typeof(CharacterSlot)), characterSlot) + 1).ToString();
                 characterName.text = characterSaveData.characterName;
                 timePlayed.text = "" + characterSaveData.secondsPlayed;
                 world.text = "" + characterSaveData.sceneIndex;

@@ -50,7 +50,11 @@ namespace AN
         {
             WorldSaveGameManager.instance.AttemptToCreateNewGame();
         }
-
+        
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
         //--------------------CHRACTER SLOT--------------------------
         public void OpenTheLoadGameMenu()
         {
