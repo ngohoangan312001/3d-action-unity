@@ -18,8 +18,8 @@ namespace AN
         [SerializeField] protected float widthScaleMultiplier = 1;
         [SerializeField] protected float minWidthScale = 200;
         [SerializeField] protected float maxWidthScale = 800;
-
-        [Header("Bar Option")]
+        [SerializeField] protected bool showBarValue = true;
+        [SerializeField] private GameObject  valueHolder;
         [SerializeField] private TextMeshProUGUI  currentValueText;
         [SerializeField] private TextMeshProUGUI maxValueText;
         //Todo: secondary bar for effect (yellow bar to slow lost value)
@@ -33,9 +33,20 @@ namespace AN
         public virtual void SetStat(float newValue)
         {
             slider.value = newValue;
-            
-            if(currentValueText != null && maxValueText != null) 
-                currentValueText.text = slider.value.ToString();
+
+            if (currentValueText != null && maxValueText != null && showBarValue)
+            {
+                if (showBarValue)
+                {
+                    valueHolder.SetActive(true);
+                    currentValueText.text = slider.value.ToString();
+                }
+                else
+                {
+                    valueHolder.SetActive(false);
+                }
+            }
+                
         }
         
         public virtual void SetMaxStat(int maxValue)
@@ -44,8 +55,17 @@ namespace AN
 
             if (currentValueText != null && maxValueText != null)
             {
-                maxValueText.text = slider.maxValue.ToString();
-                currentValueText.text = slider.maxValue.ToString();
+                if (showBarValue)
+                {
+                    valueHolder.SetActive(true);
+                    maxValueText.text = slider.maxValue.ToString();
+                    currentValueText.text = slider.maxValue.ToString();
+                }
+                else
+                {
+                    valueHolder.SetActive(false);
+                }
+                
             }
             
             //Max value change, set current value to max
