@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Straight Sword
   m_EditorClassIdentifier: 
   itemName: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 9c02fae887129e04998ab2dfa2404ed4, type: 3}
   itemDescription: 'Forged from the heartwood of an ancient oak, the Bravewood Blade
     is no ordinary wooden sword. Its emerald edge hums with courage, urging its wielder
     forward. Fear bows to valor, and legends sing of its might.
@@ -32,8 +32,13 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 2
+  lightAttackModifier: 1.2
+  heavyAttackModifier: 2
+  runningLightAttackModifier: 1.2
+  runningHeavyAttackModifier: 2
   baseStaminaCost: 5
-  runAttackStaminaCost: 0
-  lightAttackStaminaCost: 0
-  heavyAttackStaminaCost: 0
+  runningLightAttackStaminaCostMultiplier: 1
+  runningHeavyAttackStaminaCostMultiplier: 1.5
+  lightAttackStaminaCostMultiplier: 0.8
+  heavyAttackStaminaCostMultiplier: 2
   oh_Attack_Action: {fileID: 11400000, guid: dfbb15040e1f242d693912dc4d1f489e, type: 2}

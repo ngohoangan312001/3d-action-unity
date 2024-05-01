@@ -235,6 +235,7 @@ MonoBehaviour:
   characterAnimtorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
   characterLocomotionManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   isDead:
     m_InternalValue: 0
   isPerformingAction: 0
@@ -243,8 +244,6 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   respawnCharacter: 0
-  switchRightWeapon: 0
-  switchCameraMode: 0
   isThirdPersonCamera: 1
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
@@ -319,9 +318,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   rightHandWeaponIndex: -1
   weaponInLeftHandSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   leftHandWeaponIndex: -1
 --- !u!114 &6569788174709961408
 MonoBehaviour:
@@ -340,7 +339,9 @@ MonoBehaviour:
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   swapRightWeaponAnimation: Swap_Right_Weapon
-  swapRightWeaponFromUUnarmedAnimation: Swap_Right_Weapon_From_Unarmed
+  swapRightWeaponFromUnarmedAnimation: Swap_Right_Weapon_From_Unarmed
+  swapLeftWeaponAnimation: Swap_Left_Weapon
+  swapLeftWeaponFromUnarmedAnimation: Swap_Left_Weapon_From_Unarmed
   rightHandWeaponModel: {fileID: 0}
   leftHandWeaponModel: {fileID: 0}
 --- !u!114 &1913772921066053460
@@ -600,6 +601,46 @@ PrefabInstance:
     - target: {fileID: 3109351193718139901, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
       propertyPath: m_Name
       value: Bot
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.034
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.063
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0030549734
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.020759016
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.99967676
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.014354102
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 1.637
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180.384
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -2.385
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

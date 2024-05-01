@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Short Sword
   m_EditorClassIdentifier: 
   itemName: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 93c018ee6eaa34645a204b1cffc7423f, type: 3}
   itemDescription: 'Forged from the heartwood of an ancient oak, the Bravewood Blade
     is no ordinary wooden sword. Its emerald edge hums with courage, urging its wielder
     forward. Fear bows to valor, and legends sing of its might.

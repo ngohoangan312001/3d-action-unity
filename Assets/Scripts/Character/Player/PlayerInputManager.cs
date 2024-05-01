@@ -30,9 +30,14 @@ namespace AN
         [SerializeField] bool jumpInput = false;
         [SerializeField] bool sprintInput = false;
         public bool aimInput = false;
-        [SerializeField] bool attackInput = false;
         [SerializeField] bool switchCameramode = false;
         
+        [Header("COMBAT INPUT")]
+        [SerializeField] bool attackInput = false;
+        
+        [Header("QUICK SLOT INPUT")]
+        [SerializeField] bool switchRightWeaponInput = false;
+        [SerializeField] bool switchLeftWeaponInput = false;
         
         private void Awake()
         {
@@ -107,14 +112,20 @@ namespace AN
                 // += operator asign function to the event
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerCamera.SwitchCameraMode.performed += i => switchCameramode = true;
+                
                 playerControls.PlayerAction.Roll.performed += i => rollInput = true;
                 playerControls.PlayerAction.Sprint.performed += i => sprintInput = true;
                 playerControls.PlayerAction.Sprint.canceled += i => sprintInput = false;
                 playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
+                
                 playerControls.PlayerAction.Attack.performed += i => attackInput = true;
-                playerControls.PlayerCamera.SwitchCameraMode.performed += i => switchCameramode = true;
+                
+                
+                playerControls.PlayerAction.SwitchRightWeapon.performed += i => switchRightWeaponInput = true;
+                playerControls.PlayerAction.SwitchLeftWeapon.performed += i => switchLeftWeaponInput = true;
             }
 
             playerControls.Enable();
@@ -160,6 +171,8 @@ namespace AN
             HandleSprintMovementInput();
             HandleJumpMovementInput();
             HandleAttackInput();
+            HandleSwitchRightWeaponInput();
+            HandleSwitchLeftWeaponInput();
         }
         
         private void HandlePlayerMovementInput()
@@ -263,6 +276,24 @@ namespace AN
                 //TODO: use 2 hand action when character equip 2 hand weapon
                 
                 player.playerCombatManager.PerformWeaponBaseAction(player.playerInventoryManager.currentRightHandWeapon.oh_Attack_Action,player.playerInventoryManager.currentRightHandWeapon);
+            }
+        }
+        
+        private void HandleSwitchRightWeaponInput()
+        {
+            if (switchRightWeaponInput)
+            {
+                switchRightWeaponInput = false;
+                player.playerEquipmentManager.SwitchRightHandWeapon();
+            }
+        }
+        
+        private void HandleSwitchLeftWeaponInput()
+        {
+            if (switchLeftWeaponInput)
+            {
+                switchLeftWeaponInput = false;
+                player.playerEquipmentManager.SwitchLeftHandWeapon();
             }
         }
     }

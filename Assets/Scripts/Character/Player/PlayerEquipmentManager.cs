@@ -15,7 +15,9 @@ namespace AN
         [SerializeField] private WeaponManager leftWeaponManager;
         
         [SerializeField] private string swapRightWeaponAnimation = "Swap_Right_Weapon";
-        [SerializeField] private string swapRightWeaponFromUUnarmedAnimation = "Swap_Right_Weapon_From_Unarmed";
+        [SerializeField] private string swapRightWeaponFromUnarmedAnimation = "Swap_Right_Weapon_From_Unarmed";
+        [SerializeField] private string swapLeftWeaponAnimation = "Swap_Left_Weapon";
+        [SerializeField] private string swapLeftWeaponFromUnarmedAnimation = "Swap_Left_Weapon_From_Unarmed";
         
         public GameObject rightHandWeaponModel;
         public GameObject leftHandWeaponModel;
@@ -105,7 +107,7 @@ namespace AN
                     player.playerNetworkManager.currentRightHandWeaponId.Value = selectedWeapon.itemId;
                     
                     //Animation
-                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponFromUUnarmedAnimation,false, true, true, true);
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponFromUnarmedAnimation,false, false, true, true);
                 }
                 //If there is more than 1 weapon
                 else
@@ -116,7 +118,7 @@ namespace AN
                     player.playerNetworkManager.currentRightHandWeaponId.Value = firstWeapon.itemId;
                     
                     //Animation
-                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponAnimation,false, true, true, true);
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponAnimation,false, false, true, true);
 
                 }
 
@@ -132,12 +134,15 @@ namespace AN
                     WorldItemDatabase.instance.unarmedWeapon.itemId)
                 {
                     //Select weapon to switch
-                    selectedWeapon = player.playerInventoryManager.weaponInRightHandSlots[player.playerInventoryManager.rightHandWeaponIndex];
-                    
+                    selectedWeapon =
+                        player.playerInventoryManager.weaponInRightHandSlots[
+                            player.playerInventoryManager.rightHandWeaponIndex];
+
                     //Assign weapon id to network to switch weapon on all connected client 
                     player.playerNetworkManager.currentRightHandWeaponId.Value = selectedWeapon.itemId;
                     //Animation
-                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponAnimation,false, true, true, true);
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponAnimation, false, false, true,
+                        true);
 
                     return;
                 }
@@ -149,6 +154,110 @@ namespace AN
                 player.playerInventoryManager.weaponInRightHandSlots.Length)
             {
                 SwitchRightHandWeapon();
+            }
+        }
+        
+        public void SwitchLeftHandWeapon()
+        {
+            if (!player.IsOwner) return;
+            
+            //Weapon Swapping:
+            //Check if there is another weapon beside main weapon, if do, rotate bewtween weapon
+            //If not, swap to unarmed then skip the remain empty slot
+
+            WeaponItem selectedWeapon = null;
+            
+            //Todo: Disable 2 handing if character are 2 handing
+            
+            //get next weapon index to switch into
+            player.playerInventoryManager.leftHandWeaponIndex += 1;
+            
+            //If weapon index is out of bounds, reset to 0 then check for all weapon in slot
+            if (player.playerInventoryManager.leftHandWeaponIndex < 0 ||
+                player.playerInventoryManager.leftHandWeaponIndex >
+                player.playerInventoryManager.weaponInLeftHandSlots.Length - 1)
+            {
+                //set to first weapon index if the index is outbound
+                player.playerInventoryManager.leftHandWeaponIndex = 0;
+                
+                //Check if player is holding more than 1 weapon
+                float weaponCount = 0;
+                WeaponItem firstWeapon = null;
+                int firstWeaponIndex = 0;
+                
+                for (int i = 0; i < player.playerInventoryManager.weaponInLeftHandSlots.Length; i++)
+                {
+                    if (player.playerInventoryManager.weaponInLeftHandSlots[i].itemId !=
+                        WorldItemDatabase.instance.unarmedWeapon.itemId)
+                    {
+                        //If this weapon in slot is not unarmed, weapon count + 1
+                        weaponCount++;
+
+                        if (firstWeapon == null)
+                        {
+                            //If first weapon variable is null => then this is first weapon
+                            firstWeapon = player.playerInventoryManager.weaponInLeftHandSlots[i];
+                            firstWeaponIndex = i;
+                        }
+                    }
+                }
+                
+                //if there is only 1 weapon, next weapon switch will be unarmed and ser the index to -1 => weapon index is outbound
+                if (weaponCount <= 1)
+                {
+                    //Set weapon index to outbound
+                    player.playerInventoryManager.leftHandWeaponIndex = -1;
+                    selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
+                    player.playerNetworkManager.currentLeftHandWeaponId.Value = selectedWeapon.itemId;
+                    
+                    //Animation
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapLeftWeaponFromUnarmedAnimation,false, false, true, true);
+                }
+                //If there is more than 1 weapon
+                else
+                {
+                    //Get the first weapon
+                    player.playerInventoryManager.leftHandWeaponIndex = firstWeaponIndex;
+                    //Set network left hand weapon index to first weapon
+                    player.playerNetworkManager.currentLeftHandWeaponId.Value = firstWeapon.itemId;
+                    
+                    //Animation
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapLeftWeaponAnimation,false, false, true, true);
+
+                }
+
+                return;
+            }
+            
+            //If index is not outnound check next weapon
+            foreach (WeaponItem weapon in player.playerInventoryManager.weaponInRightHandSlots)
+            {
+                //check if next weapon slot is not unarmed weapon => get that weapon
+                if (player.playerInventoryManager
+                        .weaponInLeftHandSlots[player.playerInventoryManager.leftHandWeaponIndex].itemId !=
+                    WorldItemDatabase.instance.unarmedWeapon.itemId)
+                {
+                    //Select weapon to switch
+                    selectedWeapon =
+                        player.playerInventoryManager.weaponInLeftHandSlots[
+                            player.playerInventoryManager.leftHandWeaponIndex];
+
+                    //Assign weapon id to network to switch weapon on all connected client 
+                    player.playerNetworkManager.currentLeftHandWeaponId.Value = selectedWeapon.itemId;
+                    //Animation
+                    player.playerAnimatorManager.PlayTargetActionAnimation(swapLeftWeaponAnimation, false, false, true,
+                        true);
+
+                    return;
+                }
+            }
+
+            //If next weapon is unarmed (selectedWeapon == null) and next weapon index is not the last slot
+            //==> Call this function again
+            if (selectedWeapon == null && player.playerInventoryManager.leftHandWeaponIndex <
+                player.playerInventoryManager.weaponInLeftHandSlots.Length)
+            {
+                SwitchLeftHandWeapon();
             }
         }
         

@@ -301,6 +301,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch Right Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""c112ed62-bafd-4151-82a6-dc2e556d9f6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch Left Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""9df7adfd-dab6-4e92-9d07-496cc51039ac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch Quick Slot"",
+                    ""type"": ""Button"",
+                    ""id"": ""639a2dc8-9b15-4c10-a449-64d98c110674"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -402,6 +429,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f354b9c9-f1ee-4b83-a473-ba2b9b6e89f5"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Right Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ba8c10b-582e-46b5-bd3d-e6ff78672ccb"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Left Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""271a3096-5cd4-4598-b423-76109c26607b"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch Quick Slot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -461,6 +521,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_Aim = m_PlayerAction.FindAction("Aim", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerAction_Attack = m_PlayerAction.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerAction_SwitchRightWeapon = m_PlayerAction.FindAction("Switch Right Weapon", throwIfNotFound: true);
+        m_PlayerAction_SwitchLeftWeapon = m_PlayerAction.FindAction("Switch Left Weapon", throwIfNotFound: true);
+        m_PlayerAction_SwitchQuickSlot = m_PlayerAction.FindAction("Switch Quick Slot", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Delete = m_UI.FindAction("Delete", throwIfNotFound: true);
@@ -630,6 +693,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_Aim;
     private readonly InputAction m_PlayerAction_Sprint;
     private readonly InputAction m_PlayerAction_Attack;
+    private readonly InputAction m_PlayerAction_SwitchRightWeapon;
+    private readonly InputAction m_PlayerAction_SwitchLeftWeapon;
+    private readonly InputAction m_PlayerAction_SwitchQuickSlot;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
@@ -639,6 +705,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_PlayerAction_Aim;
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
         public InputAction @Attack => m_Wrapper.m_PlayerAction_Attack;
+        public InputAction @SwitchRightWeapon => m_Wrapper.m_PlayerAction_SwitchRightWeapon;
+        public InputAction @SwitchLeftWeapon => m_Wrapper.m_PlayerAction_SwitchLeftWeapon;
+        public InputAction @SwitchQuickSlot => m_Wrapper.m_PlayerAction_SwitchQuickSlot;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -663,6 +732,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @SwitchRightWeapon.started += instance.OnSwitchRightWeapon;
+            @SwitchRightWeapon.performed += instance.OnSwitchRightWeapon;
+            @SwitchRightWeapon.canceled += instance.OnSwitchRightWeapon;
+            @SwitchLeftWeapon.started += instance.OnSwitchLeftWeapon;
+            @SwitchLeftWeapon.performed += instance.OnSwitchLeftWeapon;
+            @SwitchLeftWeapon.canceled += instance.OnSwitchLeftWeapon;
+            @SwitchQuickSlot.started += instance.OnSwitchQuickSlot;
+            @SwitchQuickSlot.performed += instance.OnSwitchQuickSlot;
+            @SwitchQuickSlot.canceled += instance.OnSwitchQuickSlot;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -682,6 +760,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @SwitchRightWeapon.started -= instance.OnSwitchRightWeapon;
+            @SwitchRightWeapon.performed -= instance.OnSwitchRightWeapon;
+            @SwitchRightWeapon.canceled -= instance.OnSwitchRightWeapon;
+            @SwitchLeftWeapon.started -= instance.OnSwitchLeftWeapon;
+            @SwitchLeftWeapon.performed -= instance.OnSwitchLeftWeapon;
+            @SwitchLeftWeapon.canceled -= instance.OnSwitchLeftWeapon;
+            @SwitchQuickSlot.started -= instance.OnSwitchQuickSlot;
+            @SwitchQuickSlot.performed -= instance.OnSwitchQuickSlot;
+            @SwitchQuickSlot.canceled -= instance.OnSwitchQuickSlot;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -761,6 +848,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnSwitchRightWeapon(InputAction.CallbackContext context);
+        void OnSwitchLeftWeapon(InputAction.CallbackContext context);
+        void OnSwitchQuickSlot(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

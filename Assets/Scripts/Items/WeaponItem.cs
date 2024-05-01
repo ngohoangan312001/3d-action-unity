@@ -11,6 +11,10 @@ namespace AN
 
         [Header("Weapon Model")] public GameObject weaponModel;
         
+        [Header("Weapon Equip Option")] 
+        public bool mainHandEquipable;
+        public bool offHandEquipable;
+        
         [Header("Weapon Requirement")] 
         public int levelREQ = 0;
 

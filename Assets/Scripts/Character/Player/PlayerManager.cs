@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Unity.Netcode;
@@ -11,8 +12,6 @@ namespace AN
     {
         [Header("Debug Menu")] 
         [SerializeField] private bool respawnCharacter = false;
-        [SerializeField] private bool switchRightWeapon = false;
-        [SerializeField] private bool switchCameraMode = false;
         
         [Header("Camera Mode")] 
         [HideInInspector] public bool isThirdPersonCamera = true;
@@ -53,6 +52,10 @@ namespace AN
             playerStatManager.RegenerateStamina();
             
             DebugMenu();
+            
+            //Todo: need to find another way to sync quick with inventory
+            PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.rightHandWeaponIndex);
+            PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(playerInventoryManager.weaponInLeftHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.leftHandWeaponIndex);
         }
 
         public override void OnNetworkSpawn()
@@ -223,16 +226,6 @@ namespace AN
             {
                 respawnCharacter = false;
                 ReviveCharacter();
-            }
-            if (switchRightWeapon)
-            {
-                switchRightWeapon = false;
-                playerEquipmentManager.SwitchRightHandWeapon();
-            }
-            if (switchCameraMode)
-            {
-                switchRightWeapon = false;
-                PlayerCamera.instance.SwitchCameraMode();
             }
         }
     }
