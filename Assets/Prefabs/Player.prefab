@@ -40,7 +40,7 @@ Transform:
   m_GameObject: {fileID: 1782702501690864755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -137,6 +137,8 @@ MonoBehaviour:
     m_InternalValue: 0
   maxStamina:
     m_InternalValue: 0
+  weaponSwitchCooldownTime:
+    m_InternalValue: 3
   characterName:
     m_InternalValue:
       utf8LengthInBytes: 9
@@ -244,6 +246,8 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   respawnCharacter: 0
+  setWeaponRightSlot: 0
+  setWeaponLeftSlot: 0
   isThirdPersonCamera: 1
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
@@ -316,9 +320,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   rightHandWeaponIndex: -1
   weaponInLeftHandSlots:
-  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   leftHandWeaponIndex: -1
@@ -339,9 +343,7 @@ MonoBehaviour:
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   swapRightWeaponAnimation: Swap_Right_Weapon
-  swapRightWeaponFromUnarmedAnimation: Swap_Right_Weapon_From_Unarmed
   swapLeftWeaponAnimation: Swap_Left_Weapon
-  swapLeftWeaponFromUnarmedAnimation: Swap_Left_Weapon_From_Unarmed
   rightHandWeaponModel: {fileID: 0}
   leftHandWeaponModel: {fileID: 0}
 --- !u!114 &1913772921066053460

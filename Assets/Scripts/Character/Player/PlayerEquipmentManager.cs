@@ -15,9 +15,7 @@ namespace AN
         [SerializeField] private WeaponManager leftWeaponManager;
         
         [SerializeField] private string swapRightWeaponAnimation = "Swap_Right_Weapon";
-        [SerializeField] private string swapRightWeaponFromUnarmedAnimation = "Swap_Right_Weapon_From_Unarmed";
         [SerializeField] private string swapLeftWeaponAnimation = "Swap_Left_Weapon";
-        [SerializeField] private string swapLeftWeaponFromUnarmedAnimation = "Swap_Left_Weapon_From_Unarmed";
         
         public GameObject rightHandWeaponModel;
         public GameObject leftHandWeaponModel;
@@ -105,9 +103,6 @@ namespace AN
                     player.playerInventoryManager.rightHandWeaponIndex = -1;
                     selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
                     player.playerNetworkManager.currentRightHandWeaponId.Value = selectedWeapon.itemId;
-                    
-                    //Animation
-                    player.playerAnimatorManager.PlayTargetActionAnimation(swapRightWeaponFromUnarmedAnimation,false, false, true, true);
                 }
                 //If there is more than 1 weapon
                 else
@@ -209,9 +204,6 @@ namespace AN
                     player.playerInventoryManager.leftHandWeaponIndex = -1;
                     selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
                     player.playerNetworkManager.currentLeftHandWeaponId.Value = selectedWeapon.itemId;
-                    
-                    //Animation
-                    player.playerAnimatorManager.PlayTargetActionAnimation(swapLeftWeaponFromUnarmedAnimation,false, false, true, true);
                 }
                 //If there is more than 1 weapon
                 else

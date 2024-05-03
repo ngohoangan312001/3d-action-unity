@@ -12,9 +12,12 @@ namespace AN
     {
         [Header("Debug Menu")] 
         [SerializeField] private bool respawnCharacter = false;
+        [SerializeField] private bool setWeaponRightSlot = false;
+        [SerializeField] private bool setWeaponLeftSlot = false;
         
         [Header("Camera Mode")] 
         [HideInInspector] public bool isThirdPersonCamera = true;
+    
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
@@ -53,9 +56,6 @@ namespace AN
             
             DebugMenu();
             
-            //Todo: need to find another way to sync quick with inventory
-            PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.rightHandWeaponIndex);
-            PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(playerInventoryManager.weaponInLeftHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.leftHandWeaponIndex);
         }
 
         public override void OnNetworkSpawn()
@@ -226,6 +226,18 @@ namespace AN
             {
                 respawnCharacter = false;
                 ReviveCharacter();
+            }
+
+            if (setWeaponRightSlot)
+            {
+                setWeaponRightSlot = false;
+                PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.rightHandWeaponIndex);
+            }
+
+            if (setWeaponLeftSlot)
+            {
+                setWeaponLeftSlot = false;
+                PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(playerInventoryManager.weaponInLeftHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.leftHandWeaponIndex);
             }
         }
     }

@@ -7,6 +7,7 @@ namespace AN
     public class PlayerStatManager : CharacterStatManager
     {
         private PlayerManager player;
+
         protected override void Awake()
         {
             base.Awake();

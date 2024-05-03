@@ -15,8 +15,8 @@ namespace AN
         [SerializeField] private UI_StatBar energyBar;
         
         [Header("Quick Slot")]
-        [SerializeField] private QuickSlotItem[] rightWeaponQuickSlot;
-        [SerializeField] private QuickSlotItem[] leftWeaponQuickSlot;
+        [SerializeField] private QuickSlotWeapon[] rightWeaponQuickSlot;
+        [SerializeField] private QuickSlotWeapon[] leftWeaponQuickSlot;
         
         //Health Bar
         public void SetNewHealthValue(float oldValue, float newValue)
@@ -58,7 +58,30 @@ namespace AN
             this.gameObject.SetActive(true);
         }
         
-        public void SetRightWeaponQuickSlotIcon(int[] weaponIds, int activeSlotIndex = 0)
+        public void StartCoolDownWeaponSwitch(float characterWeaponSwitchCooldownTime, bool isRightWeapon = true){
+            QuickSlotWeapon[] quickSlotList = rightWeaponQuickSlot;
+            if(!isRightWeapon)
+            {
+                quickSlotList = leftWeaponQuickSlot;
+            }
+
+            foreach (var slot in quickSlotList)
+                {
+                    slot.StartCooldown(characterWeaponSwitchCooldownTime);
+                }
+        }
+
+        public bool CheckWeaponIsCooldown(bool isRightWeapon = true){
+            QuickSlotWeapon[] quickSlotList = rightWeaponQuickSlot;
+            if(!isRightWeapon)
+            {
+                quickSlotList = leftWeaponQuickSlot;
+            }
+
+            return quickSlotList[0].isCooldown;
+        }
+
+        public void SetRightWeaponQuickSlotIcon(int[] weaponIds, int activeSlotIndex = - 1)
         {
             for (int i = 0; i < weaponIds.Length; i++)
             {
@@ -83,12 +106,12 @@ namespace AN
 
                 if (activeSlotIndex == i)
                 {
-                    rightWeaponQuickSlot[i].isActive = true;
+                    rightWeaponQuickSlot[i].isEquiping = true;
                     rightWeaponQuickSlot[i].backGroundImage.color = Color.green;
                 }
                 else
                 {
-                    rightWeaponQuickSlot[i].isActive = false;
+                    rightWeaponQuickSlot[i].isEquiping = false;
                     rightWeaponQuickSlot[i].backGroundImage.color = Color.black;
                 }
                 
@@ -97,7 +120,7 @@ namespace AN
             }
         }
         
-        public void SetLeftWeaponQuickSlotIcon(int[] weaponIds, int activeSlotIndex = 0)
+        public void SetLeftWeaponQuickSlotIcon(int[] weaponIds, int activeSlotIndex = -1)
         {
             for (int i = 0; i < weaponIds.Length; i++)
             {
@@ -122,12 +145,12 @@ namespace AN
                 
                 if (activeSlotIndex == i)
                 {
-                    leftWeaponQuickSlot[i].isActive = true;
+                    leftWeaponQuickSlot[i].isEquiping = true;
                     leftWeaponQuickSlot[i].backGroundImage.color = Color.green;
                 }
                 else
                 {
-                    leftWeaponQuickSlot[i].isActive = false;
+                    leftWeaponQuickSlot[i].isEquiping = false;
                     leftWeaponQuickSlot[i].backGroundImage.color = Color.black;
                 }
                 

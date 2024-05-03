@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb65a8f3ee5b5f43a26a1c6a5b48dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: 1030379169728853779}
   physicalDamage: 0
   magicDamage: 0
   pyroDamage: 0
@@ -104,14 +104,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3158692241459261051}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.05279676, y: 0.08003351, z: 0.631943, w: 0.7690612}
-  m_LocalPosition: {x: -0.213, y: 0.057, z: 0.027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8157349994231168530}
   m_Father: {fileID: 2813983423445930456}
-  m_LocalEulerAnglesHint: {x: -10.507, y: 3.287, z: 78.518}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4405654300897030330
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 4405654300897030330}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
