@@ -17,7 +17,7 @@ namespace AN
                 playerPerformingAction.playerNetworkManager.currentWeaponBeingUsedId.Value = weaponPerformingAction.itemId;
             }
             
-            Debug.Log("Weapon Action Performed");
+            Debug.Log(playerPerformingAction.playerNetworkManager.characterName.Value + " Performed " + weaponPerformingAction.itemName + " " + this.name);
         }
     }
 }

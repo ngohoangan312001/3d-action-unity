@@ -2,35 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AN
 {
     public class WeaponManager : MonoBehaviour
     {
-        public MeleeWeaponDamageCollider meleeWeaponDamageCollider;
+        [FormerlySerializedAs("meleeWeaponDamageCollider")] public DamageCollider weaponDamageCollider;
 
         private void Awake()
         {
-            meleeWeaponDamageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
+            weaponDamageCollider = GetComponentInChildren<DamageCollider>();
         }
 
         public void SetWeaponDamage(CharacterManager characterWieldingWeapon, WeaponItem weapon)
         {
-            meleeWeaponDamageCollider.characterCausingDamage = characterWieldingWeapon;
-            meleeWeaponDamageCollider.physicalDamage = weapon.physicalDamage;
-            meleeWeaponDamageCollider.magicDamage = weapon.magicDamage;
-            meleeWeaponDamageCollider.pyroDamage = weapon.pyroDamage; 
-            meleeWeaponDamageCollider.hydroDamage = weapon.hydroDamage;
-            meleeWeaponDamageCollider.geoDamage = weapon.geoDamage;
-            meleeWeaponDamageCollider.luminaDamage = weapon.luminaDamage;
-            meleeWeaponDamageCollider.eclipeDamage = weapon.eclipeDamage;
+            weaponDamageCollider.characterCausingDamage = characterWieldingWeapon;
+            weaponDamageCollider.physicalDamage = weapon.physicalDamage;
+            weaponDamageCollider.magicDamage = weapon.magicDamage;
+            weaponDamageCollider.pyroDamage = weapon.pyroDamage; 
+            weaponDamageCollider.hydroDamage = weapon.hydroDamage;
+            weaponDamageCollider.geoDamage = weapon.geoDamage;
+            weaponDamageCollider.luminaDamage = weapon.luminaDamage;
+            weaponDamageCollider.eclipeDamage = weapon.eclipeDamage;
             
-            meleeWeaponDamageCollider.poiseDamage = weapon.poiseDamage;
+            weaponDamageCollider.poiseDamage = weapon.poiseDamage;
             
-            meleeWeaponDamageCollider.lightAttackModifier = weapon.lightAttackModifier;
-            meleeWeaponDamageCollider.heavyAttackModifier = weapon.heavyAttackModifier;
-            meleeWeaponDamageCollider.runningLightAttackModifier = weapon.runningLightAttackModifier;
-            meleeWeaponDamageCollider.runningHeavyAttackModifier = weapon.runningHeavyAttackModifier;
+            weaponDamageCollider.lightAttackModifier = weapon.lightAttackModifier;
+            weaponDamageCollider.heavyAttackModifier = weapon.heavyAttackModifier;
+            weaponDamageCollider.runningLightAttackModifier = weapon.runningLightAttackModifier;
+            weaponDamageCollider.runningHeavyAttackModifier = weapon.runningHeavyAttackModifier;
+
+            weaponDamageCollider.currentWeapon = weapon;
         }
     }
 }

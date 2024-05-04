@@ -17,8 +17,10 @@ MonoBehaviour:
   itemDescription: 
   itemId: 0
   weaponModel: {fileID: 1892507340490729486, guid: 8a99d8c93d0f93145840f2d8765c442c, type: 3}
-  mainHandEquipable: 0
-  offHandEquipable: 0
+  canAim: 0
+  isRequiredTwoHand: 0
+  mainHandEquipable: 1
+  offHandEquipable: 1
   levelREQ: 0
   guardAbsorption: 5
   physicalDamage: 10

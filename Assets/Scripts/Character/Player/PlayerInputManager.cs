@@ -16,29 +16,29 @@ namespace AN
         PlayerControls playerControls;
         
         [Header("MOVEMENT INPUT")]
-        [SerializeField] Vector2 movementInput;
+        [SerializeField] private Vector2 movementInput;
         public float verticalInput;
         public float horizontalInput;
         public float moveAmount;
         
         [Header("CAMERA MOVEMENT INPUT")]
-        [SerializeField] Vector2 cameraInput;
+        [SerializeField] private Vector2 cameraInput;
         public float cameraVerticalInput;
         public float cameraHorizontalInput;
         
         [Header("ACTION INPUT")]
-        [SerializeField] bool rollInput = false;
-        [SerializeField] bool jumpInput = false;
-        [SerializeField] bool sprintInput = false;
-        public bool aimInput = false;
-        [SerializeField] bool switchCameramode = false;
+        [SerializeField] private bool rollInput = false;
+        [SerializeField] private bool jumpInput = false;
+        [SerializeField] private bool sprintInput = false;
+        [SerializeField] private bool switchCameramode = false;
+        [SerializeField] private bool aimInput = false;
         
         [Header("COMBAT INPUT")]
-        [SerializeField] bool attackInput = false;
+        [SerializeField] private bool attackInput = false;
         
         [Header("QUICK SLOT INPUT")]
-        [SerializeField] bool switchRightWeaponInput = false;
-        [SerializeField] bool switchLeftWeaponInput = false;
+        [SerializeField] private bool switchRightWeaponInput = false;
+        [SerializeField] private bool switchLeftWeaponInput = false;
         
         private void Awake()
         {
@@ -171,6 +171,7 @@ namespace AN
             HandleRollMovementInput();
             HandleSprintMovementInput();
             HandleJumpMovementInput();
+            HandleAimInput();
             HandleAttackInput();
             HandleSwitchRightWeaponInput();
             HandleSwitchLeftWeaponInput();
@@ -278,6 +279,20 @@ namespace AN
                 
                 player.playerCombatManager.PerformWeaponBaseAction(player.playerInventoryManager.currentRightHandWeapon.oh_Attack_Action,player.playerInventoryManager.currentRightHandWeapon);
             }
+        }
+        
+        private void HandleAimInput()
+        {
+            if (aimInput && (!player.playerInventoryManager.currentRightHandWeapon.canAim))
+            {
+                if (!player.playerInventoryManager.currentLeftHandWeapon.canAim)
+                {
+                    player.playerNetworkManager.isAiming.Value = false;
+                    return;
+                }
+            }
+            
+            player.playerNetworkManager.isAiming.Value = aimInput;
         }
         
         private void HandleSwitchRightWeaponInput()

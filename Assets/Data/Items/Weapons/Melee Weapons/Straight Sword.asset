@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf7d289563a0e24f9deb1b48122f30c, type: 3}
   m_Name: Straight Sword
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Straight Sword
   itemIcon: {fileID: 21300000, guid: 9c02fae887129e04998ab2dfa2404ed4, type: 3}
   itemDescription: 'Forged from the heartwood of an ancient oak, the Bravewood Blade
     is no ordinary wooden sword. Its emerald edge hums with courage, urging its wielder
@@ -22,6 +22,10 @@ MonoBehaviour:
     be as bold as the Bravewood Blade.'
   itemId: 4
   weaponModel: {fileID: 3770089622514967126, guid: fa7576413fbf339459d948aa3d3ebbe5, type: 3}
+  canAim: 0
+  isRequiredTwoHand: 1
+  mainHandEquipable: 1
+  offHandEquipable: 0
   levelREQ: 0
   guardAbsorption: 5
   physicalDamage: 10

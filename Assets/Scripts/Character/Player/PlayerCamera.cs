@@ -145,23 +145,18 @@ public class PlayerCamera : MonoBehaviour
             player.playerNetworkManager.isAiming.Value = false;
             return;
         }
-
-        if (!player.isThirdPersonCamera)
-        {
-            return;
-        }
         
-        if (PlayerInputManager.instance.aimInput)
+        if (player.playerNetworkManager.isAiming.Value)
         { 
-            player.playerNetworkManager.isAiming.Value = true;
+            //player.playerNetworkManager.isAiming.Value = true;
             cameraObjectPosition.z = aimCameraZDistance;
             cameraObjectPosition.x = aimCameraXDistance;
             cameraObject.transform.localPosition = cameraObjectPosition;
-            player.playerAnimatorManager.PlayTargetActionAnimation("Start_Aiming",false,false,true,true);
+            player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
         }
         else
         {
-            player.playerNetworkManager.isAiming.Value = false;
+            //player.playerNetworkManager.isAiming.Value = false;
             cameraObjectPosition.x = 0;
         }
         
@@ -173,10 +168,14 @@ public class PlayerCamera : MonoBehaviour
 
         if (player.isThirdPersonCamera)
         {
+            //Camera in third person mode
+            player.playerMeshRenderer.SetActive(true);
             cameraObjectPosition.x = 0;
         }
         else
         {
+            //Camera in FPS mode
+            player.playerMeshRenderer.SetActive(false);
             cameraObjectPosition.z = 0;
             cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
             cameraObject.transform.localPosition = cameraObjectPosition;

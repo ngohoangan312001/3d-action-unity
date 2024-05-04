@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf7d289563a0e24f9deb1b48122f30c, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Shield
   itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   itemDescription: 
   itemId: 2
   weaponModel: {fileID: 4405654300897030330, guid: c711a545a9f19d04d82feb78ac3aaad1, type: 3}
+  canAim: 0
+  isRequiredTwoHand: 0
   mainHandEquipable: 0
-  offHandEquipable: 0
+  offHandEquipable: 1
   levelREQ: 0
   guardAbsorption: 100
   physicalDamage: 0

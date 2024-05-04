@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf7d289563a0e24f9deb1b48122f30c, type: 3}
   m_Name: BattleAxe
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Axe
   itemIcon: {fileID: 21300000, guid: 96b3548549bf047e4b187775c773b5fa, type: 3}
   itemDescription: 'Forged from the heartwood of an ancient oak, the Bravewood Blade
     is no ordinary wooden sword. Its emerald edge hums with courage, urging its wielder
@@ -22,7 +22,9 @@ MonoBehaviour:
     be as bold as the Bravewood Blade.'
   itemId: 1
   weaponModel: {fileID: 4405654300897030330, guid: 02fcdfd24c4479c4aae0d9a895e1c405, type: 3}
-  mainHandEquipable: 0
+  canAim: 0
+  isRequiredTwoHand: 1
+  mainHandEquipable: 1
   offHandEquipable: 0
   levelREQ: 0
   guardAbsorption: 5

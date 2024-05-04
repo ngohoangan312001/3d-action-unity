@@ -298,11 +298,11 @@ namespace AN
         {
             if (player.playerNetworkManager.isUsingRightHand.Value)
             {
-                rightWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+                rightWeaponManager.weaponDamageCollider.EnableDamageCollider();
             }
             else if (player.playerNetworkManager.isUsingLeftHand.Value)
             {
-                leftWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+                leftWeaponManager.weaponDamageCollider.EnableDamageCollider();
             }
             
             //Play Sound FX
@@ -312,12 +312,26 @@ namespace AN
         {
             if (player.playerNetworkManager.isUsingRightHand.Value)
             {
-                rightWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
+                rightWeaponManager.weaponDamageCollider.DisableDamageCollider();
             }
             else if (player.playerNetworkManager.isUsingLeftHand.Value)
             {
-                leftWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
+                leftWeaponManager.weaponDamageCollider.DisableDamageCollider();
             }
+        }
+        
+        public void FireRangeWeaponAttack()
+        {
+            if (player.playerNetworkManager.isUsingRightHand.Value)
+            {
+                DamageCollider weaponDamageCollider = rightWeaponManager.weaponDamageCollider;
+                if (weaponDamageCollider is RangeWeaponDamageCollider rangeWeaponDamageCollider)
+                {
+                    rangeWeaponDamageCollider.FireRangeAttack();
+                }
+            }
+            
+            //Play Sound FX
         }
     }
 }

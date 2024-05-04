@@ -11,9 +11,15 @@ namespace AN
 
         [Header("Weapon Model")] public GameObject weaponModel;
         
+        [Header("Weapon Mechanic Option")] 
+        public bool canAim = false;
+
+        public string aim_State;
+        public bool isRequiredTwoHand = false;
+        
         [Header("Weapon Equip Option")] 
-        public bool mainHandEquipable;
-        public bool offHandEquipable;
+        public bool mainHandEquipable = true;
+        public bool offHandEquipable = true;
         
         [Header("Weapon Requirement")] 
         public int levelREQ = 0;

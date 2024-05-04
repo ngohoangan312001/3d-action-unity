@@ -35,7 +35,7 @@ namespace AN
                 return;
             }
             
-            if (playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
+            if (playerPerformingAction.playerNetworkManager.isUsingLeftHand.Value)
             {
                 return;
             }

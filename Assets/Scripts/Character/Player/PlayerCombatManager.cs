@@ -25,7 +25,7 @@ namespace AN
             }
             
             //Notify the server to play animation
-            player.playerNetworkManager.NotifyServerOfWeaponActionServerRPC(NetworkManager.Singleton.LocalClientId,weaponAction.actionId,weaponPerformingAction.itemId);
+            player.playerNetworkManager.NotifyServerOfWeaponActionServerRPC(NetworkManager.Singleton.LocalClientId, weaponAction.actionId,weaponPerformingAction.itemId);
         }
 
         public void DrainStaminaBaseOnAttack()

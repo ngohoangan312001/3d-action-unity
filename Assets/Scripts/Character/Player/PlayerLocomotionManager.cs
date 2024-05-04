@@ -130,7 +130,7 @@ namespace AN
             
             targetRotationDirection = Vector3.zero;
             
-            if (PlayerInputManager.instance.aimInput)
+            if (player.playerNetworkManager.isAiming.Value)
             {
                 targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward;
                 targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right;

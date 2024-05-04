@@ -10,6 +10,9 @@ namespace AN
 {
     public class PlayerManager : CharacterManager
     {
+        [Header("Player's Mesh Renderers Object")] 
+        public GameObject playerMeshRenderer;
+        
         [Header("Debug Menu")] 
         [SerializeField] private bool respawnCharacter = false;
         [SerializeField] private bool setWeaponRightSlot = false;
