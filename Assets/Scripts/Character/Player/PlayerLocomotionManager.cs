@@ -139,12 +139,10 @@ namespace AN
             {
                 targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
                 targetRotationDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
+                targetRotationDirection.y = 0;
             }
-            
-            
 
             targetRotationDirection.Normalize();
-            targetRotationDirection.y = 0;
             
             if(targetRotationDirection == Vector3.zero)
             {

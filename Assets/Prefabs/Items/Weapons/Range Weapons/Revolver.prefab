@@ -410,6 +410,7 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 0
+  RangeWeaponAttackVFX: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
 --- !u!1 &8068973216321810462
 GameObject:
   m_ObjectHideFlags: 0

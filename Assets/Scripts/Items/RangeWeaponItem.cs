@@ -13,9 +13,10 @@ namespace AN
         public float maxDistance;
         public int attackRate;
         public int reloadTime;
+        public float timeEachAttack = 0;
         
         [Header("Ammunition")]
-        public bool needAmmo;
+        public bool needAmmo = true;
         public int currentAmmo;
         public int magSize;
         public float timeSinceLastAttack = 0;
@@ -27,6 +28,7 @@ namespace AN
 
         public bool CanFire()
         {
+            timeEachAttack = 1f / (attackRate / 60f);
             // attackRate       => Attack per minute
             // attackRate/60    => Attack per second
             // 1/attackRate/60  => Time between each attack in 1 second
@@ -36,7 +38,7 @@ namespace AN
                 return false;
             }
             
-            if (currentAmmo <= 0)
+            if (needAmmo && currentAmmo <= 0)
             {
                 Debug.Log("Out of Ammo");
                 return false;

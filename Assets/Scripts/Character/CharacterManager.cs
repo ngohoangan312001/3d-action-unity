@@ -106,7 +106,7 @@ namespace AN
                 
                 if (!manuallySelectDeathAnimation)
                 {
-                    characterAnimtorManager.PlayTargetActionAnimation("Death",true);
+                    characterAnimtorManager.PlayTargetActionAnimation("Death",true,false,false,false);
                 }
             }
             

@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace AN
 {
     public class RangeWeaponDamageCollider : DamageCollider
     {
+        [Header("VFX")] [SerializeField] private GameObject RangeWeaponAttackVFX;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -24,28 +27,38 @@ namespace AN
         {
             if (characterCausingDamage.IsOwner)
             {
-                if(currentWeapon is RangeWeaponItem RangeWeapon)
-                    
-                if (RangeWeapon.CanFire() && Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, RangeWeapon.maxDistance))
+                if (currentWeapon is RangeWeaponItem RangeWeapon)
                 {
-                    CharacterManager damageTarget = hitInfo.collider?.GetComponentInParent<CharacterManager>();
-                    contactPoint = hitInfo.point;
-                    
-                    Debug.Log("Hit: "+ hitInfo.transform.name);
+                    if (RangeWeapon.CanFire())
+                    {
+                        DisableDamageCollider();
+                        PlayWeaponAttackVFX(transform.position);
+                        RangeWeapon.currentAmmo--;
+                        RangeWeapon.timeSinceLastAttack = 0;
 
-                    RangeWeapon.currentAmmo--;
-                    RangeWeapon.timeSinceLastAttack = 0;
+                        OnRangeAttack();
+                        
+                        if (Physics.Raycast(transform.position, PlayerCamera.instance.transform.forward,
+                                out RaycastHit hitInfo, RangeWeapon.maxDistance))
+                        {
+                            CharacterManager damageTarget = hitInfo.collider?.GetComponentInParent<CharacterManager>();
+                            
+                            contactPoint = hitInfo.point;
 
-                    OnRangeAttack();
-                    
-                    //Todo: Check if the damageTarget can receive damage from this gameObject
-                
-                    //Todo: Check if target is blocking
-                
-                    //Todo: Check if target is invulnerable 
+                            Debug.Log("Hit: " + hitInfo.transform.name);
+                            
+                            //Todo: Check if the damageTarget can receive damage from this gameObject
 
-                    if(damageTarget != null)
-                    DamageTarget(damageTarget);
+                            //Todo: Check if target is blocking
+
+                            //Todo: Check if target is invulnerable 
+
+                            Debug.DrawLine(transform.position, hitInfo.point, Random.ColorHSV(), 10f);
+
+                            if (damageTarget != null)
+                                DamageTarget(damageTarget);
+                        }
+                    }
                 }
             }
         }
@@ -54,15 +67,22 @@ namespace AN
         {
             if (currentWeapon is RangeWeaponItem RangeWeapon)
             {
-                if (RangeWeapon.timeSinceLastAttack <= (1f / RangeWeapon.attackRate / 60f))
+                if (RangeWeapon.timeSinceLastAttack <= (1f / (RangeWeapon.attackRate / 60f)))
                     RangeWeapon.timeSinceLastAttack += Time.deltaTime;
             }
-            
-            Debug.DrawRay(transform.position, transform.forward);
         }
 
         private void OnRangeAttack()
         {
+            
+        }
+        
+        public void PlayWeaponAttackVFX(Vector3 startPoint)
+        {
+            if (RangeWeaponAttackVFX != null)
+            {
+                GameObject bloodSplatter = Instantiate(RangeWeaponAttackVFX, startPoint, Quaternion.identity);
+            }
             
         }
     }

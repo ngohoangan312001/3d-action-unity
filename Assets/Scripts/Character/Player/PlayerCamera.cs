@@ -53,6 +53,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (player != null)
         {
+            HandleCameraMode();
             //Aim camera
             HandleAimActionCamera();
             //Collide with object
@@ -65,7 +66,24 @@ public class PlayerCamera : MonoBehaviour
         }
         
     }
-
+    private void HandleCameraMode()
+    {
+        if (player.isThirdPersonCamera)
+        {
+            //Camera in third person mode
+            player.playerMeshRenderer.SetActive(true);
+            cameraObjectPosition.x = 0;
+        }
+        else
+        {
+            //Camera in FPS mode
+            player.playerMeshRenderer.SetActive(false);
+            cameraObjectPosition.z = 0;
+            cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
+            cameraObject.transform.localPosition = cameraObjectPosition;
+        }
+    }
+    
     private void HandleFollowTarget()
     {
         Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, player.transform.position,
@@ -106,7 +124,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void HandleCollisions()
     {
-        if (!player.isThirdPersonCamera) return;
+        if (!player.isThirdPersonCamera || player.playerNetworkManager.isAiming.Value) return;
         
         targetCameraZPosition = cameraZPosition;
         
@@ -147,38 +165,38 @@ public class PlayerCamera : MonoBehaviour
         }
         
         if (player.playerNetworkManager.isAiming.Value)
-        { 
-            //player.playerNetworkManager.isAiming.Value = true;
-            cameraObjectPosition.z = aimCameraZDistance;
-            cameraObjectPosition.x = aimCameraXDistance;
-            cameraObject.transform.localPosition = cameraObjectPosition;
-            player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
-        }
-        else
         {
-            //player.playerNetworkManager.isAiming.Value = false;
-            cameraObjectPosition.x = 0;
+            if (player.isThirdPersonCamera)
+            {
+                //Camera in FPS mode
+                player.playerMeshRenderer.SetActive(false);
+                cameraObjectPosition.z = 0;
+                cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
+                cameraObject.transform.localPosition = cameraObjectPosition;
+            }
+                player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
+           
+            
         }
-        
+
+        // if (player.playerNetworkManager.isAiming.Value)
+        // { 
+        //     cameraObjectPosition.z = aimCameraZDistance;
+        //     cameraObjectPosition.x = aimCameraXDistance;
+        //     cameraObject.transform.localPosition = cameraObjectPosition;
+        //     player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
+        // }
+        // else
+        // {
+        //     cameraObjectPosition.x = 0;
+        // }
+
     }
 
     public void SwitchCameraMode()
     {
         player.isThirdPersonCamera = !player.isThirdPersonCamera;
 
-        if (player.isThirdPersonCamera)
-        {
-            //Camera in third person mode
-            player.playerMeshRenderer.SetActive(true);
-            cameraObjectPosition.x = 0;
-        }
-        else
-        {
-            //Camera in FPS mode
-            player.playerMeshRenderer.SetActive(false);
-            cameraObjectPosition.z = 0;
-            cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
-            cameraObject.transform.localPosition = cameraObjectPosition;
-        }
+       
     }
 }

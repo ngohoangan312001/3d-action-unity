@@ -12,6 +12,8 @@ namespace AN
         public virtual void AttempToPerformAction(PlayerManager playerPerformingAction,
             WeaponItem weaponPerformingAction)
         {
+            if(playerPerformingAction.isDead.Value) return;
+            
             if (playerPerformingAction.IsOwner)
             {
                 playerPerformingAction.playerNetworkManager.currentWeaponBeingUsedId.Value = weaponPerformingAction.itemId;
