@@ -24,6 +24,16 @@ namespace AN
         }
         
         /**
+         * Choose a random element from a List
+         */
+        public static T ChooseRandomFromList<T>(List<T> inputList)
+        {
+            int index = Random.Range(0, inputList.Count);
+            
+            return inputList[index];
+        }
+        
+        /**
          * Choose a random element from a Array
          */
         public static T ChooseRandomFromArray<T>(T[] inputArray)

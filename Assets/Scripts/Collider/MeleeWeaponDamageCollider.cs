@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AN
 {
-    public class MeleeWeaponDamageCollider : DamageCollider
+    public class MeleeWeaponDamageCollider : WeaponDamageCollider
     {
         protected override void Awake()
         {

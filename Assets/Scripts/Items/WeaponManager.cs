@@ -8,11 +8,11 @@ namespace AN
 {
     public class WeaponManager : MonoBehaviour
     {
-        [FormerlySerializedAs("meleeWeaponDamageCollider")] public DamageCollider weaponDamageCollider;
+        public WeaponDamageCollider weaponDamageCollider;
 
         private void Awake()
         {
-            weaponDamageCollider = GetComponentInChildren<DamageCollider>();
+            weaponDamageCollider = GetComponentInChildren<WeaponDamageCollider>();
         }
 
         public void SetWeaponDamage(CharacterManager characterWieldingWeapon, WeaponItem weapon)

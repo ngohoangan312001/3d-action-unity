@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace AN
 {
-    public class PlayerAnimatorManager : CharacterAnimtorManager
+    public class PlayerAnimatorManager : CharacterAnimatorManager
     {
         private PlayerManager player;
         protected override void Awake()

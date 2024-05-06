@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace AN
 {
-    public class RangeWeaponDamageCollider : DamageCollider
+    public class RangeWeaponDamageCollider : WeaponDamageCollider
     {
         [Header("VFX")] [SerializeField] private GameObject RangeWeaponAttackVFX;
         

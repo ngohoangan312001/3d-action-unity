@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -37,7 +38,7 @@ namespace AN
         [Header("Animation")] 
         public bool playDamageAnimation = true;
         public bool manuallySelectDamageAnimation = false;
-        public string damageAnimation;
+        public List<string> damageAnimationList;
         
         [Header("Sound FX")] 
         public bool willPlayDamageSFX = true;
@@ -54,7 +55,10 @@ namespace AN
             CalculateDamage(character);
 
             //Todo: Check for "Invulnerablity"
-            //Todo: Check direction damage came from
+            
+            //Check direction damage came from
+            PlayDirectionalBaseDamageAnimation(character);
+            
             //Todo: Play damage animation
             //Todo: Check for buildup 
             //Play damage SFX
@@ -108,6 +112,43 @@ namespace AN
             AudioClip physicalDamageSFX = ArrayUtil.ChooseRandomFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
             
             character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
+        }
+        
+        private void PlayDirectionalBaseDamageAnimation(CharacterManager character)
+        {
+            if (!character.IsOwner) return;
+            
+            poiseIsBroken = true;
+            
+            if (angleHitFrom >= 145 && angleHitFrom <= 180)
+            {
+                //Play Front Animation
+                damageAnimationList = character.characterAnimatorManager.forward_Medium_Damges;
+            }
+            else if(angleHitFrom <= -145 && angleHitFrom >= -180)
+            {
+                //Play Front Animation
+                damageAnimationList = character.characterAnimatorManager.forward_Medium_Damges;
+            }
+            else if(angleHitFrom >= -45 && angleHitFrom <= 45)
+            {
+                //Play Back Animation
+                damageAnimationList = character.characterAnimatorManager.backward_Medium_Damges;
+            }
+            else if(angleHitFrom >= -144 && angleHitFrom <= -45)
+            {
+                //Play Left Animation
+                damageAnimationList = character.characterAnimatorManager.left_Medium_Damges;
+            }
+            else if(angleHitFrom >= 45 && angleHitFrom <= 144)
+            {
+                //Play Right Animation
+                damageAnimationList = character.characterAnimatorManager.right_Medium_Damges;
+            }
+            
+            Debug.Log(angleHitFrom);
+            
+            if(poiseIsBroken) character.characterAnimatorManager.PlayDamageAnimation(damageAnimationList);
         }
     }
 }

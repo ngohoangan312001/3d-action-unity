@@ -56,7 +56,6 @@ namespace AN
             
             //Stamina Regen
             playerStatManager.RegenerateStamina();
-            
             DebugMenu();
             
         }

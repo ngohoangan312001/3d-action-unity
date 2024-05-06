@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.42226914, g: 0.64370704, b: 0.7936686, a: 1}
+  m_IndirectSpecularColor: {r: 0.4222461, g: 0.6431864, b: 0.7936988, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4147,7 +4147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09ec7db614b0b246a0f6fc82c56b39c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageCollider: {fileID: 0}
   physicalDamage: 20
   magicDamage: 0
   pyroDamage: 0
@@ -4156,6 +4155,7 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 0
+  characterDamaged: []
 --- !u!65 &1613852802
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Serialization;
+
 namespace AN
 {
     public class CharacterManager : NetworkBehaviour
@@ -11,7 +13,7 @@ namespace AN
         [HideInInspector] public Animator animator;
         [HideInInspector] public CharacterNetworkManager characterNetworkManager;
         [HideInInspector] public CharacterEffectManager characterEffectManager;
-        [HideInInspector] public CharacterAnimtorManager characterAnimtorManager;
+        [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
         [HideInInspector] public CharacterCombatManager characterCombatManager;
         [HideInInspector] public CharacterLocomotionManager characterLocomotionManager;
         [HideInInspector] public CharacterSoundFXManager characterSoundFXManager;
@@ -34,7 +36,7 @@ namespace AN
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
             animator = GetComponent<Animator>();
             characterEffectManager = GetComponent<CharacterEffectManager>();
-            characterAnimtorManager = GetComponent<CharacterAnimtorManager>();
+            characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
         }
@@ -106,7 +108,7 @@ namespace AN
                 
                 if (!manuallySelectDeathAnimation)
                 {
-                    characterAnimtorManager.PlayTargetActionAnimation("Death",true,false,false,false);
+                    characterAnimatorManager.PlayTargetActionAnimation("Death",true,false,false,false);
                 }
             }
             
