@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using AN;
 using UnityEngine;
 
-namespace MyNamespace
+namespace AN
 {
     public class WorldCharacterEffectManager : MonoBehaviour
     {
         public static WorldCharacterEffectManager instance;
 
+        [Header("Default VFX")]
+        public GameObject bloodSplatterVFX;
+        
         [Header("Damage")] 
         public TakeDamageEffect takeDamageEffect;
         

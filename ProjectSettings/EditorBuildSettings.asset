@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ProtoTypeWorld.unity
     guid: 6c623123963324a5499029da667e4854
   - enabled: 0
+    path: Assets/Scenes/Environment_Free.unity
+    guid: c732593fe76e5a84197f9cd13963f706
+  - enabled: 0
     path: Assets/Scenes/DungeonRenderPrototype.unity
     guid: b0970ac571b5c44b9b20150e10fc418f
   - enabled: 0

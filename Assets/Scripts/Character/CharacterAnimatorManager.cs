@@ -5,19 +5,88 @@ using UnityEngine;
 using Unity.Netcode;
 namespace AN
 {
-    public class CharacterAnimtorManager : MonoBehaviour
+    public class CharacterAnimatorManager : MonoBehaviour
     {
         CharacterManager character;
 
         private float vertical;
         private float horizontal;
+
+        [Header("Damage Animations")] 
+        [SerializeField] private string lastDamageAnimationPlayed;
         
+        [SerializeField] private string hit_Forward_Medium_01 = "hit_Forward_Medium_01";
+        [SerializeField] private string hit_Forward_Medium_02 = "hit_Forward_Medium_02";
         
+        [SerializeField] private string hit_Backward_Medium_01 = "hit_Backward_Medium_01";
+        [SerializeField] private string hit_Backward_Medium_02 = "hit_Backward_Medium_02";
+        
+        [SerializeField] private string hit_Left_Medium_01 = "hit_Left_Medium_01";
+        [SerializeField] private string hit_Left_Medium_02 = "hit_Left_Medium_02";
+        
+        [SerializeField] private string hit_Right_Medium_01 = "hit_Right_Medium_01";
+        [SerializeField] private string hit_Right_Medium_02 = "hit_Right_Medium_02";
+        
+        public List<string> forward_Medium_Damges = new List<string>();
+        public List<string> backward_Medium_Damges = new List<string>();
+        public List<string> left_Medium_Damges = new List<string>();
+        public List<string> right_Medium_Damges = new List<string>();
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
         }
 
+        protected virtual void Start()
+        {
+            forward_Medium_Damges.Add(hit_Forward_Medium_01);
+            forward_Medium_Damges.Add(hit_Forward_Medium_02);
+            
+            backward_Medium_Damges.Add(hit_Backward_Medium_01);
+            backward_Medium_Damges.Add(hit_Backward_Medium_02);
+            
+            left_Medium_Damges.Add(hit_Left_Medium_01);
+            left_Medium_Damges.Add(hit_Left_Medium_02);
+            
+            right_Medium_Damges.Add(hit_Right_Medium_01);
+            right_Medium_Damges.Add(hit_Right_Medium_02);
+                
+        }
+
+        public void PlayDamageAnimation(List<string> animationList)
+        {
+            lastDamageAnimationPlayed = GetRandomAnimationFromList(animationList);
+
+            if (lastDamageAnimationPlayed != null)
+            {
+                Debug.Log("Playing Damage Animation: " + lastDamageAnimationPlayed);
+                character.characterAnimatorManager.PlayTargetActionAnimation(lastDamageAnimationPlayed,true);
+            }
+        }
+
+        public string GetRandomAnimationFromList(List<string> animationList)
+        {
+            List<string> finalList = new List<string>();
+
+            foreach (var item in animationList)
+            {
+                finalList.Add(item);
+            }
+
+            //Remove the animation damaged that already played if list have more than 1 animation
+            if (finalList.Count > 1) finalList.Remove(lastDamageAnimationPlayed);
+            
+            //Check null entry and remove it
+            ArrayUtil.RemoveNullSlotInList(finalList);
+
+            if (finalList.Count > 0)
+            {
+                return ArrayUtil.ChooseRandomFromList(finalList);
+            }
+
+            return null;
+        }
+            
+        
         public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue)
         {
             if (!character.canMove)
@@ -57,14 +126,19 @@ namespace AN
             character.characterNetworkManager.NotifyServerOfActionAnimationServerRPC(NetworkManager.Singleton.LocalClientId, targetAction, applyRootMotion);
         }
         
-        public virtual void PlayTargetAttackActionAnimation(string targetAction, 
+        public virtual void PlayTargetAttackActionAnimation(
+            AttackType attackType,
+            string targetAction, 
             bool isPerformingAction, 
             bool applyRootMotion = true, 
             bool canRotate = false, 
             bool canMove = false)
         {
             //TODO: Check last attack performed ==> for combos
-            //TODO: Check current attack type
+            
+            //Check current attack type
+            character.characterCombatManager.currentAttackType = attackType;
+            
             //TODO: Update animation set to current weapon animation
             //TODO: Check if weapon can be parried
             //TODO: Update isAttacking flag to network

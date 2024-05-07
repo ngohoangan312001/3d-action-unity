@@ -11,6 +11,7 @@ public class PlayerUIManager : MonoBehaviour
 
     [HideInInspector] public PlayerUIHudManager playerUIHudManager;
     [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
+    [HideInInspector] public PlayerCrosshairManager playerCrosshairManager;
 
     [SerializeField] private bool joinNetwork;
     private void Awake()
@@ -27,6 +28,8 @@ public class PlayerUIManager : MonoBehaviour
         playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
         
         playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
+        
+        playerCrosshairManager = GetComponentInChildren<PlayerCrosshairManager>();
     }
 
     private void Start()

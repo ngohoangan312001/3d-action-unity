@@ -40,7 +40,7 @@ Transform:
   m_GameObject: {fileID: 1782702501690864755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -120,11 +120,11 @@ MonoBehaviour:
   isJumping:
     m_InternalValue: 0
   vitality:
-    m_InternalValue: 0
+    m_InternalValue: 10
   intellect:
-    m_InternalValue: 0
+    m_InternalValue: 10
   endurance:
-    m_InternalValue: 0
+    m_InternalValue: 10
   currentHealth:
     m_InternalValue: 0
   maxHealth:
@@ -137,6 +137,8 @@ MonoBehaviour:
     m_InternalValue: 0
   maxStamina:
     m_InternalValue: 0
+  weaponSwitchCooldownTime:
+    m_InternalValue: 3
   characterName:
     m_InternalValue:
       utf8LengthInBytes: 9
@@ -232,7 +234,10 @@ MonoBehaviour:
   animator: {fileID: 0}
   characterNetworkManager: {fileID: 0}
   characterEffectManager: {fileID: 0}
-  characterAnimtorManager: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   isDead:
     m_InternalValue: 0
   isPerformingAction: 0
@@ -240,8 +245,11 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  playerMeshRenderer: {fileID: 4745919768825479014}
   respawnCharacter: 0
-  switchRightWeapon: 0
+  setWeaponRightSlot: 0
+  setWeaponLeftSlot: 0
+  isThirdPersonCamera: 1
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerNetworkManager: {fileID: 0}
@@ -261,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c89bb53ea9b4e5697e7469cd64a436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needStaminaToSprint: 0
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   startFallingYVelocity: -5
@@ -294,6 +303,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1a6a65661c648948bd10a69e7b526e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastDamageAnimationPlayed: 
+  hit_Forward_Medium_01: hit_Forward_Medium_01
+  hit_Forward_Medium_02: hit_Forward_Medium_02
+  hit_Backward_Medium_01: hit_Backward_Medium_01
+  hit_Backward_Medium_02: hit_Backward_Medium_02
+  hit_Left_Medium_01: hit_Left_Medium_01
+  hit_Left_Medium_02: hit_Left_Medium_02
+  hit_Right_Medium_01: hit_Right_Medium_01
+  hit_Right_Medium_02: hit_Right_Medium_02
+  forward_Medium_Damges: []
+  backward_Medium_Damges: []
+  left_Medium_Damges: []
+  right_Medium_Damges: []
 --- !u!114 &-2559265890915177509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,14 +331,14 @@ MonoBehaviour:
   currentRightHandWeapon: {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   currentLeftHandWeapon: {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   weaponInRightHandSlots:
-  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
-  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 1c9862647a1d8cf43b3b6e01cd3a9d0a, type: 2}
+  - {fileID: 11400000, guid: 17a20c80094662a4eb77a92b4f5f144a, type: 2}
+  - {fileID: 11400000, guid: 63e20557b2ef03e4980b0bf478502f91, type: 2}
   - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   rightHandWeaponIndex: -1
   weaponInLeftHandSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
+  - {fileID: 11400000, guid: 2b061685e6194bb47bc431e711562fde, type: 2}
   leftHandWeaponIndex: -1
 --- !u!114 &6569788174709961408
 MonoBehaviour:
@@ -334,6 +356,8 @@ MonoBehaviour:
   leftHandSlot: {fileID: 0}
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
+  swapRightWeaponAnimation: Swap_Right_Weapon
+  swapLeftWeaponAnimation: Swap_Left_Weapon
   rightHandWeaponModel: {fileID: 0}
   leftHandWeaponModel: {fileID: 0}
 --- !u!114 &1913772921066053460
@@ -364,6 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0d8747adbc833d4eaf5498100844d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterVFX: {fileID: 0}
   _effectTest: {fileID: 11400000, guid: 4207426475f673947a7a9e9be7ccb7d4, type: 2}
   processEffect: 0
 --- !u!114 &-4466905726739030746
@@ -390,6 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ec072b5e3b94792bb9dbe8c4140e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAttackType: 0
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!82 &7815389335186210135
 AudioSource:
@@ -506,13 +532,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.8
+  m_Height: 1.5
   m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!54 &2853424966427354753
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -592,6 +618,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot
       objectReference: {fileID: 0}
+    - target: {fileID: 4824431097037577854, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586422803265307279, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.034
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.063
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0030549734
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.020759016
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.99967676
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.014354102
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 1.637
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180.384
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088811022590222479, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -2.385
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -600,5 +674,10 @@ PrefabInstance:
 --- !u!4 &2540668612200140895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2336649965082898759, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
+  m_PrefabInstance: {fileID: 229461922416517400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4745919768825479014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4824431097037577854, guid: 815f95f0945c9714eaa76db32554b230, type: 3}
   m_PrefabInstance: {fileID: 229461922416517400}
   m_PrefabAsset: {fileID: 0}

@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Unity.Netcode;
+using Unity.VisualScripting;
 
 namespace AN
 {
     public class PlayerManager : CharacterManager
     {
+        [Header("Player's Mesh Renderers Object")] 
+        public GameObject playerMeshRenderer;
+        
         [Header("Debug Menu")] 
         [SerializeField] private bool respawnCharacter = false;
-        [SerializeField] private bool switchRightWeapon = false;
+        [SerializeField] private bool setWeaponRightSlot = false;
+        [SerializeField] private bool setWeaponLeftSlot = false;
         
+        [Header("Camera Mode")] 
+        [HideInInspector] public bool isThirdPersonCamera = true;
+    
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerNetworkManager playerNetworkManager;
@@ -46,16 +56,24 @@ namespace AN
             
             //Stamina Regen
             playerStatManager.RegenerateStamina();
-            
             DebugMenu();
+            
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallBack;
+            
             if (IsOwner)
             {
+                
+                //If is owner of this character and not the host => joining a server ===> reload character
+                if (!IsServer)
+                {
+                    LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
+                }
+                
                 PlayerCamera.instance.player = this;
                 PlayerInputManager.instance.player = this;
                 WorldSaveGameManager.instance.player = this;
@@ -85,14 +103,28 @@ namespace AN
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
             playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged += playerNetworkManager.OnCurrentUsingWeaponIDChange;
-            
-            //If is owner of this character and not the host => joining a server ===> reload character
-            if (IsOwner && !IsServer)
-            {
-                LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
-            }
         }
 
+        private void OnClientConnectedCallBack(ulong clientId)
+        {
+            //Keep a list of player active in game
+            WorldGameSessionManager.instance.AddPlayerToActivePlayerList(this);
+            
+            //Host and Server dont need to load players to sync them
+            //Only ner tho sync player gear when join the game late
+            if (!IsServer && IsOwner)
+            {
+                
+                foreach (var player in WorldGameSessionManager.instance.players)
+                {
+                    if (player != this)
+                    {
+                        player.LoadOtherPlayerCharacterWhenJoiningServer();
+                    }
+                }
+            }
+        }
+        
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
             if (IsOwner)
@@ -165,6 +197,14 @@ namespace AN
             PlayerUIManager.instance.playerUIHudManager.SetMaxStamninaValue(playerNetworkManager.maxStamina.Value);
         }
 
+        //Load All other character when joining the server
+        public void LoadOtherPlayerCharacterWhenJoiningServer()
+        {
+            //Sync Weapon
+            playerNetworkManager.OnCurrentRightHandWeaponIDChange(0,playerNetworkManager.currentRightHandWeaponId.Value);
+            playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0,playerNetworkManager.currentLeftHandWeaponId.Value);
+        }
+        
         public override void ReviveCharacter()
         {
             base.ReviveCharacter();
@@ -189,10 +229,17 @@ namespace AN
                 respawnCharacter = false;
                 ReviveCharacter();
             }
-            if (switchRightWeapon)
+
+            if (setWeaponRightSlot)
             {
-                switchRightWeapon = false;
-                playerEquipmentManager.SwitchRightHandWeapon();
+                setWeaponRightSlot = false;
+                PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.rightHandWeaponIndex);
+            }
+
+            if (setWeaponLeftSlot)
+            {
+                setWeaponLeftSlot = false;
+                PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(playerInventoryManager.weaponInLeftHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.leftHandWeaponIndex);
             }
         }
     }

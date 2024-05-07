@@ -26,7 +26,7 @@ namespace AN
         public NetworkVariable<bool> isSprinting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isAiming = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isJumping = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
+        
         [Header("Stats")]
         public NetworkVariable<int> vitality = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<int> intellect = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -39,6 +39,9 @@ namespace AN
         public NetworkVariable<int> maxEnergy = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<float> currentStamina = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<int> maxStamina = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<float> weaponSwitchCooldownTime = new NetworkVariable<float>(3, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
+        
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
@@ -46,6 +49,8 @@ namespace AN
 
         public void CheckHP(float oldValue, float newValue)
         {
+            if (!IsOwner) return;
+            
             if (currentHealth.Value <= 0)
             {
                 StartCoroutine(character.ProcessDeathEvent());
@@ -95,7 +100,6 @@ namespace AN
         //ATTACK ACTION ANIMATION RPC
         //---------------------------
         
-        //Code that is run on the Server (Host) , called by a Client.
         [ServerRpc]
         public void NotifyServerOfAttackActionAnimationServerRPC(ulong clientId, string animationId, bool applyRootMotion)
         {
@@ -107,9 +111,6 @@ namespace AN
             }
         }
         
-        //Code that is run on the Client, called by a Server (Host).
-        //When the server is noticed that there is an action animation being performed
-        //It will call this procedure, in this case: this character.animation == the once character who noticed the server will be call
         [ClientRpc]
         private void PlayAttackActionAnimationForAllClientClientRPC(ulong clientId, string animationId, bool applyRootMotion)
         {
@@ -123,6 +124,129 @@ namespace AN
         {
             character.applyRootMotion = applyRootMotion;
             character.animator.CrossFade(animationId, 0.2f);
+        }
+        
+        //---------------------------
+        //DAMAGE RPC
+        //---------------------------
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void NotifyServerOfCharacterDamageServerRPC
+        (
+            ulong damagedCharacterId, 
+            ulong characterCausingDamageId,
+            float physicalDamage,
+            float magicDamage,
+            float pyroDamage, 
+            float hydroDamage,
+            float geoDamage,
+            float luminaDamage,
+            float eclipseDamage,
+            float poiseDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ
+        )
+        {
+                NotifyServerOfCharacterDamageClientRPC
+                (
+                    damagedCharacterId, 
+                    characterCausingDamageId,
+                    physicalDamage,
+                    magicDamage,
+                    pyroDamage, 
+                    hydroDamage,
+                    geoDamage,
+                    luminaDamage,
+                    eclipseDamage,
+                    poiseDamage,
+                    angleHitFrom,
+                    contactPointX,
+                    contactPointY,
+                    contactPointZ
+                );
+        }
+        
+       
+        [ClientRpc]
+        public void NotifyServerOfCharacterDamageClientRPC
+        (
+            ulong damagedCharacterId, 
+            ulong characterCausingDamageId,
+            float physicalDamage,
+            float magicDamage,
+            float pyroDamage, 
+            float hydroDamage,
+            float geoDamage,
+            float luminaDamage,
+            float eclipseDamage,
+            float poiseDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ
+        )
+        {
+                ProcessCharacterDamageFromServer
+                (
+                    damagedCharacterId, 
+                    characterCausingDamageId,
+                    physicalDamage,
+                    magicDamage,
+                    pyroDamage, 
+                    hydroDamage,
+                    geoDamage,
+                    luminaDamage,
+                    eclipseDamage,
+                    poiseDamage,
+                    angleHitFrom,
+                    contactPointX,
+                    contactPointY,
+                    contactPointZ
+                );
+        }
+
+        private void ProcessCharacterDamageFromServer
+        (
+            ulong damagedCharacterId, 
+            ulong characterCausingDamageId,
+            float physicalDamage,
+            float magicDamage,
+            float pyroDamage, 
+            float hydroDamage,
+            float geoDamage,
+            float luminaDamage,
+            float eclipseDamage,
+            float poiseDamage,
+            float angleHitFrom,
+            float contactPointX,
+            float contactPointY,
+            float contactPointZ
+        )
+        {
+            CharacterManager damagedCharacter = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterId]
+                .gameObject.GetComponent<CharacterManager>();
+            
+            CharacterManager characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageId]
+                .gameObject.GetComponent<CharacterManager>();
+
+            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectManager.instance.takeDamageEffect);
+            
+            damageEffect.physicalDamage = physicalDamage;
+            damageEffect.magicDamage = magicDamage;
+            damageEffect.pyroDamage = pyroDamage;
+            damageEffect.hydroDamage = hydroDamage;
+            damageEffect.geoDamage = geoDamage;
+            damageEffect.luminaDamage = luminaDamage;
+            damageEffect.eclipseDamage = eclipseDamage;
+            damageEffect.poiseDamage = poiseDamage;
+            
+            damageEffect.angleHitFrom = angleHitFrom;
+            damageEffect.contactPoint = new Vector3(contactPointX, contactPointY, contactPointZ);
+            damageEffect.characterCausingDamage = characterCausingDamage;
+            
+            damagedCharacter.characterEffectManager.ProcessInstanceEffect(damageEffect);
         }
     }
 }

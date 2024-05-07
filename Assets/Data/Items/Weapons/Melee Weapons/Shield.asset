@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf7d289563a0e24f9deb1b48122f30c, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  itemName: 
-  itemIcon: {fileID: 0}
+  itemName: Shield
+  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   itemDescription: 
   itemId: 2
   weaponModel: {fileID: 4405654300897030330, guid: c711a545a9f19d04d82feb78ac3aaad1, type: 3}
+  canAim: 0
+  isRequiredTwoHand: 0
+  mainHandEquipable: 0
+  offHandEquipable: 1
   levelREQ: 0
   guardAbsorption: 100
   physicalDamage: 0
@@ -27,8 +31,13 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 10
+  lightAttackModifier: 1.2
+  heavyAttackModifier: 2
+  runningLightAttackModifier: 1.2
+  runningHeavyAttackModifier: 2
   baseStaminaCost: 20
-  runAttackStaminaCost: 0
-  lightAttackStaminaCost: 0
-  heavyAttackStaminaCost: 0
+  runningLightAttackStaminaCostMultiplier: 1
+  runningHeavyAttackStaminaCostMultiplier: 1.5
+  lightAttackStaminaCostMultiplier: 0.8
+  heavyAttackStaminaCostMultiplier: 2
   oh_Attack_Action: {fileID: 11400000, guid: 88144f0f17382d545bd0b8fb52126d11, type: 2}

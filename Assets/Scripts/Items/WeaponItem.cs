@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AN
 {
@@ -9,6 +10,16 @@ namespace AN
         //Todo: ANIMATOR CONTROLLER OVERRIDE (Change attack animations base on current weapon
 
         [Header("Weapon Model")] public GameObject weaponModel;
+        
+        [Header("Weapon Mechanic Option")] 
+        public bool canAim = false;
+
+        public string aim_State;
+        public bool isRequiredTwoHand = false;
+        
+        [Header("Weapon Equip Option")] 
+        public bool mainHandEquipable = true;
+        public bool offHandEquipable = true;
         
         [Header("Weapon Requirement")] 
         public int levelREQ = 0;
@@ -29,18 +40,25 @@ namespace AN
         public int poiseDamage = 10;
         
         //WEAPON MODIFIERS
+        [Header("Attack Modifier")]
+        public float lightAttackModifier = 1.2f;
+        public float heavyAttackModifier = 2f;
+        public float runningLightAttackModifier = 1.2f;
+        public float runningHeavyAttackModifier = 2f;
+        
         //Light Attack
         //Heavy Attack
         //Critical Damage Modifier
 
-        [Header("Stamina Cost")] 
+        [Header("Stamina Cost Modifier")] 
         public int baseStaminaCost = 20;
         //Running Attack Stamina Cost Modifier
-        public int runAttackStaminaCost = 0;
+        public float runningLightAttackStaminaCostMultiplier = 1;
+        public float runningHeavyAttackStaminaCostMultiplier = 1.5f;
         //Light Attack Stamina Cost Modifier
-        public int lightAttackStaminaCost = 0;
+        public float lightAttackStaminaCostMultiplier = 0.8f;
         //Heavy Attack Stamina Cost Modifier
-        public int heavyAttackStaminaCost = 0;
+        public float heavyAttackStaminaCostMultiplier = 2;
 
         // Item Base Action
         [Header("Actions")] 
@@ -50,5 +68,15 @@ namespace AN
 
         // Blocking sound fx
 
+        
+        public void HideWeaponModel()
+        {
+            weaponModel.SetActive(false);
+        }
+        
+        public void ShowWeaponModel()
+        {
+            weaponModel.SetActive(true);
+        }
     }
 }

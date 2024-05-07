@@ -31,11 +31,11 @@ namespace AN
         {
             if (playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
             {
-                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(light_Attack,true);
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack,light_Attack,true);
                 return;
             }
             
-            if (playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
+            if (playerPerformingAction.playerNetworkManager.isUsingLeftHand.Value)
             {
                 return;
             }

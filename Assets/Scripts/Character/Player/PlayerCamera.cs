@@ -6,6 +6,10 @@ using UnityEngine.Serialization;
 
 public class PlayerCamera : MonoBehaviour
 {
+    public static PlayerCamera instance;
+    public Camera cameraObject;
+    public PlayerManager player;
+    
     [Header("Camera Settings")] 
     private float cameraSmoothSpeed = 1;
     [SerializeField] float leftAndRightRotationSpeed = 220;
@@ -21,14 +25,10 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float leftAndRightLookAngle;
     [SerializeField] private float upAndDownLookAngle;
     [SerializeField] private float cameraZPosition; //Value for camera collision
-    [SerializeField] private float aimCameraZDistance = -0.5f;
-    [SerializeField] private float aimCameraXDistance = 0.5f;
+    [SerializeField] private float aimCameraZDistance = -0.2f;
+    [SerializeField] private float aimCameraXDistance = 0.7f;
     private float targetCameraZPosition; //Value for camera collision
     private Vector3 aimVelocity;
-    
-    public static PlayerCamera instance;
-    public Camera cameraObject;
-    public PlayerManager player;
 
     [SerializeField] Transform cameraPivotTransform;
     private void Awake()
@@ -53,6 +53,7 @@ public class PlayerCamera : MonoBehaviour
     {
         if (player != null)
         {
+            HandleCameraMode();
             //Aim camera
             HandleAimActionCamera();
             //Collide with object
@@ -65,7 +66,24 @@ public class PlayerCamera : MonoBehaviour
         }
         
     }
-
+    private void HandleCameraMode()
+    {
+        if (player.isThirdPersonCamera)
+        {
+            //Camera in third person mode
+            player.playerMeshRenderer.SetActive(true);
+            cameraObjectPosition.x = 0;
+        }
+        else
+        {
+            //Camera in FPS mode
+            player.playerMeshRenderer.SetActive(false);
+            cameraObjectPosition.z = 0;
+            cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
+            cameraObject.transform.localPosition = cameraObjectPosition;
+        }
+    }
+    
     private void HandleFollowTarget()
     {
         Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, player.transform.position,
@@ -106,6 +124,8 @@ public class PlayerCamera : MonoBehaviour
 
     private void HandleCollisions()
     {
+        if (!player.isThirdPersonCamera || player.playerNetworkManager.isAiming.Value) return;
+        
         targetCameraZPosition = cameraZPosition;
         
         //Raycast là gì ==> raycast là một tia được gửi từ một vị trí trong không gian 3D hoặc 2D và di chuyển theo một hướng cụ thể.
@@ -138,25 +158,28 @@ public class PlayerCamera : MonoBehaviour
 
     private void HandleAimActionCamera()
     {
-        if (player.isPerformingAction)
-        {
-            player.playerNetworkManager.isAiming.Value = false;
-            return;
-        }
         
-        if (PlayerInputManager.instance.aimInput)
-        { 
-            player.playerNetworkManager.isAiming.Value = true;
-            cameraObjectPosition.z = aimCameraZDistance;
-            cameraObjectPosition.x = aimCameraXDistance;
-            cameraObject.transform.localPosition = cameraObjectPosition;
-            player.playerAnimatorManager.PlayTargetActionAnimation("Start_Aiming",false,false,true,true);
-        }
-        else
+        if (player.playerNetworkManager.isAiming.Value && !player.isPerformingAction)
         {
-            player.playerNetworkManager.isAiming.Value = false;
+            if (player.isThirdPersonCamera)
+            {
+                cameraObjectPosition.x = aimCameraXDistance;
+            }
+            cameraObjectPosition.z = aimCameraZDistance;
+            cameraObject.transform.localPosition = cameraObjectPosition;
+            player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
+        }
+        else if(player.isPerformingAction)
+        {
             cameraObjectPosition.x = 0;
         }
-        
+
+    }
+
+    public void SwitchCameraMode()
+    {
+        player.isThirdPersonCamera = !player.isThirdPersonCamera;
+
+       
     }
 }

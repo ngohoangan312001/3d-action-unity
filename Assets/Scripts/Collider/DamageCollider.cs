@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using MyNamespace;
 using UnityEngine;
 
 namespace AN
@@ -18,13 +17,19 @@ namespace AN
         public float geoDamage = 0;
         public float luminaDamage = 0;
         public float eclipeDamage = 0;
+        public float poiseDamage = 0;
 
         [Header("Contact Point")] 
         protected Vector3 contactPoint;
         
         [Header("Characters Damaged")] 
-        protected List<CharacterManager> characterDamaged = new List<CharacterManager>();
-        private void OnTriggerEnter(Collider other)
+        [SerializeField] protected List<CharacterManager> characterDamaged = new List<CharacterManager>();
+
+        protected virtual void Awake()
+        {
+        }
+
+        protected virtual void OnTriggerEnter(Collider other)
         {
             CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
 
@@ -50,11 +55,13 @@ namespace AN
 
             TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectManager.instance.takeDamageEffect);
             PassDamageToDamageEffect(damageEffect);
+            damageEffect.angleHitFrom = Vector3.SignedAngle(transform.forward, damageTarget.transform.forward, Vector3.up);
+
             
             damageTarget.characterEffectManager.ProcessInstanceEffect(damageEffect);
         }
 
-        private void PassDamageToDamageEffect(TakeDamageEffect damageEffect)
+        public virtual void PassDamageToDamageEffect(TakeDamageEffect damageEffect)
         {
             damageEffect.physicalDamage = physicalDamage;
             damageEffect.magicDamage = magicDamage;
@@ -62,7 +69,9 @@ namespace AN
             damageEffect.hydroDamage = hydroDamage;
             damageEffect.geoDamage = geoDamage;
             damageEffect.luminaDamage = luminaDamage;
-            damageEffect.eclipeDamage = eclipeDamage;
+            damageEffect.eclipseDamage = eclipeDamage;
+            damageEffect.poiseDamage = poiseDamage;
+            damageEffect.contactPoint = contactPoint;
         }
 
         public virtual void EnableDamageCollider()

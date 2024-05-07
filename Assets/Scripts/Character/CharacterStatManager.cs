@@ -39,7 +39,7 @@ namespace AN
         {
             float energy = 0;
 
-            energy = intellect * 3;
+            energy = intellect * 6;
 
             return Mathf.RoundToInt(energy);
         }
@@ -59,7 +59,7 @@ namespace AN
             if (!character.IsOwner)
                 return;
 
-            if (character.characterNetworkManager.isSprinting.Value)
+            if (character.characterLocomotionManager.needStaminaToSprint && character.characterNetworkManager.isSprinting.Value)
                 return;
 
             if (character.isPerformingAction)

@@ -12,12 +12,14 @@ namespace AN
         public virtual void AttempToPerformAction(PlayerManager playerPerformingAction,
             WeaponItem weaponPerformingAction)
         {
+            if(playerPerformingAction.isDead.Value) return;
+            
             if (playerPerformingAction.IsOwner)
             {
                 playerPerformingAction.playerNetworkManager.currentWeaponBeingUsedId.Value = weaponPerformingAction.itemId;
             }
             
-            Debug.Log("Weapon Action Performed");
+            Debug.Log(playerPerformingAction.playerNetworkManager.characterName.Value + " Performed " + weaponPerformingAction.itemName + " " + this.name);
         }
     }
 }

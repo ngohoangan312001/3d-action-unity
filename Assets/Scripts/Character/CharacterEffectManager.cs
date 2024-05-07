@@ -8,6 +8,7 @@ namespace AN
     {
         private CharacterManager character;
 
+        [Header("VFX")] [SerializeField] private GameObject bloodSplatterVFX;
         private void Awake()
         {
             character = GetComponent<CharacterManager>();
@@ -30,5 +31,26 @@ namespace AN
         {
             
         }
+        
+        //--------------------
+        // Visual Effect (VFX)
+        //--------------------
+
+        public void PlayBloodSplatterVFX(Vector3 contactPoint)
+        {
+            //If this model have a manual VFX, play it
+            if (bloodSplatterVFX != null)
+            {
+                //Quaternion.identity tương ứng với “không xoay” - đối tượng được căn chỉnh hoàn toàn với các trục thế giới hoặc cha mẹ.
+                //Khi gán Quaternion.identity cho thuộc tính rotation của một đối tượng, đối tượng đó sẽ có hướng xoay “mặc định” hoặc “tự nhiên” của nó.
+                GameObject bloodSplatter = Instantiate(bloodSplatterVFX, contactPoint, Quaternion.identity);
+            }
+            //Else play the default version
+            else
+            {
+                GameObject bloodSplatter = Instantiate(WorldCharacterEffectManager.instance.bloodSplatterVFX, contactPoint, Quaternion.identity);
+            }
+        }
+        
     }  
 }

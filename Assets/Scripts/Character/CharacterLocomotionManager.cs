@@ -10,6 +10,9 @@ namespace AN
     {
         private CharacterManager character;
         
+        [Header("Control Center")]
+        public bool needStaminaToSprint = false;
+        
         [Header("Ground Check & Jumping")] 
         //Force which character is jumping or falling
         [SerializeField] protected Vector3 yVelocity;
@@ -22,6 +25,7 @@ namespace AN
         [SerializeField] protected float gravityForce = -40;
         [SerializeField] protected float groundCheckPhereRadius = 0.3f;
         [SerializeField] protected LayerMask groundLayerMask = 0;
+        
         
         protected virtual void Awake()
         {
@@ -69,9 +73,9 @@ namespace AN
             character.characterController.Move(yVelocity * Time.deltaTime);
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawSphere(character.transform.position,groundCheckPhereRadius);
-        }
+        // private void OnDrawGizmosSelected()
+        // {
+        //     Gizmos.DrawSphere(character.transform.position,groundCheckPhereRadius);
+        // }
     }
 }
