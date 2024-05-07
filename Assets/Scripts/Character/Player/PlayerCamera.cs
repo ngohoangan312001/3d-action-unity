@@ -25,8 +25,8 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float leftAndRightLookAngle;
     [SerializeField] private float upAndDownLookAngle;
     [SerializeField] private float cameraZPosition; //Value for camera collision
-    [SerializeField] private float aimCameraZDistance = 0;
-    [SerializeField] private float aimCameraXDistance = 0;
+    [SerializeField] private float aimCameraZDistance = -0.2f;
+    [SerializeField] private float aimCameraXDistance = 0.7f;
     private float targetCameraZPosition; //Value for camera collision
     private Vector3 aimVelocity;
 
@@ -158,38 +158,21 @@ public class PlayerCamera : MonoBehaviour
 
     private void HandleAimActionCamera()
     {
-        if (player.isPerformingAction)
-        {
-            player.playerNetworkManager.isAiming.Value = false;
-            return;
-        }
         
-        if (player.playerNetworkManager.isAiming.Value)
+        if (player.playerNetworkManager.isAiming.Value && !player.isPerformingAction)
         {
             if (player.isThirdPersonCamera)
             {
-                //Camera in FPS mode
-                player.playerMeshRenderer.SetActive(false);
-                cameraObjectPosition.z = 0;
-                cameraObjectPosition.x = -cameraPivotTransform.localPosition.x;
-                cameraObject.transform.localPosition = cameraObjectPosition;
+                cameraObjectPosition.x = aimCameraXDistance;
             }
-                player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
-           
-            
+            cameraObjectPosition.z = aimCameraZDistance;
+            cameraObject.transform.localPosition = cameraObjectPosition;
+            player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
         }
-
-        // if (player.playerNetworkManager.isAiming.Value)
-        // { 
-        //     cameraObjectPosition.z = aimCameraZDistance;
-        //     cameraObjectPosition.x = aimCameraXDistance;
-        //     cameraObject.transform.localPosition = cameraObjectPosition;
-        //     player.playerAnimatorManager.PlayTargetActionAnimation(player.playerInventoryManager.currentRightHandWeapon.aim_State,false,false,true,true);
-        // }
-        // else
-        // {
-        //     cameraObjectPosition.x = 0;
-        // }
+        else if(player.isPerformingAction)
+        {
+            cameraObjectPosition.x = 0;
+        }
 
     }
 

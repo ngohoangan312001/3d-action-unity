@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gun Prototype
   m_EditorClassIdentifier: 
   itemName: Prototype Gun
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 0a936ae5d70c6c14ab943882f62e0a7a, type: 3}
   itemDescription: 
   itemId: 5
   weaponModel: {fileID: 2523466236103555754, guid: 75550aef4281022408cd8f52183c7925, type: 3}
@@ -45,6 +45,7 @@ MonoBehaviour:
   maxDistance: 200
   attackRate: 180
   reloadTime: 3
+  timeEachAttack: 0
   needAmmo: 1
   currentAmmo: 100
   magSize: 6

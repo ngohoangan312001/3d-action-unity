@@ -6538,6 +6538,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2101676736253721880, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932244656054533961, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
+      propertyPath: aimCameraXDistance
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932244656054533961, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
+      propertyPath: aimCameraZDistance
+      value: -0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4796521951671935139, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
       propertyPath: near clip plane
       value: 0.01
@@ -6580,6 +6592,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7287879057502511212, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7861398926094339629, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8004468253730996314, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
