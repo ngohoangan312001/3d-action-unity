@@ -26,6 +26,9 @@ namespace AN
         public float cameraVerticalInput;
         public float cameraHorizontalInput;
         
+        [Header("LOCK ON INPUT")]
+        [SerializeField] private bool lockOnInput;
+        
         [Header("ACTION INPUT")]
         [SerializeField] private bool rollInput = false;
         [SerializeField] private bool jumpInput = false;
@@ -111,20 +114,27 @@ namespace AN
                 playerControls = new PlayerControls();
 
                 // += operator asign function to the event
+                
+                //Movement
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
+                
+                //Camera
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.SwitchCameraMode.performed += i => switchCameramode = true;
                 
+                //Aim & Lock On
+                playerControls.PlayerAction.Aim.performed += i => aimInput = true;
+                playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
+                playerControls.PlayerAction.LockOn.performed += i => lockOnInput = true;
+                
+                //Movement Actions
                 playerControls.PlayerAction.Roll.performed += i => rollInput = true;
                 playerControls.PlayerAction.Sprint.performed += i => sprintInput = true;
                 playerControls.PlayerAction.Sprint.canceled += i => sprintInput = false;
                 playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
-                playerControls.PlayerAction.Aim.performed += i => aimInput = true;
-                playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
                 
+                //Combat Action
                 playerControls.PlayerAction.Attack.performed += i => attackInput = true;
-                
-                
                 playerControls.PlayerAction.SwitchRightWeapon.performed += i => switchRightWeaponInput = true;
                 playerControls.PlayerAction.SwitchLeftWeapon.performed += i => switchLeftWeaponInput = true;
             }
@@ -172,6 +182,7 @@ namespace AN
             HandleSprintMovementInput();
             HandleJumpMovementInput();
             HandleAimInput();
+            HandleLockOnInput();
             HandleAttackInput();
             HandleSwitchRightWeaponInput();
             HandleSwitchLeftWeaponInput();
@@ -293,6 +304,50 @@ namespace AN
             }
             
             player.playerNetworkManager.isAiming.Value = aimInput;
+        }
+
+        /**
+         * Lock On
+         */
+        private void HandleLockOnInput()
+        {
+            //Check if target Lock On is dead ? Unlock/Change target : Unlock 
+            if (player.playerNetworkManager.isLockOn.Value)
+            {
+                if (player.playerCombatManager.currentTarget != null)
+                    return;
+                
+                if (player.playerCombatManager.currentTarget.isDead.Value)
+                {
+                    player.playerNetworkManager.isLockOn.Value = false;
+                }
+                
+                // Todo: Find new target 
+                
+            }
+            
+            //Check if already Lock On ? Unlock : Lock On 
+            if (lockOnInput && player.playerNetworkManager.isLockOn.Value)
+            {
+                lockOnInput = false;
+                //Todo: Disable Lock On
+                return;
+            }
+            
+            if (lockOnInput && !player.playerNetworkManager.isLockOn.Value)
+            {
+                lockOnInput = false;
+                
+                //If Using Range Weapon => Return
+                if (player.playerInventoryManager.currentRightHandWeapon is RangeWeaponItem ||
+                    player.playerInventoryManager.currentLeftHandWeapon is RangeWeaponItem)
+                {
+                    return;
+                }
+
+                //Lock On
+                PlayerCamera.instance.HandleLocatingLockOnTargets();
+            }
         }
         
         private void HandleSwitchRightWeaponInput()

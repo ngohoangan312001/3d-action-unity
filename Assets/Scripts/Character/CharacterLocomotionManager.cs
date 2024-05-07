@@ -39,7 +39,10 @@ namespace AN
 
         protected void HandleGroundCheck()
         {
+            //The Physics.CheckSphere method checks if there are any colliders overlapping a sphere defined by its center position and radius in world coordinates.
+            //It returns a boolean value: true if there are overlapping colliders, and false otherwise.
             character.isGrounded = Physics.CheckSphere(character.transform.position, groundCheckPhereRadius, groundLayerMask);
+            
             character.characterNetworkManager.isJumping.Value = !character.isGrounded;
             
             if (character.isGrounded)

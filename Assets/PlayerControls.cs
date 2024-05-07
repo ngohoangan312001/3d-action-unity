@@ -328,6 +328,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock On"",
+                    ""type"": ""Button"",
+                    ""id"": ""73e5710a-542b-4418-b4e1-4c10135d25ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -462,6 +471,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Switch Quick Slot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70eb0f3c-c0fc-470a-8305-028fb13c597c"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -524,6 +544,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_SwitchRightWeapon = m_PlayerAction.FindAction("Switch Right Weapon", throwIfNotFound: true);
         m_PlayerAction_SwitchLeftWeapon = m_PlayerAction.FindAction("Switch Left Weapon", throwIfNotFound: true);
         m_PlayerAction_SwitchQuickSlot = m_PlayerAction.FindAction("Switch Quick Slot", throwIfNotFound: true);
+        m_PlayerAction_LockOn = m_PlayerAction.FindAction("Lock On", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Delete = m_UI.FindAction("Delete", throwIfNotFound: true);
@@ -696,6 +717,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_SwitchRightWeapon;
     private readonly InputAction m_PlayerAction_SwitchLeftWeapon;
     private readonly InputAction m_PlayerAction_SwitchQuickSlot;
+    private readonly InputAction m_PlayerAction_LockOn;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
@@ -708,6 +730,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @SwitchRightWeapon => m_Wrapper.m_PlayerAction_SwitchRightWeapon;
         public InputAction @SwitchLeftWeapon => m_Wrapper.m_PlayerAction_SwitchLeftWeapon;
         public InputAction @SwitchQuickSlot => m_Wrapper.m_PlayerAction_SwitchQuickSlot;
+        public InputAction @LockOn => m_Wrapper.m_PlayerAction_LockOn;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -741,6 +764,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchQuickSlot.started += instance.OnSwitchQuickSlot;
             @SwitchQuickSlot.performed += instance.OnSwitchQuickSlot;
             @SwitchQuickSlot.canceled += instance.OnSwitchQuickSlot;
+            @LockOn.started += instance.OnLockOn;
+            @LockOn.performed += instance.OnLockOn;
+            @LockOn.canceled += instance.OnLockOn;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -769,6 +795,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SwitchQuickSlot.started -= instance.OnSwitchQuickSlot;
             @SwitchQuickSlot.performed -= instance.OnSwitchQuickSlot;
             @SwitchQuickSlot.canceled -= instance.OnSwitchQuickSlot;
+            @LockOn.started -= instance.OnLockOn;
+            @LockOn.performed -= instance.OnLockOn;
+            @LockOn.canceled -= instance.OnLockOn;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -851,6 +880,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSwitchRightWeapon(InputAction.CallbackContext context);
         void OnSwitchLeftWeapon(InputAction.CallbackContext context);
         void OnSwitchQuickSlot(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

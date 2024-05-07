@@ -11,7 +11,6 @@ public class PlayerCamera : MonoBehaviour
     public PlayerManager player;
     
     [Header("Camera Settings")] 
-    private float cameraSmoothSpeed = 1;
     [SerializeField] float leftAndRightRotationSpeed = 220;
     [SerializeField] float upAndDownRotationSpeed = 220;
     [SerializeField] float minimumPivot = -30;//Highest point can look up
@@ -20,17 +19,26 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] LayerMask colliderWithLayers;
     
     [Header("Camera Values")] 
-    private Vector3 cameraVelocity;
-    private Vector3 cameraObjectPosition;// Use for camera collision (move camera to this posiotion con collision)
     [SerializeField] private float leftAndRightLookAngle;
     [SerializeField] private float upAndDownLookAngle;
     [SerializeField] private float cameraZPosition; //Value for camera collision
     [SerializeField] private float aimCameraZDistance = -0.2f;
     [SerializeField] private float aimCameraXDistance = 0.7f;
+    [SerializeField] Transform cameraPivotTransform;
+    
+    [Header("Lock On")] 
+    [SerializeField] private float lockOnRadius = 20;
+    [SerializeField] private float minimumViewableAngle = -50;
+    [SerializeField] private float maximumViewableAngle = 50;
+    [SerializeField] private float maximumLockOnDistance = 20;
+    
+    
+    private float cameraSmoothSpeed = 1;
+    private Vector3 cameraVelocity;
+    private Vector3 cameraObjectPosition;// Use for camera collision (move camera to this posiotion con collision)
     private float targetCameraZPosition; //Value for camera collision
     private Vector3 aimVelocity;
-
-    [SerializeField] Transform cameraPivotTransform;
+    
     private void Awake()
     {
         if(instance == null)
@@ -183,7 +191,72 @@ public class PlayerCamera : MonoBehaviour
     public void SwitchCameraMode()
     {
         player.isThirdPersonCamera = !player.isThirdPersonCamera;
+    }
 
-       
+    public void HandleLocatingLockOnTargets()
+    {
+        // Will be used to get the target closest to the player
+        float shortestDistance = Mathf.Infinity; 
+        
+        // Will be used to get the target closest to the right on the axis of current lock on target (+)
+        float shortestDistanceOfRightTarget = Mathf.Infinity; 
+        
+        // Will be used to get the target closest to the left on the axis of current lock on target (-)
+        float shortestDistanceOfLeftTarget = -Mathf.Infinity; 
+        
+        
+        //The Physics.OverlapSphere method returns an array of colliders that intersect or are inside the specified sphere.
+        //Can be used to find all colliders within the sphere, and then filter them based on your requirements (e.g., by tag or layer).
+        Collider[] colliders = Physics.OverlapSphere(player.transform.position, lockOnRadius, WorldUtilityManager.instance.GetCharacterLayers());
+
+        if(colliders != null && colliders.Length > 0)
+        {
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                CharacterManager lockOnTarget = colliders[i].GetComponent<CharacterManager>();
+
+                if (lockOnTarget != null)
+                {
+                    //Check if target are within player field of view
+                    Vector3 lockOnTargetDirection = lockOnTarget.transform.position - player.transform.position;
+                    float distanceFromTarget = Vector3.Distance(player.transform.position, lockOnTarget.transform.position); 
+                    
+                    float viewableAngle = Vector3.Angle(lockOnTargetDirection, cameraObject.transform.forward); 
+                    
+                    //If target is dead, check next target
+                    if(lockOnTarget.isDead.Value) 
+                        continue;
+                    
+                    //If target is this player, check next target
+                    if(lockOnTarget.transform.root == player.transform.root)
+                        continue;
+                    
+                    //If target is too far away, check next target
+                    if (distanceFromTarget > maximumLockOnDistance)
+                        continue;
+
+                    if (viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
+                    {
+                        RaycastHit hit;
+                        if (
+                            Physics.Linecast(
+                                player.playerCombatManager.lockOnTransform.position,
+                                lockOnTarget.characterCombatManager.lockOnTransform.position, 
+                                out hit, 
+                                WorldUtilityManager.instance.GetEnviromentLayers()
+                                )
+                            )
+                        {
+                            //Something in the way, player can't see the target
+                            continue;
+                        }
+                        else
+                        {
+                            Debug.Log("Target Lock On");
+                        }
+                    }
+                }
+            }
+        }
     }
 }
