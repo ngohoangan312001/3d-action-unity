@@ -8,7 +8,8 @@ namespace AN
 {
     public class RangeWeaponDamageCollider : WeaponDamageCollider
     {
-        [Header("VFX")] [SerializeField] private GameObject RangeWeaponAttackVFX;
+        [Header("VFX")] 
+        [SerializeField] private GameObject RangeWeaponAttackVFX;
         
         protected override void Awake()
         {
@@ -32,13 +33,12 @@ namespace AN
                     if (RangeWeapon.CanFire())
                     {
                         DisableDamageCollider();
-                        PlayWeaponAttackVFX(transform.position);
+                        PlayWeaponAttackVFX(transform.position, transform.rotation);
                         RangeWeapon.currentAmmo--;
                         RangeWeapon.timeSinceLastAttack = 0;
-
                         OnRangeAttack();
                         
-                        if (Physics.Raycast(transform.position, PlayerCamera.instance.transform.forward,
+                        if (Physics.Raycast(transform.position, transform.forward,
                                 out RaycastHit hitInfo, RangeWeapon.maxDistance))
                         {
                             CharacterManager damageTarget = hitInfo.collider?.GetComponentInParent<CharacterManager>();
@@ -77,11 +77,11 @@ namespace AN
             
         }
         
-        public void PlayWeaponAttackVFX(Vector3 startPoint)
+        public void PlayWeaponAttackVFX(Vector3 startPoint, Quaternion rotation)
         {
             if (RangeWeaponAttackVFX != null)
             {
-                GameObject bloodSplatter = Instantiate(RangeWeaponAttackVFX, startPoint, Quaternion.identity);
+                Instantiate(RangeWeaponAttackVFX, startPoint, rotation);
             }
             
         }

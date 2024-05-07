@@ -95,6 +95,9 @@ namespace AN
                 playerNetworkManager.vitality.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;
                 playerNetworkManager.intellect.OnValueChanged += playerNetworkManager.SetNewMaxEnergyValue;
                 playerNetworkManager.endurance.OnValueChanged += playerNetworkManager.SetNewMaxStaminaValue;
+                
+                //Toggle Crosshair
+                playerNetworkManager.isAiming.OnValueChanged += PlayerUIManager.instance.playerCrosshairManager.ToggleCrosshair;
             }
             
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
