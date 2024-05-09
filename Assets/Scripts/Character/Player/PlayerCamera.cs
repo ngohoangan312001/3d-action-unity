@@ -25,19 +25,21 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float aimCameraZDistance = -0.2f;
     [SerializeField] private float aimCameraXDistance = 0.7f;
     [SerializeField] Transform cameraPivotTransform;
+    private float cameraSmoothSpeed = 1;
+    private Vector3 cameraVelocity;private Vector3 cameraObjectPosition;// Use for camera collision (move camera to this posiotion con collision)
+    private float targetCameraZPosition; //Value for camera collision
+    private Vector3 aimVelocity;
     
     [Header("Lock On")] 
     [SerializeField] private float lockOnRadius = 20;
     [SerializeField] private float minimumViewableAngle = -50;
     [SerializeField] private float maximumViewableAngle = 50;
-    [SerializeField] private float maximumLockOnDistance = 20;
+    private List<CharacterManager> availableTargets = new List<CharacterManager>();
+    public CharacterManager nearestLockOnTarget;
+    [SerializeField] private float lockTargetFollowSpeed = 0.2f;
     
+   
     
-    private float cameraSmoothSpeed = 1;
-    private Vector3 cameraVelocity;
-    private Vector3 cameraObjectPosition;// Use for camera collision (move camera to this posiotion con collision)
-    private float targetCameraZPosition; //Value for camera collision
-    private Vector3 aimVelocity;
     
     private void Awake()
     {
@@ -106,32 +108,58 @@ public class PlayerCamera : MonoBehaviour
     private void HandleRotations()
     {
         //Lock on => force rotation toward target
-        
-        //===Normal rotation===
-        
-        //Get rotate left and right angle base on leftAndRightRotationSpeed
-        leftAndRightLookAngle += PlayerInputManager.instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
-        
-        //Get rotate up and down angle base on upAndDownRotationSpeed
-        upAndDownLookAngle -= PlayerInputManager.instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
+        if (player.playerNetworkManager.isLockOn.Value)
+        {
+            //Rotate this object (Left & Right)
+            Vector3 rotationDirection =
+                player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - transform.position;
+            rotationDirection.Normalize();
+            rotationDirection.y = 0;
 
-        // Clamp value so it will between minimumPivot and maximumPivot
-        upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
+            Quaternion targerRotation = Quaternion.LookRotation(rotationDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targerRotation, lockTargetFollowSpeed);
+            
+            //Rotate camera pivot (Up & Down)
+            rotationDirection = 
+                player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - cameraPivotTransform.position;
+            rotationDirection.Normalize();
+            targerRotation = Quaternion.LookRotation(rotationDirection);
+            cameraPivotTransform.rotation = Quaternion.Slerp(cameraPivotTransform.rotation, targerRotation, lockTargetFollowSpeed);
 
-        Vector2 cameraRotation = Vector2.zero;
-        Quaternion targetRotation;
+            //Save current rotation so that when un lock on the camera not return too snappy
+            leftAndRightLookAngle = transform.eulerAngles.y;
+            upAndDownLookAngle = transform.eulerAngles.x;
+
+        }
+        else
+        {
+            //===Normal rotation===
         
-        //Rotate left and right
-        // Quaternion.Euler => Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis.
-        cameraRotation.y = leftAndRightLookAngle;
-        targetRotation = Quaternion.Euler(cameraRotation);
-        transform.rotation = targetRotation;
+            //Get rotate left and right angle base on leftAndRightRotationSpeed
+            leftAndRightLookAngle += PlayerInputManager.instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
+        
+            //Get rotate up and down angle base on upAndDownRotationSpeed
+            upAndDownLookAngle -= PlayerInputManager.instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
 
-        //Rotate up and down
-        cameraRotation = Vector2.zero;
-        cameraRotation.x = upAndDownLookAngle;
-        targetRotation = Quaternion.Euler(cameraRotation);
-        cameraPivotTransform.localRotation = targetRotation;
+            // Clamp value so it will between minimumPivot and maximumPivot
+            upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
+
+            Vector2 cameraRotation = Vector2.zero;
+            Quaternion targetRotation;
+        
+            //Rotate left and right
+            // Quaternion.Euler => Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis.
+            cameraRotation.y = leftAndRightLookAngle;
+            targetRotation = Quaternion.Euler(cameraRotation);
+            transform.rotation = targetRotation;
+
+            //Rotate up and down
+            cameraRotation = Vector2.zero;
+            cameraRotation.x = upAndDownLookAngle;
+            targetRotation = Quaternion.Euler(cameraRotation);
+            cameraPivotTransform.localRotation = targetRotation;
+        }
+        
     }
 
     private void HandleCollisions()
@@ -231,10 +259,7 @@ public class PlayerCamera : MonoBehaviour
                     if(lockOnTarget.transform.root == player.transform.root)
                         continue;
                     
-                    //If target is too far away, check next target
-                    if (distanceFromTarget > maximumLockOnDistance)
-                        continue;
-
+                    //If target is outside of view range or blocked by another object, check next target
                     if (viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
                     {
                         RaycastHit hit;
@@ -247,16 +272,44 @@ public class PlayerCamera : MonoBehaviour
                                 )
                             )
                         {
-                            //Something in the way, player can't see the target
+                            //Something in the way, player can't see the target, check next target
                             continue;
                         }
                         else
                         {
+                            //If found target, add target to potential target List
                             Debug.Log("Target Lock On");
+                            availableTargets.Add(lockOnTarget);
                         }
                     }
                 }
             }
+
+
+            if (availableTargets != null && availableTargets.Count > 0)
+            {
+                for (int e = 0; e < availableTargets.Count; e++)
+                {
+                    float distanceFromTarget = Vector3.Distance(player.transform.position, availableTargets[e].transform.position);
+
+                    if (distanceFromTarget < shortestDistance)
+                    {
+                        shortestDistance = distanceFromTarget;
+                        nearestLockOnTarget = availableTargets[e];
+                    }
+                }
+            }
+            else
+            {
+                ClearLockOnTarget();
+                player.playerNetworkManager.isLockOn.Value = false;
+            }
         }
+    }
+
+    public void ClearLockOnTarget()
+    {
+        nearestLockOnTarget = null;
+        availableTargets.Clear();
     }
 }

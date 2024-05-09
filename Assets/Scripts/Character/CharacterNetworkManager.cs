@@ -23,6 +23,9 @@ namespace AN
         public NetworkVariable<float> networkMoveAmount = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         [Header("Flags")]
+        public NetworkVariable<ulong> currentTargetNetworkObjectId = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+        [Header("Flags")]
         public NetworkVariable<bool> isSprinting = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isAiming = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> isLockOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -60,6 +63,25 @@ namespace AN
             if (currentHealth.Value > maxHealth.Value)
             {
                 currentHealth.Value = maxHealth.Value;
+            }
+        }
+
+        public void OnLockOnTargetIdChange(ulong oldId, ulong newId)
+        {
+            if (!IsOwner)
+            {
+                //Truy cập vào một đối tượng đã được tạo (spawned) thông qua NetworkManager
+                character.characterCombatManager.currentTarget = NetworkManager.Singleton.SpawnManager.SpawnedObjects[newId]
+                    .GetComponent<CharacterManager>();
+            }
+        }
+        
+        public void OnIsLockOnValueChange(bool oldValue, bool newValue)
+        {
+            //if not lock on clear current lock on target
+            if (!isLockOn.Value)
+            {
+                character.characterCombatManager.currentTarget = null;
             }
         }
         

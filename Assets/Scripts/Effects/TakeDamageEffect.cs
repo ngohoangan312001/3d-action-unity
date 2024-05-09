@@ -118,6 +118,8 @@ namespace AN
         {
             if (!character.IsOwner) return;
             
+            if (character.isDead.Value) return;
+            
             poiseIsBroken = true;
             
             if (angleHitFrom >= 145 && angleHitFrom <= 180)

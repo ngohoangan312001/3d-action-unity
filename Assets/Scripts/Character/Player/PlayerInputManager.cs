@@ -314,7 +314,7 @@ namespace AN
             //Check if target Lock On is dead ? Unlock/Change target : Unlock 
             if (player.playerNetworkManager.isLockOn.Value)
             {
-                if (player.playerCombatManager.currentTarget != null)
+                if (player.playerCombatManager.currentTarget == null)
                     return;
                 
                 if (player.playerCombatManager.currentTarget.isDead.Value)
@@ -330,7 +330,11 @@ namespace AN
             if (lockOnInput && player.playerNetworkManager.isLockOn.Value)
             {
                 lockOnInput = false;
-                //Todo: Disable Lock On
+                player.playerNetworkManager.isLockOn.Value = false;
+                
+                //Disable Lock On
+                PlayerCamera.instance.ClearLockOnTarget();
+                
                 return;
             }
             
@@ -347,6 +351,12 @@ namespace AN
 
                 //Lock On
                 PlayerCamera.instance.HandleLocatingLockOnTargets();
+
+                if (PlayerCamera.instance.nearestLockOnTarget != null)
+                {
+                    player.playerCombatManager.SetTarget(PlayerCamera.instance.nearestLockOnTarget);
+                    player.playerNetworkManager.isLockOn.Value = true;
+                }
             }
         }
         

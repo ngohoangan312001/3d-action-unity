@@ -102,6 +102,10 @@ namespace AN
             
             playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
             
+            //Lock On
+            playerNetworkManager.isLockOn.OnValueChanged += playerNetworkManager.OnIsLockOnValueChange;
+            playerNetworkManager.currentTargetNetworkObjectId.OnValueChanged += playerNetworkManager.OnLockOnTargetIdChange;
+            
             //Load Weapon in weapon id change
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
@@ -206,6 +210,12 @@ namespace AN
             //Sync Weapon
             playerNetworkManager.OnCurrentRightHandWeaponIDChange(0,playerNetworkManager.currentRightHandWeaponId.Value);
             playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0,playerNetworkManager.currentLeftHandWeaponId.Value);
+            
+            //Sync Lock On Target
+            if (playerNetworkManager.isLockOn.Value)
+            {
+                playerNetworkManager.OnLockOnTargetIdChange(0,playerNetworkManager.currentTargetNetworkObjectId.Value);
+            }
         }
         
         public override void ReviveCharacter()
