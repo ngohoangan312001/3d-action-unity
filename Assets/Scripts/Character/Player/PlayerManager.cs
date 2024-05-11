@@ -117,8 +117,8 @@ namespace AN
             //Keep a list of player active in game
             WorldGameSessionManager.instance.AddPlayerToActivePlayerList(this);
             
-            //Host and Server dont need to load players to sync them
-            //Only ner tho sync player gear when join the game late
+            //Host and Server don't need to load players to sync them
+            //Only sync player gear when join the game late
             if (!IsServer && IsOwner)
             {
                 

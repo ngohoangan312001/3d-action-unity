@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.Serialization;
 
 namespace AN
 {
@@ -28,20 +29,22 @@ namespace AN
         
         [Header("LOCK ON INPUT")]
         [SerializeField] private bool lockOnInput;
+        [SerializeField] private bool lockOnLeftInput;
+        [SerializeField] private bool lockOnRightInput;
         
         [Header("ACTION INPUT")]
-        [SerializeField] private bool rollInput = false;
-        [SerializeField] private bool jumpInput = false;
-        [SerializeField] private bool sprintInput = false;
-        [SerializeField] private bool switchCameramode = false;
-        [SerializeField] private bool aimInput = false;
+        [SerializeField] private bool rollInput;
+        [SerializeField] private bool jumpInput;
+        [SerializeField] private bool sprintInput;
+        [SerializeField] private bool switchCameraMode;
+        [SerializeField] private bool aimInput;
         
         [Header("COMBAT INPUT")]
-        [SerializeField] private bool attackInput = false;
+        [SerializeField] private bool attackInput;
         
         [Header("QUICK SLOT INPUT")]
-        [SerializeField] private bool switchRightWeaponInput = false;
-        [SerializeField] private bool switchLeftWeaponInput = false;
+        [SerializeField] private bool switchRightWeaponInput;
+        [SerializeField] private bool switchLeftWeaponInput;
         
         private void Awake()
         {
@@ -120,12 +123,14 @@ namespace AN
                 
                 //Camera
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
-                playerControls.PlayerCamera.SwitchCameraMode.performed += i => switchCameramode = true;
+                playerControls.PlayerCamera.SwitchCameraMode.performed += i => switchCameraMode = true;
                 
                 //Aim & Lock On
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
                 playerControls.PlayerAction.LockOn.performed += i => lockOnInput = true;
+                playerControls.PlayerAction.SeekLeftLockOnTarget.performed += i => lockOnLeftInput = true;
+                playerControls.PlayerAction.SeekRightLockOnTarget.performed += i => lockOnRightInput = true;
                 
                 //Movement Actions
                 playerControls.PlayerAction.Roll.performed += i => rollInput = true;
@@ -153,9 +158,9 @@ namespace AN
             HandleAllInput();
         }
         
-        //if not active on application, disable control
         private void OnApplicationFocus(bool focus)
         {
+            //If not active on application, disable control
             if (enabled)
             {
                 if (focus)
@@ -232,9 +237,9 @@ namespace AN
             cameraVerticalInput = cameraInput.y;
             cameraHorizontalInput = cameraInput.x;
 
-            if (switchCameramode)
+            if (switchCameraMode)
             {
-                switchCameramode = false;
+                switchCameraMode = false;
                 PlayerCamera.instance.SwitchCameraMode();
             }
         }
@@ -294,21 +299,25 @@ namespace AN
         
         private void HandleAimInput()
         {
-            if (aimInput && (!player.playerInventoryManager.currentRightHandWeapon.canAim))
+            if (aimInput)
             {
-                if (!player.playerInventoryManager.currentLeftHandWeapon.canAim)
+                //Disable lock on when aiming
+                player.playerNetworkManager.isLockOn.Value = !aimInput;
+                
+                if (!player.playerInventoryManager.currentRightHandWeapon.canAim)
                 {
-                    player.playerNetworkManager.isAiming.Value = false;
-                    return;
+                    if (!player.playerInventoryManager.currentLeftHandWeapon.canAim)
+                    {
+                        player.playerNetworkManager.isAiming.Value = false;
+                        return;
+                    }
                 }
             }
             
             player.playerNetworkManager.isAiming.Value = aimInput;
         }
 
-        /**
-         * Lock On
-         */
+        //---Lock On---//
         private void HandleLockOnInput()
         {
             //Check if target Lock On is dead ? Unlock/Change target : Unlock 
@@ -319,10 +328,11 @@ namespace AN
                 
                 if (player.playerCombatManager.currentTarget.isDead.Value)
                 {
+                    //Find new target
                     player.playerNetworkManager.isLockOn.Value = false;
+                    PlayerCamera.instance.ClearLockOnTarget();
+                    lockOnInput = true;
                 }
-                
-                // Todo: Find new target 
                 
             }
             
@@ -343,8 +353,7 @@ namespace AN
                 lockOnInput = false;
                 
                 //If Using Range Weapon => Return
-                if (player.playerInventoryManager.currentRightHandWeapon is RangeWeaponItem ||
-                    player.playerInventoryManager.currentLeftHandWeapon is RangeWeaponItem)
+                if (player.playerNetworkManager.isAiming.Value)
                 {
                     return;
                 }
@@ -360,6 +369,24 @@ namespace AN
             }
         }
         
+        private void HandleLockOnTargetSwitchInput()
+        {
+            if (lockOnLeftInput)
+            {
+                lockOnLeftInput = false;
+
+                if (player.playerNetworkManager.isLockOn.Value)
+                {
+                    
+                }
+            }
+            
+            if (lockOnRightInput)
+            {
+                lockOnRightInput = false;
+            }
+        }
+        //---End Lock On---//
         private void HandleSwitchRightWeaponInput()
         {
             if (switchRightWeaponInput && !PlayerUIManager.instance.playerUIHudManager.CheckWeaponIsCooldown())

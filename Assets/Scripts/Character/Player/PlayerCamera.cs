@@ -32,10 +32,13 @@ public class PlayerCamera : MonoBehaviour
     
     [Header("Lock On")] 
     [SerializeField] private float lockOnRadius = 20;
+    [SerializeField] private float maximumLockOnDistance = 20;
     [SerializeField] private float minimumViewableAngle = -50;
     [SerializeField] private float maximumViewableAngle = 50;
     private List<CharacterManager> availableTargets = new List<CharacterManager>();
     public CharacterManager nearestLockOnTarget;
+    public CharacterManager leftLockOnTarget;
+    public CharacterManager rightLockOnTarget;
     [SerializeField] private float lockTargetFollowSpeed = 0.2f;
     
    
@@ -110,6 +113,15 @@ public class PlayerCamera : MonoBehaviour
         //Lock on => force rotation toward target
         if (player.playerNetworkManager.isLockOn.Value)
         {
+            //If target is out of range, un lock
+            float distanceFromTarget = Vector3.Distance(player.transform.position, player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position);
+            if (distanceFromTarget > maximumLockOnDistance)
+            {
+                player.playerNetworkManager.isLockOn.Value = false;
+                return;
+            }
+            //----------------------------------
+            
             //Rotate this object (Left & Right)
             Vector3 rotationDirection =
                 player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - transform.position;
@@ -247,7 +259,6 @@ public class PlayerCamera : MonoBehaviour
                 {
                     //Check if target are within player field of view
                     Vector3 lockOnTargetDirection = lockOnTarget.transform.position - player.transform.position;
-                    float distanceFromTarget = Vector3.Distance(player.transform.position, lockOnTarget.transform.position); 
                     
                     float viewableAngle = Vector3.Angle(lockOnTargetDirection, cameraObject.transform.forward); 
                     

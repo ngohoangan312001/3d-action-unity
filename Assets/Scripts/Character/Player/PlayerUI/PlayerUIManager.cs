@@ -13,6 +13,8 @@ public class PlayerUIManager : MonoBehaviour
     [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
     [HideInInspector] public PlayerCrosshairManager playerCrosshairManager;
 
+    private Canvas canvas;
+
     [SerializeField] private bool joinNetwork;
     private void Awake()
     {
@@ -30,6 +32,8 @@ public class PlayerUIManager : MonoBehaviour
         playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
         
         playerCrosshairManager = GetComponentInChildren<PlayerCrosshairManager>();
+
+        canvas = GetComponent<Canvas>();
     }
 
     private void Start()
