@@ -93,16 +93,42 @@ namespace AN
             {
                 return;
             }
+
+            float snappedHorizontalMovement = GetSnappedMovementValue(horizontalValue);
+            float snappedVerticalMovement = GetSnappedMovementValue(verticalValue);
             
             if (character.characterNetworkManager.isSprinting.Value)
             {
-                verticalValue = 2;
+                snappedVerticalMovement = 2;
             }
             
-            character.animator.SetFloat("horizontal",horizontalValue, 0.1f, Time.deltaTime);
-            character.animator.SetFloat("vertical",verticalValue, 0.1f, Time.deltaTime);
+            character.animator.SetFloat("horizontal",snappedHorizontalMovement, 0.1f, Time.deltaTime);
+            character.animator.SetFloat("vertical",snappedVerticalMovement, 0.1f, Time.deltaTime);
         }
 
+        public float GetSnappedMovementValue(float movementValue)
+        {
+            float snappedResult = 0;
+            if (movementValue > 0 && movementValue <= 0.5f)
+            {
+                snappedResult = 0.5f;
+            }
+            else if (movementValue > 0.5f && movementValue <= 1)
+            {
+                snappedResult = 1f;
+            }
+            else if (movementValue >= -0.5f && movementValue < 0 )
+            {
+                snappedResult = -0.5f;
+            }
+            else if (movementValue >= -1 && movementValue < -0.5 )
+            {
+                snappedResult = -1;
+            }
+
+            return snappedResult;
+        }
+        
         public virtual void PlayTargetActionAnimation(
             string targetAction, 
             bool isPerformingAction, 

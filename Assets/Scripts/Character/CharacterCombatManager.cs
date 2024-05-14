@@ -23,7 +23,7 @@ namespace AN
             character = GetComponent<CharacterManager>();
         }
 
-        public void SetTarget(CharacterManager newTarget)
+        public virtual void SetTarget(CharacterManager newTarget)
         {
             if (character.IsOwner)
             {

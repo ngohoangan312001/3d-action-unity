@@ -35,14 +35,15 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float maximumLockOnDistance = 20;
     [SerializeField] private float minimumViewableAngle = -50;
     [SerializeField] private float maximumViewableAngle = 50;
+    [SerializeField] private float unlockedCameraHeight = 1.65f;
+    [SerializeField] private float lockedCameraHeight = 2;
+    [SerializeField] private float cameraHeightSpeed = 1;
     private List<CharacterManager> availableTargets = new List<CharacterManager>();
     public CharacterManager nearestLockOnTarget;
     public CharacterManager leftLockOnTarget;
     public CharacterManager rightLockOnTarget;
     [SerializeField] private float lockTargetFollowSpeed = 0.2f;
-    
-   
-    
+    private Coroutine cameraLockOnHeightCoroutine;
     
     private void Awake()
     {
@@ -308,6 +309,33 @@ public class PlayerCamera : MonoBehaviour
                         shortestDistance = distanceFromTarget;
                         nearestLockOnTarget = availableTargets[e];
                     }
+                    
+                    //If already lock on target, search for the nearest left and right targets
+                    if (player.playerNetworkManager.isLockOn.Value)
+                    {
+                        //Phương thức InverseTransformPoint trong Unity được sử dụng để chuyển đổi một vị trí từ không gian thế giới (world space) sang không gian cục bộ (local space).
+                        //Đây là hàm ngược lại của Transform.TransformPoint, được sử dụng để chuyển đổi từ không gian cục bộ sang không gian thế giới.
+                        Vector3 relativeEnemyPosition =
+                            player.transform.InverseTransformPoint(availableTargets[e].transform.position);
+                        float distanceFromLeftTarget = relativeEnemyPosition.x;
+                        float distanceFromRightTarget = relativeEnemyPosition.x;
+                        
+                        if(availableTargets[e] == player.playerCombatManager.currentTarget)
+                            continue;
+
+                        if (distanceFromLeftTarget <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
+                        {
+                            shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                            leftLockOnTarget = availableTargets[e];
+                        }
+                        else if (distanceFromRightTarget >= 0.00 &&
+                                  distanceFromRightTarget < shortestDistanceOfRightTarget)
+                        {
+                            shortestDistanceOfRightTarget = distanceFromRightTarget;
+                            rightLockOnTarget = availableTargets[e];
+                        }
+
+                    }
                 }
             }
             else
@@ -318,9 +346,89 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
+    public void SetLockCameraHeight()
+    {
+        if (cameraLockOnHeightCoroutine != null)
+        {
+            StopCoroutine(cameraLockOnHeightCoroutine);
+        }
+
+        cameraLockOnHeightCoroutine = StartCoroutine(SetCameraHeight());
+    }
+    
     public void ClearLockOnTarget()
     {
         nearestLockOnTarget = null;
+        leftLockOnTarget = null;
+        rightLockOnTarget = null;
         availableTargets.Clear();
+    }
+
+    public IEnumerator WaitThenFindNewTarget()
+    {
+        while (player.isPerformingAction)
+        {
+            yield return null;
+        }
+
+        if (nearestLockOnTarget != null)
+        {
+            player.playerCombatManager.SetTarget(nearestLockOnTarget);
+            player.playerNetworkManager.isLockOn.Value = true;
+        }
+
+        yield return null;
+    }
+    public IEnumerator SetCameraHeight()
+    {
+        float duration = 1;
+        float timer = 0;
+        
+        Vector3 velocity = Vector3.zero;
+        Vector3 newLockedCameraHeight = new Vector3(cameraPivotTransform.transform.localPosition.x, lockedCameraHeight);
+        Vector3 newUnLockedCameraHeight = new Vector3(cameraPivotTransform.transform.localPosition.x, unlockedCameraHeight);
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            if (player != null)
+            {
+                if (player.playerCombatManager.currentTarget != null)
+                {
+                    cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(
+                        cameraPivotTransform.transform.localPosition, newLockedCameraHeight, ref velocity,
+                        cameraHeightSpeed);
+                    
+                    cameraPivotTransform.transform.localRotation = Quaternion.Lerp(
+                        cameraPivotTransform.transform.localRotation, Quaternion.Euler(0,0,0),
+                        lockTargetFollowSpeed);
+                }
+                else
+                {
+                    cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(
+                        cameraPivotTransform.transform.localPosition, newUnLockedCameraHeight, ref velocity,
+                        cameraHeightSpeed);
+                }
+            }
+
+            yield return null;
+        }
+        
+        
+        if (player != null)
+        {
+            if (player.playerCombatManager.currentTarget != null)
+            {
+                cameraPivotTransform.transform.localPosition = newLockedCameraHeight;
+
+                cameraPivotTransform.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                cameraPivotTransform.transform.localPosition = newUnLockedCameraHeight;
+            }
+        }
+
+        yield return null;
     }
 }

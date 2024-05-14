@@ -31,6 +31,7 @@ namespace AN
         [SerializeField] private bool lockOnInput;
         [SerializeField] private bool lockOnLeftInput;
         [SerializeField] private bool lockOnRightInput;
+        private Coroutine lockOnCoroutine;
         
         [Header("ACTION INPUT")]
         [SerializeField] private bool rollInput;
@@ -188,6 +189,7 @@ namespace AN
             HandleJumpMovementInput();
             HandleAimInput();
             HandleLockOnInput();
+            HandleLockOnTargetSwitchInput();
             HandleAttackInput();
             HandleSwitchRightWeaponInput();
             HandleSwitchLeftWeaponInput();
@@ -204,7 +206,7 @@ namespace AN
 
             
             // Move speed will only be 0, 0.5 or 1
-            if(moveAmount <= 0.5 && moveAmount > 0)
+            if(moveAmount > 0 && moveAmount <= 0.5)
             {
                 moveAmount = 0.5f;
             }
@@ -218,7 +220,7 @@ namespace AN
                 moveAmount = 2;
             }
             
-            if (player.playerNetworkManager.isAiming.Value)
+            if ((player.playerNetworkManager.isAiming.Value || player.playerNetworkManager.isLockOn.Value) && !player.playerNetworkManager.isSprinting.Value)
             {
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput ,verticalInput);
             }
@@ -328,12 +330,20 @@ namespace AN
                 
                 if (player.playerCombatManager.currentTarget.isDead.Value)
                 {
-                    //Find new target
                     player.playerNetworkManager.isLockOn.Value = false;
+                    
+        
                     PlayerCamera.instance.ClearLockOnTarget();
-                    lockOnInput = true;
+                    PlayerCamera.instance.HandleLocatingLockOnTargets();
                 }
                 
+                //Find new target
+                
+                //Make sure that there will only one lockOnCoroutine can be run on this script
+                if(lockOnCoroutine != null)
+                    StopCoroutine(lockOnCoroutine);
+
+                lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
             }
             
             //Check if already Lock On ? Unlock : Lock On 
@@ -373,19 +383,30 @@ namespace AN
         {
             if (lockOnLeftInput)
             {
-                lockOnLeftInput = false;
-
-                if (player.playerNetworkManager.isLockOn.Value)
-                {
-                    
-                }
+                TriggerLeftRightLockOnTarget(ref lockOnLeftInput, PlayerCamera.instance.leftLockOnTarget);
             }
             
             if (lockOnRightInput)
             {
-                lockOnRightInput = false;
+                TriggerLeftRightLockOnTarget(ref lockOnRightInput, PlayerCamera.instance.rightLockOnTarget);
             }
         }
+
+        public void TriggerLeftRightLockOnTarget(ref bool lockOnDirectionInput, CharacterManager lockOnTargetOfDirection)
+        {
+            lockOnDirectionInput = false;
+
+            if (player.playerNetworkManager.isLockOn.Value)
+            {
+                PlayerCamera.instance.HandleLocatingLockOnTargets();
+
+                if (lockOnTargetOfDirection != null)
+                {
+                    player.playerCombatManager.SetTarget(lockOnTargetOfDirection);
+                }
+            }
+        }
+        
         //---End Lock On---//
         private void HandleSwitchRightWeaponInput()
         {

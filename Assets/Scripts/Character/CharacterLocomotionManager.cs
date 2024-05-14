@@ -27,6 +27,9 @@ namespace AN
         [SerializeField] protected LayerMask groundLayerMask = 0;
         
         
+        [Header("Flag")] 
+        public bool isRolling;
+        
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
