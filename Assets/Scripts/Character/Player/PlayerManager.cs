@@ -110,8 +110,49 @@ namespace AN
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
             playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
             playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged += playerNetworkManager.OnCurrentUsingWeaponIDChange;
+            
+            //Flags
+            playerNetworkManager.isChargingAttack.OnValueChanged += playerNetworkManager.OnIsChargingAttackChange;
         }
 
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallBack;
+            
+            if (IsOwner)
+            {
+                //Update UI stat bar when value change
+                playerNetworkManager.currentHealth.OnValueChanged -= PlayerUIManager.instance.playerUIHudManager.SetNewHealthValue;
+                playerNetworkManager.currentEnergy.OnValueChanged -= PlayerUIManager.instance.playerUIHudManager.SetNewEnergyValue;
+                playerNetworkManager.currentStamina.OnValueChanged -= PlayerUIManager.instance.playerUIHudManager.SetNewStamninaValue;
+                
+                playerNetworkManager.currentStamina.OnValueChanged -= playerStatManager.ResetStaminaRegenerationTimer;
+                
+                //Update Max value of resource when stat change
+                playerNetworkManager.vitality.OnValueChanged -= playerNetworkManager.SetNewMaxHealthValue;
+                playerNetworkManager.intellect.OnValueChanged -= playerNetworkManager.SetNewMaxEnergyValue;
+                playerNetworkManager.endurance.OnValueChanged -= playerNetworkManager.SetNewMaxStaminaValue;
+                
+                //Toggle Crosshair
+                playerNetworkManager.isAiming.OnValueChanged -= PlayerUIManager.instance.playerCrosshairManager.ToggleCrosshair;
+            }
+            
+            playerNetworkManager.currentHealth.OnValueChanged -= playerNetworkManager.CheckHP;
+            
+            //Lock On
+            playerNetworkManager.isLockOn.OnValueChanged -= playerNetworkManager.OnIsLockOnValueChange;
+            playerNetworkManager.currentTargetNetworkObjectId.OnValueChanged -= playerNetworkManager.OnLockOnTargetIdChange;
+            
+            //Load Weapon in weapon id change
+            playerNetworkManager.currentRightHandWeaponId.OnValueChanged -= playerNetworkManager.OnCurrentRightHandWeaponIDChange;
+            playerNetworkManager.currentLeftHandWeaponId.OnValueChanged -= playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+            playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged -= playerNetworkManager.OnCurrentUsingWeaponIDChange;
+            
+            //Flags
+            playerNetworkManager.isChargingAttack.OnValueChanged -= playerNetworkManager.OnIsChargingAttackChange;
+        }
+        
         private void OnClientConnectedCallBack(ulong clientId)
         {
             //Keep a list of player active in game

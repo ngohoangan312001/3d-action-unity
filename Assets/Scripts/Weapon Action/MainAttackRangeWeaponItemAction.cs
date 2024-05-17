@@ -36,7 +36,7 @@ namespace AN
         {
             if (playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
             {
-                    playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack,
+                    playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack01,
                         main_Attack, true,false,true,true);
 
                 return;

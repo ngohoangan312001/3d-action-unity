@@ -27,9 +27,10 @@ namespace AN
         public float cameraVerticalInput;
         public float cameraHorizontalInput;
         
+        [FormerlySerializedAs("lockOnInput")]
         [Header("LOCK ON INPUT")]
-        [SerializeField] private bool lockOnInput;
-        [SerializeField] private bool lockOnLeftInput;
+        [SerializeField] private bool lock_On_Input;
+        [SerializeField] private bool lock_On_Left_Input;
         [SerializeField] private bool lockOnRightInput;
         private Coroutine lockOnCoroutine;
         
@@ -40,8 +41,11 @@ namespace AN
         [SerializeField] private bool switchCameraMode;
         [SerializeField] private bool aimInput;
         
+        [FormerlySerializedAs("leftClickInput")]
         [Header("COMBAT INPUT")]
-        [SerializeField] private bool attackInput;
+        [SerializeField] private bool left_Click_Input;
+        [SerializeField] private bool right_Click_Input;
+        [SerializeField] private bool hold_Right_Click_Input;
         
         [Header("QUICK SLOT INPUT")]
         [SerializeField] private bool switchRightWeaponInput;
@@ -129,8 +133,8 @@ namespace AN
                 //Aim & Lock On
                 playerControls.PlayerAction.Aim.performed += i => aimInput = true;
                 playerControls.PlayerAction.Aim.canceled += i => aimInput = false;
-                playerControls.PlayerAction.LockOn.performed += i => lockOnInput = true;
-                playerControls.PlayerAction.SeekLeftLockOnTarget.performed += i => lockOnLeftInput = true;
+                playerControls.PlayerAction.LockOn.performed += i => lock_On_Input = true;
+                playerControls.PlayerAction.SeekLeftLockOnTarget.performed += i => lock_On_Left_Input = true;
                 playerControls.PlayerAction.SeekRightLockOnTarget.performed += i => lockOnRightInput = true;
                 
                 //Movement Actions
@@ -140,7 +144,12 @@ namespace AN
                 playerControls.PlayerAction.Jump.performed += i => jumpInput = true;
                 
                 //Combat Action
-                playerControls.PlayerAction.Attack.performed += i => attackInput = true;
+                playerControls.PlayerAction.LeftClick.performed += i => left_Click_Input = true;
+                playerControls.PlayerAction.RightClick.performed += i => right_Click_Input = true;
+                playerControls.PlayerAction.HoldRightClick.performed += i => hold_Right_Click_Input = true;
+                playerControls.PlayerAction.HoldRightClick.canceled += i => hold_Right_Click_Input = false;
+                
+                //Switch Weapon
                 playerControls.PlayerAction.SwitchRightWeapon.performed += i => switchRightWeaponInput = true;
                 playerControls.PlayerAction.SwitchLeftWeapon.performed += i => switchLeftWeaponInput = true;
             }
@@ -187,13 +196,21 @@ namespace AN
             HandleRollMovementInput();
             HandleSprintMovementInput();
             HandleJumpMovementInput();
+            
             HandleAimInput();
+            
             HandleLockOnInput();
             HandleLockOnTargetSwitchInput();
+            
             HandleAttackInput();
+            HandleHeavyAttackInput();
+            HandleChargeAttackInput();
+            
             HandleSwitchRightWeaponInput();
             HandleSwitchLeftWeaponInput();
         }
+        
+        
         
         private void HandlePlayerMovementInput()
         {
@@ -286,9 +303,9 @@ namespace AN
         
         private void HandleAttackInput()
         {
-            if (attackInput)
+            if (left_Click_Input)
             {
-                attackInput = false;
+                left_Click_Input = false;
                 //TODO: return (do nothing) if menu or UI window is open
                 
                 player.playerNetworkManager.SetCharacterActionHand(true);
@@ -296,6 +313,33 @@ namespace AN
                 //TODO: use 2 hand action when character equip 2 hand weapon
                 
                 player.playerCombatManager.PerformWeaponBaseAction(player.playerInventoryManager.currentRightHandWeapon.oh_Attack_Action,player.playerInventoryManager.currentRightHandWeapon);
+            }
+        }
+        
+        private void HandleHeavyAttackInput()
+        {
+            if (right_Click_Input)
+            {
+                right_Click_Input = false;
+                //TODO: return (do nothing) if menu or UI window is open
+                
+                player.playerNetworkManager.SetCharacterActionHand(true);
+                
+                //TODO: use 2 hand action when character equip 2 hand weapon
+                
+                player.playerCombatManager.PerformWeaponBaseAction(player.playerInventoryManager.currentRightHandWeapon.oh_Heavy_Attack_Action,player.playerInventoryManager.currentRightHandWeapon);
+            }
+        }
+        
+        private void HandleChargeAttackInput()
+        {
+            //Only check for a charge when in a action that required it
+            if (player.isPerformingAction)
+            {
+                if (player.playerNetworkManager.isUsingRightHand.Value)
+                {
+                    player.playerNetworkManager.isChargingAttack.Value = hold_Right_Click_Input;
+                }
             }
         }
         
@@ -331,10 +375,6 @@ namespace AN
                 if (player.playerCombatManager.currentTarget.isDead.Value)
                 {
                     player.playerNetworkManager.isLockOn.Value = false;
-                    
-        
-                    PlayerCamera.instance.ClearLockOnTarget();
-                    PlayerCamera.instance.HandleLocatingLockOnTargets();
                 }
                 
                 //Find new target
@@ -347,9 +387,9 @@ namespace AN
             }
             
             //Check if already Lock On ? Unlock : Lock On 
-            if (lockOnInput && player.playerNetworkManager.isLockOn.Value)
+            if (lock_On_Input && player.playerNetworkManager.isLockOn.Value)
             {
-                lockOnInput = false;
+                lock_On_Input = false;
                 player.playerNetworkManager.isLockOn.Value = false;
                 
                 //Disable Lock On
@@ -358,9 +398,9 @@ namespace AN
                 return;
             }
             
-            if (lockOnInput && !player.playerNetworkManager.isLockOn.Value)
+            if (lock_On_Input && !player.playerNetworkManager.isLockOn.Value)
             {
-                lockOnInput = false;
+                lock_On_Input = false;
                 
                 //If Using Range Weapon => Return
                 if (player.playerNetworkManager.isAiming.Value)
@@ -381,18 +421,18 @@ namespace AN
         
         private void HandleLockOnTargetSwitchInput()
         {
-            if (lockOnLeftInput)
+            if (lock_On_Left_Input)
             {
-                TriggerLeftRightLockOnTarget(ref lockOnLeftInput, PlayerCamera.instance.leftLockOnTarget);
+                TriggerLeftRightLockOnTarget(ref lock_On_Left_Input, ref PlayerCamera.instance.leftLockOnTarget);
             }
             
             if (lockOnRightInput)
             {
-                TriggerLeftRightLockOnTarget(ref lockOnRightInput, PlayerCamera.instance.rightLockOnTarget);
+                TriggerLeftRightLockOnTarget(ref lockOnRightInput, ref PlayerCamera.instance.rightLockOnTarget);
             }
         }
 
-        public void TriggerLeftRightLockOnTarget(ref bool lockOnDirectionInput, CharacterManager lockOnTargetOfDirection)
+        public void TriggerLeftRightLockOnTarget(ref bool lockOnDirectionInput, ref CharacterManager lockOnTargetOfDirection)
         {
             lockOnDirectionInput = false;
 
@@ -412,7 +452,6 @@ namespace AN
         {
             if (switchRightWeaponInput && !PlayerUIManager.instance.playerUIHudManager.CheckWeaponIsCooldown())
             {
-                switchRightWeaponInput = false;
                 player.playerEquipmentManager.SwitchRightHandWeapon();
 
                 //!impotant: this is for testing only, need to be delete after found a way to sync weapon from inventory
@@ -420,6 +459,7 @@ namespace AN
                 
                 PlayerUIManager.instance.playerUIHudManager.StartCoolDownWeaponSwitch(player.playerNetworkManager.weaponSwitchCooldownTime.Value);
             }
+            switchRightWeaponInput = false;
         }
         
         private void HandleSwitchLeftWeaponInput()

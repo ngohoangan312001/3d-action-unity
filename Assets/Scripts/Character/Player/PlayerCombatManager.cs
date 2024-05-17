@@ -10,6 +10,10 @@ namespace AN
         private PlayerManager player;
         public WeaponItem currentWeaponBeingUsed;
 
+        [Header("Flags")] 
+        public bool canComboWithMainHandWeapon;
+        //public bool canComboWithOffHandWeapon;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -40,14 +44,30 @@ namespace AN
 
             switch (currentAttackType)
             {
-                case AttackType.LightAttack:
+                case AttackType.LightAttack01:
                     staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
                                       currentWeaponBeingUsed.lightAttackStaminaCostMultiplier;
                     break;
-                case AttackType.HeavyAttack:
+                // case AttackType.LightAttack02:
+                //     staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                //                       currentWeaponBeingUsed.lightAttackStaminaCostMultiplier;
+                //     break;
+                case AttackType.HeavyAttack01:
                     staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
                                       currentWeaponBeingUsed.heavyAttackStaminaCostMultiplier;
                     break;
+                // case AttackType.HeavyAttack02:
+                //     staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                //                       currentWeaponBeingUsed.heavyAttackStaminaCostMultiplier;
+                //     break;
+                case AttackType.ChargeAttack01:
+                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                                      currentWeaponBeingUsed.chargeAttackStaminaCostMultiplier;
+                    break;
+                // case AttackType.ChargeAttack02:
+                //     staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
+                //                       currentWeaponBeingUsed.chargeAttackStaminaCostMultiplier;
+                //     break;
                 case AttackType.RunningLightAttack:
                     staminaDeducted = currentWeaponBeingUsed.baseStaminaCost *
                                       currentWeaponBeingUsed.runningLightAttackStaminaCostMultiplier;
@@ -68,5 +88,6 @@ namespace AN
             base.SetTarget(newTarget);
             PlayerCamera.instance.SetLockCameraHeight();
         }
+
     }
 }

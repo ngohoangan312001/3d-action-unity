@@ -18,6 +18,9 @@ namespace AN
         [Header("Current Attack Type")]
         public AttackType currentAttackType; 
         
+        [Header("Last Attack Animation Performed")]
+        public string lastAttackAnimationPerformed; 
+        
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();

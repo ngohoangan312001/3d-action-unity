@@ -58,7 +58,6 @@ namespace AN
 
             if (lastDamageAnimationPlayed != null)
             {
-                Debug.Log("Playing Damage Animation: " + lastDamageAnimationPlayed);
                 character.characterAnimatorManager.PlayTargetActionAnimation(lastDamageAnimationPlayed,true);
             }
         }
@@ -169,6 +168,9 @@ namespace AN
             //TODO: Check if weapon can be parried
             //TODO: Update isAttacking flag to network
             
+            //Save last attack animation
+            character.characterCombatManager.lastAttackAnimationPerformed = targetAction;
+            
             //apply motion from the animation
             character.applyRootMotion = applyRootMotion;
             
@@ -183,6 +185,14 @@ namespace AN
             
             //tell server/host to play animation
             character.characterNetworkManager.NotifyServerOfAttackActionAnimationServerRPC(NetworkManager.Singleton.LocalClientId, targetAction, applyRootMotion);
+        }
+        
+        public virtual void EnableCanDoCombo()
+        {
+        }
+        
+        public virtual void DisableCanDoCombo()
+        {
         }
     }
     

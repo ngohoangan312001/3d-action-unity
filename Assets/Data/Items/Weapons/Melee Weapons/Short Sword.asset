@@ -22,7 +22,8 @@ MonoBehaviour:
     be as bold as the Bravewood Blade.'
   itemId: 3
   weaponModel: {fileID: 1892507340490729486, guid: 3a91dbaab79232b4bb3eb013371fe903, type: 3}
-  canAim: 1
+  canAim: 0
+  aim_State: 
   isRequiredTwoHand: 0
   mainHandEquipable: 1
   offHandEquipable: 1
@@ -36,8 +37,9 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 2
-  lightAttackModifier: 1.2
-  heavyAttackModifier: 2
+  lightAttack01Modifier: 1.2
+  heavyAttack01Modifier: 2
+  chargeAttack01Modifier: 3
   runningLightAttackModifier: 1.2
   runningHeavyAttackModifier: 2
   baseStaminaCost: 5
@@ -45,4 +47,6 @@ MonoBehaviour:
   runningHeavyAttackStaminaCostMultiplier: 1.5
   lightAttackStaminaCostMultiplier: 0.8
   heavyAttackStaminaCostMultiplier: 2
+  chargeAttackStaminaCostMultiplier: 3
   oh_Attack_Action: {fileID: 11400000, guid: dfbb15040e1f242d693912dc4d1f489e, type: 2}
+  oh_Heavy_Attack_Action: {fileID: 11400000, guid: a8c054140851847a79ad61e76139a914, type: 2}

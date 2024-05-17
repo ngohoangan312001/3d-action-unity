@@ -272,12 +272,30 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "Left Click",
                     "type": "Button",
-                    "id": "2bf9cc76-ecc9-4a0a-9c1a-e7e1c624d8d8",
+                    "id": "86bcd07d-d230-456b-9b65-e47b3dc16d06",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right Click",
+                    "type": "Button",
+                    "id": "5f8a77d8-3fb4-429c-9f7b-ee3d25df1bdc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hold Right Click",
+                    "type": "PassThrough",
+                    "id": "33c7ff00-0722-4d1b-a7b6-4fe5e2b360fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(pressPoint=0.1)",
                     "initialStateCheck": false
                 },
                 {
@@ -426,17 +444,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b596d4b0-e7a8-40dd-9120-da3e141d880d",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f354b9c9-f1ee-4b83-a473-ba2b9b6e89f5",
                     "path": "<Keyboard>/z",
                     "interactions": "",
@@ -498,6 +505,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Seek Right Lock On Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d686c5b2-dc7e-4859-bef6-42a78d5e6789",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d72a672-881a-4a45-84e9-25b3bdbd9d9c",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e27c39d-bf20-4052-a019-267435e92812",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold Right Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

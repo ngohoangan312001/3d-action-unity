@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AN
 {
@@ -13,8 +14,16 @@ namespace AN
         public CharacterManager characterCausingDamage; 
         
         [Header("Weapon Attack Modifier")] 
-        public float lightAttackModifier;
-        public float heavyAttackModifier;
+        //Light Attack
+        public float lightAttack01Modifier;
+        public float lightAttack02Modifier;
+        //Heavy Attack
+        public float heavyAttack01Modifier;
+        public float heavyAttack02Modifier;
+        //Charge Attack
+        public float chargeAttack01Modifier;
+        public float chargeAttack02Modifier;
+        //Running Attack
         public float runningLightAttackModifier;
         public float runningHeavyAttackModifier;
 
@@ -33,11 +42,23 @@ namespace AN
             
             switch (characterCausingDamage.characterCombatManager.currentAttackType)
             {
-                case AttackType.LightAttack:
-                    ApplyAttackModifier(lightAttackModifier, damageEffect);
+                case AttackType.LightAttack01:
+                    ApplyAttackModifier(lightAttack01Modifier, damageEffect);
                     break;
-                case AttackType.HeavyAttack:
-                    ApplyAttackModifier(heavyAttackModifier, damageEffect);
+                case AttackType.LightAttack02:
+                    ApplyAttackModifier(lightAttack02Modifier, damageEffect);
+                    break;
+                case AttackType.HeavyAttack01:
+                    ApplyAttackModifier(heavyAttack01Modifier, damageEffect);
+                    break;
+                case AttackType.HeavyAttack02:
+                    ApplyAttackModifier(heavyAttack02Modifier, damageEffect);
+                    break;
+                case AttackType.ChargeAttack01:
+                    ApplyAttackModifier(chargeAttack01Modifier, damageEffect);
+                    break;
+                case AttackType.ChargeAttack02:
+                    ApplyAttackModifier(chargeAttack02Modifier, damageEffect);
                     break;
                 case AttackType.RunningLightAttack:
                     ApplyAttackModifier(runningLightAttackModifier, damageEffect);

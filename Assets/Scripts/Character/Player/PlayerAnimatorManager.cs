@@ -23,6 +23,21 @@ namespace AN
                 player.transform.rotation *= player.animator.deltaRotation;
             }
         }
+        
+        //Animation Events Call
+        public override void EnableCanDoCombo()
+        {
+            if (player.playerNetworkManager.isUsingRightHand.Value)
+            {
+                player.playerCombatManager.canComboWithMainHandWeapon = true;
+            }
+        }
+        
+        public override void DisableCanDoCombo()
+        {
+            player.playerCombatManager.canComboWithMainHandWeapon = false;
+            //player.playerCombatManager.canComboWithOffHandWeapon = false;
+        }
     }
     
 }

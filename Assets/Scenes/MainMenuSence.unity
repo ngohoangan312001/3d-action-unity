@@ -5414,7 +5414,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1295564774957216329, guid: 5e381cb43c98ef641a28256e8bc4895c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 1295564774957216329, guid: 5e381cb43c98ef641a28256e8bc4895c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5422,7 +5422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1295564774957216329, guid: 5e381cb43c98ef641a28256e8bc4895c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -23.66
       objectReference: {fileID: 0}
     - target: {fileID: 1295564774957216329, guid: 5e381cb43c98ef641a28256e8bc4895c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6240,7 +6240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3255015977163331956, guid: dbb1b45f6260e4defb865dd5b08ba720, type: 3}
       propertyPath: weaponItemActions.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3255015977163331956, guid: dbb1b45f6260e4defb865dd5b08ba720, type: 3}
       propertyPath: weaponItemActions.Array.data[2]
@@ -6254,6 +6254,10 @@ PrefabInstance:
       propertyPath: weaponItemActions.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: 6f636dc8f129fed46a1957d7c99fd01c, type: 2}
+    - target: {fileID: 3255015977163331956, guid: dbb1b45f6260e4defb865dd5b08ba720, type: 3}
+      propertyPath: weaponItemActions.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8c054140851847a79ad61e76139a914, type: 2}
     - target: {fileID: 7139093573298666402, guid: dbb1b45f6260e4defb865dd5b08ba720, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.377786
@@ -6669,12 +6673,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2932244656054533961, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
+      propertyPath: cameraHeightSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932244656054533961, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
       propertyPath: aimCameraXDistance
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 2932244656054533961, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
       propertyPath: aimCameraZDistance
       value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932244656054533961, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
+      propertyPath: lockTargetFollowSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4796521951671935139, guid: d382e0e8e447048f7af362696b46c01e, type: 3}
       propertyPath: near clip plane
@@ -7045,5 +7057,5 @@ SceneRoots:
   - {fileID: 5475235202490742877}
   - {fileID: 2098400142172580620}
   - {fileID: 1188812833904813426}
-  - {fileID: 2140481542}
   - {fileID: 1734091791}
+  - {fileID: 2140481542}

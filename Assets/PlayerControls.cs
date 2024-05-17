@@ -294,12 +294,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Left Click"",
                     ""type"": ""Button"",
-                    ""id"": ""2bf9cc76-ecc9-4a0a-9c1a-e7e1c624d8d8"",
+                    ""id"": ""86bcd07d-d230-456b-9b65-e47b3dc16d06"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f8a77d8-3fb4-429c-9f7b-ee3d25df1bdc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hold Right Click"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""33c7ff00-0722-4d1b-a7b6-4fe5e2b360fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -448,17 +466,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b596d4b0-e7a8-40dd-9120-da3e141d880d"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f354b9c9-f1ee-4b83-a473-ba2b9b6e89f5"",
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
@@ -522,6 +529,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Seek Right Lock On Target"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d686c5b2-dc7e-4859-bef6-42a78d5e6789"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d72a672-881a-4a45-84e9-25b3bdbd9d9c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e27c39d-bf20-4052-a019-267435e92812"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hold Right Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -580,7 +620,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_Jump = m_PlayerAction.FindAction("Jump", throwIfNotFound: true);
         m_PlayerAction_Aim = m_PlayerAction.FindAction("Aim", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
-        m_PlayerAction_Attack = m_PlayerAction.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerAction_LeftClick = m_PlayerAction.FindAction("Left Click", throwIfNotFound: true);
+        m_PlayerAction_RightClick = m_PlayerAction.FindAction("Right Click", throwIfNotFound: true);
+        m_PlayerAction_HoldRightClick = m_PlayerAction.FindAction("Hold Right Click", throwIfNotFound: true);
         m_PlayerAction_SwitchRightWeapon = m_PlayerAction.FindAction("Switch Right Weapon", throwIfNotFound: true);
         m_PlayerAction_SwitchLeftWeapon = m_PlayerAction.FindAction("Switch Left Weapon", throwIfNotFound: true);
         m_PlayerAction_SwitchQuickSlot = m_PlayerAction.FindAction("Switch Quick Slot", throwIfNotFound: true);
@@ -755,7 +797,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_Jump;
     private readonly InputAction m_PlayerAction_Aim;
     private readonly InputAction m_PlayerAction_Sprint;
-    private readonly InputAction m_PlayerAction_Attack;
+    private readonly InputAction m_PlayerAction_LeftClick;
+    private readonly InputAction m_PlayerAction_RightClick;
+    private readonly InputAction m_PlayerAction_HoldRightClick;
     private readonly InputAction m_PlayerAction_SwitchRightWeapon;
     private readonly InputAction m_PlayerAction_SwitchLeftWeapon;
     private readonly InputAction m_PlayerAction_SwitchQuickSlot;
@@ -770,7 +814,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerAction_Jump;
         public InputAction @Aim => m_Wrapper.m_PlayerAction_Aim;
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
-        public InputAction @Attack => m_Wrapper.m_PlayerAction_Attack;
+        public InputAction @LeftClick => m_Wrapper.m_PlayerAction_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_PlayerAction_RightClick;
+        public InputAction @HoldRightClick => m_Wrapper.m_PlayerAction_HoldRightClick;
         public InputAction @SwitchRightWeapon => m_Wrapper.m_PlayerAction_SwitchRightWeapon;
         public InputAction @SwitchLeftWeapon => m_Wrapper.m_PlayerAction_SwitchLeftWeapon;
         public InputAction @SwitchQuickSlot => m_Wrapper.m_PlayerAction_SwitchQuickSlot;
@@ -798,9 +844,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
-            @Attack.started += instance.OnAttack;
-            @Attack.performed += instance.OnAttack;
-            @Attack.canceled += instance.OnAttack;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
+            @HoldRightClick.started += instance.OnHoldRightClick;
+            @HoldRightClick.performed += instance.OnHoldRightClick;
+            @HoldRightClick.canceled += instance.OnHoldRightClick;
             @SwitchRightWeapon.started += instance.OnSwitchRightWeapon;
             @SwitchRightWeapon.performed += instance.OnSwitchRightWeapon;
             @SwitchRightWeapon.canceled += instance.OnSwitchRightWeapon;
@@ -835,9 +887,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
-            @Attack.started -= instance.OnAttack;
-            @Attack.performed -= instance.OnAttack;
-            @Attack.canceled -= instance.OnAttack;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
+            @HoldRightClick.started -= instance.OnHoldRightClick;
+            @HoldRightClick.performed -= instance.OnHoldRightClick;
+            @HoldRightClick.canceled -= instance.OnHoldRightClick;
             @SwitchRightWeapon.started -= instance.OnSwitchRightWeapon;
             @SwitchRightWeapon.performed -= instance.OnSwitchRightWeapon;
             @SwitchRightWeapon.canceled -= instance.OnSwitchRightWeapon;
@@ -934,7 +992,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
+        void OnHoldRightClick(InputAction.CallbackContext context);
         void OnSwitchRightWeapon(InputAction.CallbackContext context);
         void OnSwitchLeftWeapon(InputAction.CallbackContext context);
         void OnSwitchQuickSlot(InputAction.CallbackContext context);

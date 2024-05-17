@@ -37,12 +37,12 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float maximumViewableAngle = 50;
     [SerializeField] private float unlockedCameraHeight = 1.65f;
     [SerializeField] private float lockedCameraHeight = 2;
-    [SerializeField] private float cameraHeightSpeed = 1;
+    [SerializeField] private float cameraHeightSpeed = 0.05f;
+    [SerializeField] private float lockTargetFollowSpeed = 1;
     private List<CharacterManager> availableTargets = new List<CharacterManager>();
     public CharacterManager nearestLockOnTarget;
     public CharacterManager leftLockOnTarget;
     public CharacterManager rightLockOnTarget;
-    [SerializeField] private float lockTargetFollowSpeed = 0.2f;
     private Coroutine cameraLockOnHeightCoroutine;
     
     private void Awake()
@@ -290,7 +290,6 @@ public class PlayerCamera : MonoBehaviour
                         else
                         {
                             //If found target, add target to potential target List
-                            Debug.Log("Target Lock On");
                             availableTargets.Add(lockOnTarget);
                         }
                     }
@@ -317,21 +316,20 @@ public class PlayerCamera : MonoBehaviour
                         //Đây là hàm ngược lại của Transform.TransformPoint, được sử dụng để chuyển đổi từ không gian cục bộ sang không gian thế giới.
                         Vector3 relativeEnemyPosition =
                             player.transform.InverseTransformPoint(availableTargets[e].transform.position);
-                        float distanceFromLeftTarget = relativeEnemyPosition.x;
-                        float distanceFromRightTarget = relativeEnemyPosition.x;
+                        float distanceFromSideTarget = relativeEnemyPosition.x;
                         
                         if(availableTargets[e] == player.playerCombatManager.currentTarget)
                             continue;
 
-                        if (distanceFromLeftTarget <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
+                        if (distanceFromSideTarget <= 0.00 && distanceFromSideTarget > shortestDistanceOfLeftTarget)
                         {
-                            shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                            shortestDistanceOfLeftTarget = distanceFromSideTarget;
                             leftLockOnTarget = availableTargets[e];
                         }
-                        else if (distanceFromRightTarget >= 0.00 &&
-                                  distanceFromRightTarget < shortestDistanceOfRightTarget)
+                        else if (distanceFromSideTarget >= 0.00 &&
+                                 distanceFromSideTarget < shortestDistanceOfRightTarget)
                         {
-                            shortestDistanceOfRightTarget = distanceFromRightTarget;
+                            shortestDistanceOfRightTarget = distanceFromSideTarget;
                             rightLockOnTarget = availableTargets[e];
                         }
 
@@ -370,7 +368,10 @@ public class PlayerCamera : MonoBehaviour
         {
             yield return null;
         }
-
+        
+        PlayerCamera.instance.ClearLockOnTarget();
+        PlayerCamera.instance.HandleLocatingLockOnTargets();
+        
         if (nearestLockOnTarget != null)
         {
             player.playerCombatManager.SetTarget(nearestLockOnTarget);
