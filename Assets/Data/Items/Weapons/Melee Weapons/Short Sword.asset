@@ -37,9 +37,12 @@ MonoBehaviour:
   luminaDamage: 0
   eclipeDamage: 0
   poiseDamage: 2
-  lightAttack01Modifier: 1.2
-  heavyAttack01Modifier: 2
-  chargeAttack01Modifier: 3
+  lightAttack01Modifier: 1
+  lightAttack02Modifier: 1.1
+  heavyAttack01Modifier: 1.5
+  heavyAttack02Modifier: 1.8
+  chargeAttack01Modifier: 2
+  chargeAttack02Modifier: 2.5
   runningLightAttackModifier: 1.2
   runningHeavyAttackModifier: 2
   baseStaminaCost: 5

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cb68af95da04549a905afc189eb826, type: 3}
   m_Name: Light Attack Weapon Item Action
   m_EditorClassIdentifier: 
-  actionId: 0
-  light_Attack: Main_Light_Attack
+  actionId: 1
+  light_Attack_01: Main_Light_Attack_01
