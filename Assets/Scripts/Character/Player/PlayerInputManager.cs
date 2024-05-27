@@ -10,7 +10,7 @@ namespace AN
 {
     public class PlayerInputManager : MonoBehaviour
     {
-        public static PlayerInputManager instance;
+        public static PlayerInputManager Instance;
 
         public PlayerManager player;
         
@@ -53,9 +53,9 @@ namespace AN
         
         private void Awake()
         {
-            if(instance == null)
+            if(Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
@@ -70,7 +70,7 @@ namespace AN
             // subcribe OnSceneChange function to activeSceneChanged so => When scene change run OnSceneChange function
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            instance.enabled = false;
+            Instance.enabled = false;
 
             if (playerControls != null)
             {
@@ -80,9 +80,9 @@ namespace AN
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
-            if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
+            if (newScene.buildIndex == WorldSaveGameManager.Instance.GetWorldSceneIndex())
             {
-                instance.enabled = true;
+                Instance.enabled = true;
                 Cursor.lockState = CursorLockMode.Locked;
                 if (playerControls != null)
                 {
@@ -92,7 +92,7 @@ namespace AN
             else
             {
                 Cursor.lockState = CursorLockMode.None;
-                instance.enabled = false;
+                Instance.enabled = false;
                 if (playerControls != null)
                 {
                     playerControls.Disable();
@@ -259,7 +259,7 @@ namespace AN
             if (switchCameraMode)
             {
                 switchCameraMode = false;
-                PlayerCamera.instance.SwitchCameraMode();
+                PlayerCamera.Instance.SwitchCameraMode();
             }
         }
 
@@ -383,7 +383,7 @@ namespace AN
                 if(lockOnCoroutine != null)
                     StopCoroutine(lockOnCoroutine);
 
-                lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
+                lockOnCoroutine = StartCoroutine(PlayerCamera.Instance.WaitThenFindNewTarget());
             }
             
             //Check if already Lock On ? Unlock : Lock On 
@@ -393,7 +393,7 @@ namespace AN
                 player.playerNetworkManager.isLockOn.Value = false;
                 
                 //Disable Lock On
-                PlayerCamera.instance.ClearLockOnTarget();
+                PlayerCamera.Instance.ClearLockOnTarget();
                 
                 return;
             }
@@ -409,11 +409,11 @@ namespace AN
                 }
 
                 //Lock On
-                PlayerCamera.instance.HandleLocatingLockOnTargets();
+                PlayerCamera.Instance.HandleLocatingLockOnTargets();
 
-                if (PlayerCamera.instance.nearestLockOnTarget != null)
+                if (PlayerCamera.Instance.nearestLockOnTarget != null)
                 {
-                    player.playerCombatManager.SetTarget(PlayerCamera.instance.nearestLockOnTarget);
+                    player.playerCombatManager.SetTarget(PlayerCamera.Instance.nearestLockOnTarget);
                     player.playerNetworkManager.isLockOn.Value = true;
                 }
             }
@@ -423,12 +423,12 @@ namespace AN
         {
             if (lock_On_Left_Input)
             {
-                TriggerLeftRightLockOnTarget(ref lock_On_Left_Input, ref PlayerCamera.instance.leftLockOnTarget);
+                TriggerLeftRightLockOnTarget(ref lock_On_Left_Input, ref PlayerCamera.Instance.leftLockOnTarget);
             }
             
             if (lockOnRightInput)
             {
-                TriggerLeftRightLockOnTarget(ref lockOnRightInput, ref PlayerCamera.instance.rightLockOnTarget);
+                TriggerLeftRightLockOnTarget(ref lockOnRightInput, ref PlayerCamera.Instance.rightLockOnTarget);
             }
         }
 
@@ -438,7 +438,7 @@ namespace AN
 
             if (player.playerNetworkManager.isLockOn.Value)
             {
-                PlayerCamera.instance.HandleLocatingLockOnTargets();
+                PlayerCamera.Instance.HandleLocatingLockOnTargets();
 
                 if (lockOnTargetOfDirection != null)
                 {

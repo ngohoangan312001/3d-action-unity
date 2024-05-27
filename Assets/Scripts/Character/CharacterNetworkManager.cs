@@ -260,7 +260,7 @@ namespace AN
             CharacterManager characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageId]
                 .gameObject.GetComponent<CharacterManager>();
 
-            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectManager.instance.takeDamageEffect);
+            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectManager.Instance.takeDamageEffect);
             
             damageEffect.physicalDamage = physicalDamage;
             damageEffect.magicDamage = magicDamage;

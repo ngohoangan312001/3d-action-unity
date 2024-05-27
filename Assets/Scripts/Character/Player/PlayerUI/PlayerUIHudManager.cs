@@ -85,7 +85,7 @@ namespace AN
         {
             for (int i = 0; i < weaponIds.Length; i++)
             {
-                WeaponItem weapon = WorldItemDatabase.instance.GetWeaponByID(weaponIds[i]);
+                WeaponItem weapon = WorldItemDatabase.Instance.GetWeaponByID(weaponIds[i]);
                 if(weapon == null)
                 {
                     Debug.Log("Main Hand Weapon Item Slot " + i + " Is Null!");
@@ -124,7 +124,7 @@ namespace AN
         {
             for (int i = 0; i < weaponIds.Length; i++)
             {
-                WeaponItem weapon = WorldItemDatabase.instance.GetWeaponByID(weaponIds[i]);
+                WeaponItem weapon = WorldItemDatabase.Instance.GetWeaponByID(weaponIds[i]);
                 if(weapon == null)
                 {
                     Debug.Log("Off Hand Weapon Item Slot " + i + " Is Null!");

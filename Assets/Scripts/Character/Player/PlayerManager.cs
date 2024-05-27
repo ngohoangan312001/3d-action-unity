@@ -71,12 +71,12 @@ namespace AN
                 //If is owner of this character and not the host => joining a server ===> reload character
                 if (!IsServer)
                 {
-                    LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
+                    LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.Instance.currentCharacterData);
                 }
                 
-                PlayerCamera.instance.player = this;
-                PlayerInputManager.instance.player = this;
-                WorldSaveGameManager.instance.player = this;
+                PlayerCamera.Instance.player = this;
+                PlayerInputManager.Instance.player = this;
+                WorldSaveGameManager.Instance.player = this;
                 
                 // sử dụng += để đăng ký phương thức SetNewStamninaValue với OnValueChanged của NetworkVariable,
                 // hai giá trị cũ và mới sẽ luôn được truyền vào phương thức đó khi sự kiện xảy ra.
@@ -156,14 +156,14 @@ namespace AN
         private void OnClientConnectedCallBack(ulong clientId)
         {
             //Keep a list of player active in game
-            WorldGameSessionManager.instance.AddPlayerToActivePlayerList(this);
+            WorldGameSessionManager.Instance.AddPlayerToActivePlayerList(this);
             
             //Host and Server don't need to load players to sync them
             //Only sync player gear when join the game late
             if (!IsServer && IsOwner)
             {
                 
-                foreach (var player in WorldGameSessionManager.instance.players)
+                foreach (var player in WorldGameSessionManager.Instance.players)
                 {
                     if (player != this)
                     {
@@ -192,7 +192,7 @@ namespace AN
             }
             base.LateUpdate();
             
-            PlayerCamera.instance.HandleAllCameraActions();
+            PlayerCamera.Instance.HandleAllCameraActions();
         }
 
         //reference to current character data

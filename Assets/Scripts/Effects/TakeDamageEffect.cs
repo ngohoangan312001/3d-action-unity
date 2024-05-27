@@ -111,7 +111,7 @@ namespace AN
         {
             //Play VFX with damage type
 
-            AudioClip physicalDamageSFX = ArrayUtil.ChooseRandomFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
+            AudioClip physicalDamageSFX = ArrayUtil.ChooseRandomFromArray(WorldSoundFXManager.Instance.physicalDamageSFX);
             
             character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
         }

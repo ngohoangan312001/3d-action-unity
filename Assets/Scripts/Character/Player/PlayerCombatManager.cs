@@ -86,7 +86,7 @@ namespace AN
         public override void SetTarget(CharacterManager newTarget)
         {
             base.SetTarget(newTarget);
-            PlayerCamera.instance.SetLockCameraHeight();
+            PlayerCamera.Instance.SetLockCameraHeight();
         }
 
     }

@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace AN
 {
-    public class Enums : MonoBehaviour
+    public enum CharacterGroup
     {
-
+        player,
+        team01,
+        team02
     }
-
+    
     public enum CharacterSlot
     {
         CharacterSlot_01,

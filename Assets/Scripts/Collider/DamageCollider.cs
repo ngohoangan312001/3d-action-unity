@@ -53,7 +53,7 @@ namespace AN
             
             characterDamaged.Add(damageTarget);
 
-            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectManager.instance.takeDamageEffect);
+            TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectManager.Instance.takeDamageEffect);
             PassDamageToDamageEffect(damageEffect);
             damageEffect.angleHitFrom = Vector3.SignedAngle(transform.forward, damageTarget.transform.forward, Vector3.up);
 

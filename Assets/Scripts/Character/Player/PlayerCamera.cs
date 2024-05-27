@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public static PlayerCamera instance;
+    public static PlayerCamera Instance;
     public Camera cameraObject;
     public PlayerManager player;
     
@@ -47,9 +47,9 @@ public class PlayerCamera : MonoBehaviour
     
     private void Awake()
     {
-        if(instance == null)
+        if(Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -149,10 +149,10 @@ public class PlayerCamera : MonoBehaviour
             //===Normal rotation===
         
             //Get rotate left and right angle base on leftAndRightRotationSpeed
-            leftAndRightLookAngle += PlayerInputManager.instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
+            leftAndRightLookAngle += PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
         
             //Get rotate up and down angle base on upAndDownRotationSpeed
-            upAndDownLookAngle -= PlayerInputManager.instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
+            upAndDownLookAngle -= PlayerInputManager.Instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
 
             // Clamp value so it will between minimumPivot and maximumPivot
             upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
@@ -248,7 +248,7 @@ public class PlayerCamera : MonoBehaviour
         
         //The Physics.OverlapSphere method returns an array of colliders that intersect or are inside the specified sphere.
         //Can be used to find all colliders within the sphere, and then filter them based on your requirements (e.g., by tag or layer).
-        Collider[] colliders = Physics.OverlapSphere(player.transform.position, lockOnRadius, WorldUtilityManager.instance.GetCharacterLayers());
+        Collider[] colliders = Physics.OverlapSphere(player.transform.position, lockOnRadius, WorldUtilityManager.Instance.GetCharacterLayers());
 
         if(colliders != null && colliders.Length > 0)
         {
@@ -280,7 +280,7 @@ public class PlayerCamera : MonoBehaviour
                                 player.playerCombatManager.lockOnTransform.position,
                                 lockOnTarget.characterCombatManager.lockOnTransform.position, 
                                 out hit, 
-                                WorldUtilityManager.instance.GetEnviromentLayers()
+                                WorldUtilityManager.Instance.GetEnviromentLayers()
                                 )
                             )
                         {
@@ -369,8 +369,8 @@ public class PlayerCamera : MonoBehaviour
             yield return null;
         }
         
-        PlayerCamera.instance.ClearLockOnTarget();
-        PlayerCamera.instance.HandleLocatingLockOnTargets();
+        PlayerCamera.Instance.ClearLockOnTarget();
+        PlayerCamera.Instance.HandleLocatingLockOnTargets();
         
         if (nearestLockOnTarget != null)
         {

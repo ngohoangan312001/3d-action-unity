@@ -29,12 +29,12 @@ namespace AN
         
         public void PlayRollSoundFX()
         {
-            audioSource.PlayOneShot(WorldSoundFXManager.instance.rollSFX);
+            audioSource.PlayOneShot(WorldSoundFXManager.Instance.rollSFX);
         }
         
         public void PlayMoveSoundFX()
         {
-            audioSource.PlayOneShot(WorldSoundFXManager.instance.moveSFX);
+            audioSource.PlayOneShot(WorldSoundFXManager.Instance.moveSFX);
         }
     }
 }

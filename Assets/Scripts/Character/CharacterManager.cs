@@ -21,6 +21,9 @@ namespace AN
         [Header("Status")]
         public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+        [Header("Character Group")] 
+        public CharacterGroup characterGroup;
+        
         [Header("Flag")] 
         public bool isPerformingAction = false;
         public bool isGrounded = false;
@@ -94,7 +97,10 @@ namespace AN
         protected virtual void LateUpdate()
         {
         }
-
+        
+        protected virtual void FixedUpdate()
+        {
+        }
         public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
             if (IsOwner)

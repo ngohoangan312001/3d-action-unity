@@ -8,7 +8,7 @@ namespace AN
 {
     public class WorldItemDatabase : MonoBehaviour
     {
-        public static WorldItemDatabase instance;
+        public static WorldItemDatabase Instance;
         
         public WeaponItem unarmedWeapon;
         
@@ -21,9 +21,9 @@ namespace AN
         [SerializeField] private List<Item> items = new List<Item>();
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {

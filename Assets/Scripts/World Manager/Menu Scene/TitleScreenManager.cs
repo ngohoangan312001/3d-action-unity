@@ -48,7 +48,7 @@ namespace AN
 
         public void StartNewGame()
         {
-            WorldSaveGameManager.instance.AttemptToCreateNewGame();
+            WorldSaveGameManager.Instance.AttemptToCreateNewGame();
         }
         
         public void ExitGame()
@@ -112,7 +112,7 @@ namespace AN
         
         public void ConfirmDeleteScharacterSlotPopUp()
         {
-            WorldSaveGameManager.instance.DeleteGame(currentSelectedSlot);
+            WorldSaveGameManager.Instance.DeleteGame(currentSelectedSlot);
             
             //refresh game slot list
             titleScreenLoadMenu.SetActive(false);

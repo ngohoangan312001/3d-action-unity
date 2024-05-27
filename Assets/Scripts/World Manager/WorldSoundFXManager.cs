@@ -7,7 +7,7 @@ namespace AN
 {
     public class WorldSoundFXManager : MonoBehaviour
     {
-        public static WorldSoundFXManager instance;
+        public static WorldSoundFXManager Instance;
 
         [Header("Damage Sounds")]
         public AudioClip[] physicalDamageSFX;
@@ -17,9 +17,9 @@ namespace AN
         public AudioClip moveSFX;
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {

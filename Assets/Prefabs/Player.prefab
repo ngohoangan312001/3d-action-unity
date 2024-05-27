@@ -903,6 +903,8 @@ MonoBehaviour:
     m_InternalValue: 0
   networkMoveAmount:
     m_InternalValue: 0
+  currentTargetNetworkObjectId:
+    m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
   isAiming:
@@ -910,6 +912,8 @@ MonoBehaviour:
   isLockOn:
     m_InternalValue: 0
   isJumping:
+    m_InternalValue: 0
+  isChargingAttack:
     m_InternalValue: 0
   vitality:
     m_InternalValue: 10
@@ -1032,6 +1036,7 @@ MonoBehaviour:
   characterSoundFXManager: {fileID: 0}
   isDead:
     m_InternalValue: 0
+  characterGroup: 0
   isPerformingAction: 0
   isGrounded: 0
   applyRootMotion: 0
@@ -1070,6 +1075,7 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  isRolling: 0
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
@@ -1210,7 +1216,9 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   lockOnTransform: {fileID: 204690122045109044}
   currentAttackType: 0
+  lastAttackAnimationPerformed: 
   currentWeaponBeingUsed: {fileID: 0}
+  canComboWithMainHandWeapon: 0
 --- !u!82 &7815389335186210135
 AudioSource:
   m_ObjectHideFlags: 0

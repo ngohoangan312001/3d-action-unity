@@ -7,7 +7,7 @@ namespace AN
 {
     public class WorldUtilityManager : MonoBehaviour
     {
-        public static WorldUtilityManager instance;
+        public static WorldUtilityManager Instance;
 
         [Header("Layers")]
         [SerializeField] private LayerMask characterLayers;
@@ -15,9 +15,9 @@ namespace AN
         
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
@@ -33,6 +33,13 @@ namespace AN
         public LayerMask GetEnviromentLayers()
         {
             return enviromentLayers;
+        }
+
+        public bool CheckCharacterGroup(CharacterGroup attackingCharacter, CharacterGroup targetCharacter)
+        {
+            if (attackingCharacter != targetCharacter) return true;
+
+            return false;
         }
     }
 }

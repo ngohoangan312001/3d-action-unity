@@ -8,7 +8,7 @@ namespace AN
 {
     public class CharacterCombatManager : NetworkBehaviour
     {
-        private CharacterManager character;
+        protected CharacterManager character;
         [Header("Current Target Lock On")]
         public CharacterManager currentTarget;
         

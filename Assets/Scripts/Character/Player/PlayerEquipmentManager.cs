@@ -82,7 +82,7 @@ namespace AN
                 for (int i = 0; i < player.playerInventoryManager.weaponInRightHandSlots.Length; i++)
                 {
                     if (player.playerInventoryManager.weaponInRightHandSlots[i].itemId !=
-                        WorldItemDatabase.instance.unarmedWeapon.itemId)
+                        WorldItemDatabase.Instance.unarmedWeapon.itemId)
                     {
                         //If this weapon in slot is not unarmed, weapon count + 1
                         weaponCount++;
@@ -101,7 +101,7 @@ namespace AN
                 {
                     //Set weapon index to outbound
                     player.playerInventoryManager.rightHandWeaponIndex = -1;
-                    selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
+                    selectedWeapon = WorldItemDatabase.Instance.unarmedWeapon;
                     player.playerNetworkManager.currentRightHandWeaponId.Value = selectedWeapon.itemId;
                 }
                 //If there is more than 1 weapon
@@ -126,7 +126,7 @@ namespace AN
                 //check if next weapon slot is not unarmed weapon => get that weapon
                 if (player.playerInventoryManager
                         .weaponInRightHandSlots[player.playerInventoryManager.rightHandWeaponIndex].itemId !=
-                    WorldItemDatabase.instance.unarmedWeapon.itemId)
+                    WorldItemDatabase.Instance.unarmedWeapon.itemId)
                 {
                     //Select weapon to switch
                     selectedWeapon =
@@ -183,7 +183,7 @@ namespace AN
                 for (int i = 0; i < player.playerInventoryManager.weaponInLeftHandSlots.Length; i++)
                 {
                     if (player.playerInventoryManager.weaponInLeftHandSlots[i].itemId !=
-                        WorldItemDatabase.instance.unarmedWeapon.itemId)
+                        WorldItemDatabase.Instance.unarmedWeapon.itemId)
                     {
                         //If this weapon in slot is not unarmed, weapon count + 1
                         weaponCount++;
@@ -202,7 +202,7 @@ namespace AN
                 {
                     //Set weapon index to outbound
                     player.playerInventoryManager.leftHandWeaponIndex = -1;
-                    selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
+                    selectedWeapon = WorldItemDatabase.Instance.unarmedWeapon;
                     player.playerNetworkManager.currentLeftHandWeaponId.Value = selectedWeapon.itemId;
                 }
                 //If there is more than 1 weapon
@@ -227,7 +227,7 @@ namespace AN
                 //check if next weapon slot is not unarmed weapon => get that weapon
                 if (player.playerInventoryManager
                         .weaponInLeftHandSlots[player.playerInventoryManager.leftHandWeaponIndex].itemId !=
-                    WorldItemDatabase.instance.unarmedWeapon.itemId)
+                    WorldItemDatabase.Instance.unarmedWeapon.itemId)
                 {
                     //Select weapon to switch
                     selectedWeapon =

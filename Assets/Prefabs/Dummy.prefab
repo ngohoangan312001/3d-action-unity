@@ -1559,7 +1559,7 @@ GameObject:
   - component: {fileID: 5900488152219713006}
   - component: {fileID: 2153709399665671558}
   - component: {fileID: 49254487344868039}
-  - component: {fileID: 8948872348347040817}
+  - component: {fileID: 8998144171220435911}
   - component: {fileID: 2357248498267781382}
   - component: {fileID: 6982781262705424814}
   - component: {fileID: 8531034147017449304}
@@ -1567,7 +1567,7 @@ GameObject:
   - component: {fileID: 7576863744669136397}
   - component: {fileID: 6451864716739371286}
   - component: {fileID: 2177254992339033716}
-  - component: {fileID: 6290201949285694070}
+  - component: {fileID: 1472029392085569820}
   - component: {fileID: 4034083571308772055}
   - component: {fileID: 8869202598940888795}
   - component: {fileID: 2794835696403683790}
@@ -1587,7 +1587,7 @@ Transform:
   m_GameObject: {fileID: 4459635600864855072}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -10.41, y: 0, z: -30.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1660,6 +1660,8 @@ MonoBehaviour:
     m_InternalValue: 0
   networkMoveAmount:
     m_InternalValue: 0
+  currentTargetNetworkObjectId:
+    m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
   isAiming:
@@ -1667,6 +1669,8 @@ MonoBehaviour:
   isLockOn:
     m_InternalValue: 0
   isJumping:
+    m_InternalValue: 0
+  isChargingAttack:
     m_InternalValue: 0
   vitality:
     m_InternalValue: 10
@@ -1688,7 +1692,7 @@ MonoBehaviour:
     m_InternalValue: 0
   weaponSwitchCooldownTime:
     m_InternalValue: 3
---- !u!114 &8948872348347040817
+--- !u!114 &8998144171220435911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1697,7 +1701,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4459635600864855072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c8ae4385af247e8abc19186b034950, type: 3}
+  m_Script: {fileID: 11500000, guid: 603cb28f7f45b41868edf845a18d7f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 0}
@@ -1710,11 +1714,14 @@ MonoBehaviour:
   characterSoundFXManager: {fileID: 0}
   isDead:
     m_InternalValue: 0
+  characterGroup: 1
   isPerformingAction: 0
   isGrounded: 0
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  aiCharacterCombatManager: {fileID: 0}
+  currentState: {fileID: 11400000, guid: f0d387ed73061419e95e26fb61871493, type: 2}
 --- !u!114 &2357248498267781382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1736,6 +1743,7 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  isRolling: 0
 --- !u!114 &6982781262705424814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1826,7 +1834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885e49fa345c44c848a2de3ddefd8c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6290201949285694070
+--- !u!114 &1472029392085569820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1835,12 +1843,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4459635600864855072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f5a0f14a300341e7937672e52950293, type: 3}
+  m_Script: {fileID: 11500000, guid: d86893d6f57e54a4a9e712f7041ea33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 0}
   lockOnTransform: {fileID: 4662818767652536952}
   currentAttackType: 0
+  lastAttackAnimationPerformed: 
+  detectionRadius: 15
+  minimumDetectionAngle: -35
+  maximumDetectionAngle: 35
 --- !u!82 &4034083571308772055
 AudioSource:
   m_ObjectHideFlags: 0

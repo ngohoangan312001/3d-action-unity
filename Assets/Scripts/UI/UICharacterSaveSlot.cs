@@ -42,34 +42,34 @@ namespace AN
                 switch (characterSlot)
                 {
                     case CharacterSlot.CharacterSlot_01:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot01);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot01);
                         break;
                     case CharacterSlot.CharacterSlot_02:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot02);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot02);
                         break;
                     case CharacterSlot.CharacterSlot_03:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot03);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot03);
                         break;
                     case CharacterSlot.CharacterSlot_04:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot04);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot04);
                         break;
                     case CharacterSlot.CharacterSlot_05:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot05);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot05);
                         break;
                     case CharacterSlot.CharacterSlot_06:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot06);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot06);
                         break;
                     case CharacterSlot.CharacterSlot_07:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot07);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot07);
                         break;
                     case CharacterSlot.CharacterSlot_08:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot08);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot08);
                         break;
                     case CharacterSlot.CharacterSlot_09:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot09);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot09);
                         break;
                     case CharacterSlot.CharacterSlot_10:
-                        getCharacterInfoInSlot( WorldSaveGameManager.instance.characterSlot10);
+                        getCharacterInfoInSlot( WorldSaveGameManager.Instance.characterSlot10);
                         break;
                     default:
                         break;
@@ -79,7 +79,7 @@ namespace AN
         private void getCharacterInfoInSlot( CharacterSaveData characterSaveData)
         {
             dataWriter.saveFileName =   
-                WorldSaveGameManager.instance.GetCharacterFileNameBaseOnCharacterSlot(characterSlot);
+                WorldSaveGameManager.Instance.GetCharacterFileNameBaseOnCharacterSlot(characterSlot);
 
             if (dataWriter.CheckFileExists())
             {
@@ -96,8 +96,8 @@ namespace AN
 
         public void LoadGameFromCharacterSlot()
         {
-            WorldSaveGameManager.instance.currentCharacterSlot = characterSlot;
-            WorldSaveGameManager.instance.LoadGame();
+            WorldSaveGameManager.Instance.currentCharacterSlot = characterSlot;
+            WorldSaveGameManager.Instance.LoadGame();
         }
 
         public void SelectCurrentSlot()
