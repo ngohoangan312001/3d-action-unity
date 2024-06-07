@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AN
 {
     public class AICharacterManager : CharacterManager
     {
-        public AICharacterCombatManager aiCharacterCombatManager;
+        [HideInInspector] public AICharacterCombatManager aiCharacterCombatManager;
+
+        [Header("Navmesh Agent")] public NavMeshAgent navMeshAgent;
+        
         [Header("Current State")] 
         [SerializeField] private AIState currentState;
 
