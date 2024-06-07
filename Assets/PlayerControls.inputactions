@@ -272,12 +272,30 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "Left Click",
                     "type": "Button",
-                    "id": "2bf9cc76-ecc9-4a0a-9c1a-e7e1c624d8d8",
+                    "id": "86bcd07d-d230-456b-9b65-e47b3dc16d06",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right Click",
+                    "type": "Button",
+                    "id": "5f8a77d8-3fb4-429c-9f7b-ee3d25df1bdc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hold Right Click",
+                    "type": "PassThrough",
+                    "id": "33c7ff00-0722-4d1b-a7b6-4fe5e2b360fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(pressPoint=0.1)",
                     "initialStateCheck": false
                 },
                 {
@@ -302,6 +320,33 @@
                     "name": "Switch Quick Slot",
                     "type": "Button",
                     "id": "639a2dc8-9b15-4c10-a449-64d98c110674",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On",
+                    "type": "Button",
+                    "id": "73e5710a-542b-4418-b4e1-4c10135d25ca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Seek Left Lock On Target",
+                    "type": "Button",
+                    "id": "42e79516-8793-408f-acd0-8982b8fefcef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Seek Right Lock On Target",
+                    "type": "Button",
+                    "id": "5912664c-bfef-4821-b8b7-7da04284fc3f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -399,17 +444,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b596d4b0-e7a8-40dd-9120-da3e141d880d",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f354b9c9-f1ee-4b83-a473-ba2b9b6e89f5",
                     "path": "<Keyboard>/z",
                     "interactions": "",
@@ -438,6 +472,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Switch Quick Slot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70eb0f3c-c0fc-470a-8305-028fb13c597c",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock On",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c20d1400-cfd9-4fa7-abcb-1e7de46a502a",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek Left Lock On Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61f476a9-b5b3-454e-b629-be5f905b776f",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek Right Lock On Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d686c5b2-dc7e-4859-bef6-42a78d5e6789",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d72a672-881a-4a45-84e9-25b3bdbd9d9c",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e27c39d-bf20-4052-a019-267435e92812",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold Right Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

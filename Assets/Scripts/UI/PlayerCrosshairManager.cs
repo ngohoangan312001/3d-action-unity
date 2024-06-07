@@ -7,6 +7,8 @@ namespace AN
 {
     public class PlayerCrosshairManager : MonoBehaviour
     {
+        [SerializeField] private GameObject CrossHairComponent;
+        
         [Range(0, 100)] 
         public float value;
         public float multiplier = 5;
@@ -34,6 +36,11 @@ namespace AN
             down.position = new Vector2(center.position.x, downValue);
             right.position = new Vector2(rightValue, center.position.y);
             left.position = new Vector2(leftValue, center.position.y);
+        }
+
+        public void ToggleCrosshair(bool previousValue, bool newValue)
+        {
+            CrossHairComponent.SetActive(newValue);
         }
     }
 }

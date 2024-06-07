@@ -28,8 +28,17 @@ namespace AN
             
             weaponDamageCollider.poiseDamage = weapon.poiseDamage;
             
-            weaponDamageCollider.lightAttackModifier = weapon.lightAttackModifier;
-            weaponDamageCollider.heavyAttackModifier = weapon.heavyAttackModifier;
+            //ATTACK MODIFIER
+            //Light Atk
+            weaponDamageCollider.lightAttack01Modifier = weapon.lightAttack01Modifier;
+            weaponDamageCollider.lightAttack02Modifier = weapon.lightAttack02Modifier;
+            //Heavy Atk
+            weaponDamageCollider.heavyAttack01Modifier = weapon.heavyAttack01Modifier;
+            weaponDamageCollider.heavyAttack02Modifier = weapon.heavyAttack02Modifier;
+            //Charge Atk
+            weaponDamageCollider.chargeAttack01Modifier = weapon.chargeAttack01Modifier;
+            weaponDamageCollider.chargeAttack02Modifier = weapon.chargeAttack02Modifier;
+            //Run Atk
             weaponDamageCollider.runningLightAttackModifier = weapon.runningLightAttackModifier;
             weaponDamageCollider.runningHeavyAttackModifier = weapon.runningHeavyAttackModifier;
 

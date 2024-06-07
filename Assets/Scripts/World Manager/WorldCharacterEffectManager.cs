@@ -8,7 +8,7 @@ namespace AN
 {
     public class WorldCharacterEffectManager : MonoBehaviour
     {
-        public static WorldCharacterEffectManager instance;
+        public static WorldCharacterEffectManager Instance;
 
         [Header("Default VFX")]
         public GameObject bloodSplatterVFX;
@@ -19,9 +19,9 @@ namespace AN
         [SerializeField] private List<InstanceCharacterEffect> instanceCharacterEffects;
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {

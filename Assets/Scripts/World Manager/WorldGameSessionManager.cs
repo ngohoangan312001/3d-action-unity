@@ -7,16 +7,16 @@ namespace AN
 {
     public class WorldGameSessionManager : MonoBehaviour
     {
-        public static WorldGameSessionManager instance;
+        public static WorldGameSessionManager Instance;
         
         [Header("Active Players In Session")] 
         public List<PlayerManager> players = new List<PlayerManager>();
 
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {

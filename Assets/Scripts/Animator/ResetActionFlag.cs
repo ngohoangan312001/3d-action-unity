@@ -18,6 +18,8 @@ public class ResetActionFlag : StateMachineBehaviour
         character.applyRootMotion = false;
         character.canMove = true;
         character.canRotate = true;
+        character.characterLocomotionManager.isRolling = false;
+        character.characterAnimatorManager.DisableCanDoCombo();
         if (character.IsOwner)
         {
             character.characterNetworkManager.isJumping.Value = false;

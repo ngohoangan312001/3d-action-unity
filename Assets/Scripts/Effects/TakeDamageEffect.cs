@@ -95,6 +95,8 @@ namespace AN
 
             character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
             
+            Debug.Log("Total Dmg: " + finalDamageDealt);
+            
             //Todo: Calculate poise damage
         }
 
@@ -109,7 +111,7 @@ namespace AN
         {
             //Play VFX with damage type
 
-            AudioClip physicalDamageSFX = ArrayUtil.ChooseRandomFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
+            AudioClip physicalDamageSFX = ArrayUtil.ChooseRandomFromArray(WorldSoundFXManager.Instance.physicalDamageSFX);
             
             character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
         }
@@ -117,6 +119,8 @@ namespace AN
         private void PlayDirectionalBaseDamageAnimation(CharacterManager character)
         {
             if (!character.IsOwner) return;
+            
+            if (character.isDead.Value) return;
             
             poiseIsBroken = true;
             
@@ -145,8 +149,6 @@ namespace AN
                 //Play Right Animation
                 damageAnimationList = character.characterAnimatorManager.right_Medium_Damges;
             }
-            
-            Debug.Log(angleHitFrom);
             
             if(poiseIsBroken) character.characterAnimatorManager.PlayDamageAnimation(damageAnimationList);
         }

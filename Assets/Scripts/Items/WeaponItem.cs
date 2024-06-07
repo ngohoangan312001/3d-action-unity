@@ -41,13 +41,19 @@ namespace AN
         
         //WEAPON MODIFIERS
         [Header("Attack Modifier")]
-        public float lightAttackModifier = 1.2f;
-        public float heavyAttackModifier = 2f;
+        //Light Atk
+        public float lightAttack01Modifier = 1f;
+        public float lightAttack02Modifier = 1.1f;
+        //Heavy Atk
+        public float heavyAttack01Modifier = 1.5f;
+        public float heavyAttack02Modifier = 1.8f;
+        //Charge Atk
+        public float chargeAttack01Modifier = 2f;
+        public float chargeAttack02Modifier = 2.5f;
+        //Run Atk
         public float runningLightAttackModifier = 1.2f;
         public float runningHeavyAttackModifier = 2f;
         
-        //Light Attack
-        //Heavy Attack
         //Critical Damage Modifier
 
         [Header("Stamina Cost Modifier")] 
@@ -58,11 +64,14 @@ namespace AN
         //Light Attack Stamina Cost Modifier
         public float lightAttackStaminaCostMultiplier = 0.8f;
         //Heavy Attack Stamina Cost Modifier
-        public float heavyAttackStaminaCostMultiplier = 2;
+        public float heavyAttackStaminaCostMultiplier = 1.5f;
+        //Charge Attack Stamina Cost Modifier
+        public float chargeAttackStaminaCostMultiplier = 2f;
 
         // Item Base Action
         [Header("Actions")] 
         public WeaponItemAction oh_Attack_Action;//One Hand Attack Action
+        public WeaponItemAction oh_Heavy_Attack_Action;//One Hand Heavy Attack Action
 
         // Weapon Skill
 

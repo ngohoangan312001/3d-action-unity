@@ -8,14 +8,14 @@ namespace AN
 {
     public class WorldActionManager : MonoBehaviour
     {
-        public static WorldActionManager instance;
+        public static WorldActionManager Instance;
 
         [Header("Weapon Item Action")] public WeaponItemAction[] weaponItemActions;
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {

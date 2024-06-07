@@ -4535,6 +4535,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cross Hair
       objectReference: {fileID: 0}
+    - target: {fileID: 6330412346840305615, guid: 52e7fbf9340bfdc408857c597ef6ce9f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

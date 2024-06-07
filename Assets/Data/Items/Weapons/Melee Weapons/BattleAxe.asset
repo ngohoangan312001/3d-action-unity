@@ -23,6 +23,7 @@ MonoBehaviour:
   itemId: 1
   weaponModel: {fileID: 4405654300897030330, guid: 02fcdfd24c4479c4aae0d9a895e1c405, type: 3}
   canAim: 0
+  aim_State: 
   isRequiredTwoHand: 1
   mainHandEquipable: 1
   offHandEquipable: 0
@@ -46,3 +47,4 @@ MonoBehaviour:
   lightAttackStaminaCostMultiplier: 0.8
   heavyAttackStaminaCostMultiplier: 2
   oh_Attack_Action: {fileID: 11400000, guid: 41e0743e05393433083463ebba2e2188, type: 2}
+  oh_Heavy_Attack_Action: {fileID: 11400000, guid: a8c054140851847a79ad61e76139a914, type: 2}

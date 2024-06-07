@@ -59,7 +59,7 @@ namespace AN
         
         public void OnCurrentRightHandWeaponIDChange(int oldID, int newID)
         {
-            WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+            WeaponItem newWeapon = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newID));
             player.playerInventoryManager.currentRightHandWeapon = newWeapon;
             player.playerEquipmentManager.loadWeaponOnRightHand();
 
@@ -71,7 +71,7 @@ namespace AN
         
         public void OnCurrentLeftHandWeaponIDChange(int oldID, int newID)
         {
-            WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+            WeaponItem newWeapon = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newID));
             player.playerInventoryManager.currentLeftHandWeapon = newWeapon;
             player.playerEquipmentManager.loadWeaponOnLeftHand();
             
@@ -83,7 +83,7 @@ namespace AN
         
         public void OnCurrentUsingWeaponIDChange(int oldID, int newID)
         {
-            WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
+            WeaponItem newWeapon = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newID));
             player.playerCombatManager.currentWeaponBeingUsed = newWeapon;
         }
 
@@ -108,11 +108,11 @@ namespace AN
 
         private void PerformWeaponBaseAction(int actionId, int weaponId)
         {
-            WeaponItemAction weaponAction = WorldActionManager.instance.GetWeaponItemAction(actionId);
+            WeaponItemAction weaponAction = WorldActionManager.Instance.GetWeaponItemAction(actionId);
 
             if (weaponAction != null)
             {
-                weaponAction.AttempToPerformAction(player, WorldItemDatabase.instance.GetWeaponByID(weaponId));
+                weaponAction.AttempToPerformAction(player, WorldItemDatabase.Instance.GetWeaponByID(weaponId));
             }
             else
             {

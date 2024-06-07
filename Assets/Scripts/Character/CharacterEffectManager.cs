@@ -48,7 +48,7 @@ namespace AN
             //Else play the default version
             else
             {
-                GameObject bloodSplatter = Instantiate(WorldCharacterEffectManager.instance.bloodSplatterVFX, contactPoint, Quaternion.identity);
+                GameObject bloodSplatter = Instantiate(WorldCharacterEffectManager.Instance.bloodSplatterVFX, contactPoint, Quaternion.identity);
             }
         }
         

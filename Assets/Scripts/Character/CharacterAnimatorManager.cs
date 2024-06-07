@@ -58,7 +58,6 @@ namespace AN
 
             if (lastDamageAnimationPlayed != null)
             {
-                Debug.Log("Playing Damage Animation: " + lastDamageAnimationPlayed);
                 character.characterAnimatorManager.PlayTargetActionAnimation(lastDamageAnimationPlayed,true);
             }
         }
@@ -93,16 +92,42 @@ namespace AN
             {
                 return;
             }
+
+            float snappedHorizontalMovement = GetSnappedMovementValue(horizontalValue);
+            float snappedVerticalMovement = GetSnappedMovementValue(verticalValue);
             
             if (character.characterNetworkManager.isSprinting.Value)
             {
-                verticalValue = 2;
+                snappedVerticalMovement = 2;
             }
             
-            character.animator.SetFloat("horizontal",horizontalValue, 0.1f, Time.deltaTime);
-            character.animator.SetFloat("vertical",verticalValue, 0.1f, Time.deltaTime);
+            character.animator.SetFloat("horizontal",snappedHorizontalMovement, 0.1f, Time.deltaTime);
+            character.animator.SetFloat("vertical",snappedVerticalMovement, 0.1f, Time.deltaTime);
         }
 
+        public float GetSnappedMovementValue(float movementValue)
+        {
+            float snappedResult = 0;
+            if (movementValue > 0 && movementValue <= 0.5f)
+            {
+                snappedResult = 0.5f;
+            }
+            else if (movementValue > 0.5f && movementValue <= 1)
+            {
+                snappedResult = 1f;
+            }
+            else if (movementValue >= -0.5f && movementValue < 0 )
+            {
+                snappedResult = -0.5f;
+            }
+            else if (movementValue >= -1 && movementValue < -0.5 )
+            {
+                snappedResult = -1;
+            }
+
+            return snappedResult;
+        }
+        
         public virtual void PlayTargetActionAnimation(
             string targetAction, 
             bool isPerformingAction, 
@@ -143,6 +168,9 @@ namespace AN
             //TODO: Check if weapon can be parried
             //TODO: Update isAttacking flag to network
             
+            //Save last attack animation
+            character.characterCombatManager.lastAttackAnimationPerformed = targetAction;
+            
             //apply motion from the animation
             character.applyRootMotion = applyRootMotion;
             
@@ -157,6 +185,14 @@ namespace AN
             
             //tell server/host to play animation
             character.characterNetworkManager.NotifyServerOfAttackActionAnimationServerRPC(NetworkManager.Singleton.LocalClientId, targetAction, applyRootMotion);
+        }
+        
+        public virtual void EnableCanDoCombo()
+        {
+        }
+        
+        public virtual void DisableCanDoCombo()
+        {
         }
     }
     

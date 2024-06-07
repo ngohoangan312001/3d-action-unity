@@ -9,7 +9,7 @@ namespace AN
 {
     public class WorldSaveGameManager : MonoBehaviour
     {
-        public static WorldSaveGameManager instance;
+        public static WorldSaveGameManager Instance;
 
         public PlayerManager player;
 
@@ -41,9 +41,9 @@ namespace AN
         private void Awake()
         {
             //Can only have 1 instance of WorldSaveGameManager
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
