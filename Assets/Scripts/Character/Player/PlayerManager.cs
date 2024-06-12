@@ -15,7 +15,7 @@ namespace AN
         
         [Header("Debug Menu")] 
         [SerializeField] private bool respawnCharacter = false;
-        [SerializeField] private bool setWeaponRightSlot = false;
+        [FormerlySerializedAs("setWeaponRightSlot")] [SerializeField] private bool setQuickSlot = false;
         [SerializeField] private bool setWeaponLeftSlot = false;
         
         [Header("Camera Mode")] 
@@ -108,7 +108,6 @@ namespace AN
             
             //Load Weapon in weapon id change
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
-            playerNetworkManager.currentLeftHandWeaponId.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
             playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged += playerNetworkManager.OnCurrentUsingWeaponIDChange;
             
             //Flags
@@ -146,7 +145,6 @@ namespace AN
             
             //Load Weapon in weapon id change
             playerNetworkManager.currentRightHandWeaponId.OnValueChanged -= playerNetworkManager.OnCurrentRightHandWeaponIDChange;
-            playerNetworkManager.currentLeftHandWeaponId.OnValueChanged -= playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
             playerNetworkManager.currentWeaponBeingUsedId.OnValueChanged -= playerNetworkManager.OnCurrentUsingWeaponIDChange;
             
             //Flags
@@ -250,7 +248,6 @@ namespace AN
         {
             //Sync Weapon
             playerNetworkManager.OnCurrentRightHandWeaponIDChange(0,playerNetworkManager.currentRightHandWeaponId.Value);
-            playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0,playerNetworkManager.currentLeftHandWeaponId.Value);
             
             //Sync Lock On Target
             if (playerNetworkManager.isLockOn.Value)
@@ -284,16 +281,10 @@ namespace AN
                 ReviveCharacter();
             }
 
-            if (setWeaponRightSlot)
+            if (setQuickSlot)
             {
-                setWeaponRightSlot = false;
-                PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.rightHandWeaponIndex);
-            }
-
-            if (setWeaponLeftSlot)
-            {
-                setWeaponLeftSlot = false;
-                PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(playerInventoryManager.weaponInLeftHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.leftHandWeaponIndex);
+                setQuickSlot = false;
+                PlayerUIManager.instance.playerUIHudManager.SetQuickSlotIcon(playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(),playerInventoryManager.rightHandWeaponIndex);
             }
         }
     }

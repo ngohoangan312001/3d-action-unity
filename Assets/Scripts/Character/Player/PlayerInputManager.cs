@@ -206,8 +206,7 @@ namespace AN
             HandleHeavyAttackInput();
             HandleChargeAttackInput();
             
-            HandleSwitchRightWeaponInput();
-            HandleSwitchLeftWeaponInput();
+            HandleSwitchWeaponInput();
         }
         
         
@@ -448,32 +447,18 @@ namespace AN
         }
         
         //---End Lock On---//
-        private void HandleSwitchRightWeaponInput()
+        private void HandleSwitchWeaponInput()
         {
-            if (switchRightWeaponInput && !PlayerUIManager.instance.playerUIHudManager.CheckWeaponIsCooldown())
+            if (switchRightWeaponInput)
             {
                 player.playerEquipmentManager.SwitchRightHandWeapon();
 
                 //!impotant: this is for testing only, need to be delete after found a way to sync weapon from inventory
-                PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(player.playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(), player.playerInventoryManager.rightHandWeaponIndex);
+                PlayerUIManager.instance.playerUIHudManager.SetQuickSlotIcon(player.playerInventoryManager.weaponInRightHandSlots.Select(e => e.itemId).ToArray(), player.playerInventoryManager.rightHandWeaponIndex);
                 
                 PlayerUIManager.instance.playerUIHudManager.StartCoolDownWeaponSwitch(player.playerNetworkManager.weaponSwitchCooldownTime.Value);
             }
             switchRightWeaponInput = false;
-        }
-        
-        private void HandleSwitchLeftWeaponInput()
-        {
-            if (switchLeftWeaponInput && !PlayerUIManager.instance.playerUIHudManager.CheckWeaponIsCooldown(false))
-            {
-                switchLeftWeaponInput = false;
-                player.playerEquipmentManager.SwitchLeftHandWeapon();
-
-                //!impotant: this is for testing only, need to be delete after found a way to sync weapon from inventory
-                PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(player.playerInventoryManager.weaponInLeftHandSlots.Select(e => e.itemId).ToArray(), player.playerInventoryManager.leftHandWeaponIndex);
-                
-                PlayerUIManager.instance.playerUIHudManager.StartCoolDownWeaponSwitch(player.playerNetworkManager.weaponSwitchCooldownTime.Value, false);
-            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace AN
@@ -15,8 +16,7 @@ namespace AN
         [SerializeField] private UI_StatBar energyBar;
         
         [Header("Quick Slot")]
-        [SerializeField] private QuickSlotWeapon[] rightWeaponQuickSlot;
-        [SerializeField] private QuickSlotWeapon[] leftWeaponQuickSlot;
+        [SerializeField] private QuickSlotWeapon[] quickSlot;
         
         //Health Bar
         public void SetNewHealthValue(float oldValue, float newValue)
@@ -57,105 +57,51 @@ namespace AN
             this.gameObject.SetActive(false);
             this.gameObject.SetActive(true);
         }
-        
-        public void StartCoolDownWeaponSwitch(float characterWeaponSwitchCooldownTime, bool isRightWeapon = true){
-            QuickSlotWeapon[] quickSlotList = rightWeaponQuickSlot;
-            if(!isRightWeapon)
-            {
-                quickSlotList = leftWeaponQuickSlot;
-            }
 
-            foreach (var slot in quickSlotList)
-                {
-                    slot.StartCooldown(characterWeaponSwitchCooldownTime);
-                }
-        }
-
-        public bool CheckWeaponIsCooldown(bool isRightWeapon = true){
-            QuickSlotWeapon[] quickSlotList = rightWeaponQuickSlot;
-            if(!isRightWeapon)
-            {
-                quickSlotList = leftWeaponQuickSlot;
-            }
-
-            return quickSlotList[0].isCooldown;
-        }
-
-        public void SetRightWeaponQuickSlotIcon(int[] weaponIds, int activeSlotIndex = - 1)
+        public void SetQuickSlotIcon(int[] weaponIds, int activeSlotIndex = - 1)
         {
             for (int i = 0; i < weaponIds.Length; i++)
             {
                 WeaponItem weapon = WorldItemDatabase.Instance.GetWeaponByID(weaponIds[i]);
                 if(weapon == null)
                 {
-                    Debug.Log("Main Hand Weapon Item Slot " + i + " Is Null!");
-                    rightWeaponQuickSlot[i].itemIcon.enabled = false;
-                    rightWeaponQuickSlot[i].itemIcon.sprite = null;
+                    Debug.Log("Item In Slot " + i + " Is Null!");
+                    quickSlot[i].itemIcon.enabled = false;
+                    quickSlot[i].itemIcon.sprite = null;
                     
                     continue;
                 }
                 
                 if(weapon.itemIcon == null)
                 {
-                    Debug.Log("Main Hand Weapon Slot " + i + " Has No Icon!");
-                    rightWeaponQuickSlot[i].itemIcon.enabled = false;
-                    rightWeaponQuickSlot[i].itemIcon.sprite = null;
+                    Debug.Log("Item In Slot " + i + " Has No Icon!");
+                    quickSlot[i].itemIcon.enabled = false;
+                    quickSlot[i].itemIcon.sprite = null;
                     
                     continue;
                 }
 
                 if (activeSlotIndex == i)
                 {
-                    rightWeaponQuickSlot[i].isEquiping = true;
-                    rightWeaponQuickSlot[i].backGroundImage.color = Color.green;
+                    quickSlot[i].isEquiping = true;
+                    quickSlot[i].backGroundImage.color = Color.green;
                 }
                 else
                 {
-                    rightWeaponQuickSlot[i].isEquiping = false;
-                    rightWeaponQuickSlot[i].backGroundImage.color = Color.black;
+                    quickSlot[i].isEquiping = false;
+                    quickSlot[i].backGroundImage.color = Color.black;
                 }
                 
-                rightWeaponQuickSlot[i].itemIcon.enabled = true;
-                rightWeaponQuickSlot[i].itemIcon.sprite = weapon.itemIcon;
+                quickSlot[i].itemIcon.enabled = true;
+                quickSlot[i].itemIcon.sprite = weapon.itemIcon;
             }
         }
         
-        public void SetLeftWeaponQuickSlotIcon(int[] weaponIds, int activeSlotIndex = -1)
-        {
-            for (int i = 0; i < weaponIds.Length; i++)
+        public void StartCoolDownWeaponSwitch(float characterWeaponSwitchCooldownTime){
+
+            foreach (var slot in quickSlot)
             {
-                WeaponItem weapon = WorldItemDatabase.Instance.GetWeaponByID(weaponIds[i]);
-                if(weapon == null)
-                {
-                    Debug.Log("Off Hand Weapon Item Slot " + i + " Is Null!");
-                    leftWeaponQuickSlot[i].itemIcon.enabled = false;
-                    leftWeaponQuickSlot[i].itemIcon.sprite = null;
-                    
-                    continue;
-                }
-                
-                if(weapon.itemIcon == null)
-                {
-                    Debug.Log("Off Hand Weapon Slot " + i + " Has No Icon!");
-                    leftWeaponQuickSlot[i].itemIcon.enabled = false;
-                    leftWeaponQuickSlot[i].itemIcon.sprite = null;
-                    
-                    continue;
-                }
-                
-                if (activeSlotIndex == i)
-                {
-                    leftWeaponQuickSlot[i].isEquiping = true;
-                    leftWeaponQuickSlot[i].backGroundImage.color = Color.green;
-                }
-                else
-                {
-                    leftWeaponQuickSlot[i].isEquiping = false;
-                    leftWeaponQuickSlot[i].backGroundImage.color = Color.black;
-                }
-                
-                leftWeaponQuickSlot[i].itemIcon.enabled = true;
-                leftWeaponQuickSlot[i].itemIcon.sprite = weapon.itemIcon;
+                slot.StartCooldown(characterWeaponSwitchCooldownTime);
             }
         }
     }

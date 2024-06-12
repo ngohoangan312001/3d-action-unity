@@ -65,19 +65,7 @@ namespace AN
 
             if (player.IsOwner)
             {
-                PlayerUIManager.instance.playerUIHudManager.SetRightWeaponQuickSlotIcon(new []{newID});
-            }
-        }
-        
-        public void OnCurrentLeftHandWeaponIDChange(int oldID, int newID)
-        {
-            WeaponItem newWeapon = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newID));
-            player.playerInventoryManager.currentLeftHandWeapon = newWeapon;
-            player.playerEquipmentManager.loadWeaponOnLeftHand();
-            
-            if (player.IsOwner)
-            {
-                PlayerUIManager.instance.playerUIHudManager.SetLeftWeaponQuickSlotIcon(new []{newID});
+                PlayerUIManager.instance.playerUIHudManager.SetQuickSlotIcon(new []{newID});
             }
         }
         
